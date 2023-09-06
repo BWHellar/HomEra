@@ -1,94 +1,21 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import React from "react";
+import SignInPage from "./components/SignInPage";
 
 export default function App() {
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    background: {
-      flex: 1,
-      resizeMode: 'cover',
-      justifyContent: 'center',
-    },
-    contentContainer: {
-      backgroundColor: 'rgba(255, 255, 255, 0.8)',
-      padding: 16,
-      borderRadius: 8,
-    },
-    banner: {
-      fontSize: 36,
-      fontWeight: 'bold',
-      marginBottom: 32,
-      color: '#333333',
-      textAlign: 'center',
-    },
-    bannerContainer: {
-      position: 'absolute',
-      top: 50,
-      right: 20,
-    },
-    bannerImage: {
-      width: 70,
-      height: 70,
-      borderRadius: 15,
-      resizeMode: 'contain',
-    },
-    inputContainer: {
-      marginBottom: 16,
-    },
-    inputLabel: {
-      fontSize: 16,
-      marginBottom: 8,
-      color: '#333333',
-    },
-    input: {
-      width: 300,
-      height: 40,
-      borderColor: '#333333',
-      borderWidth: 1,
-      paddingHorizontal: 10,
-      borderRadius: 8,
-    },
-    
-    button: {
-      backgroundColor: '#00E6CF',
-      paddingVertical: 12,
-      paddingHorizontal: 24,
-      borderRadius: 8,
-      marginTop: 16,
-    },
-    buttonText: {
-      color: '#ffffff',
-      fontSize: 16,
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-  });
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  return (
-    <ImageBackground source={require('./images/LoginBackground.jpg')} style={styles.background}>
-      <View style={styles.container}>
-          <View style={styles.bannerContainer}>
-          <Image source={require('./images/logo.png')} style={styles.bannerImage} />
-          </View>
-        <View style={styles.contentContainer}>
-          <Text style={styles.banner}>Login</Text>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Username</Text>
-            <TextInput style={styles.input} placeholder="Enter your username" />
-          </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Password</Text>
-            <TextInput style={styles.input} placeholder="Enter your password" secureTextEntry={true} />
-          </View>
-          <TouchableOpacity style={styles.button} onPress={() => console.log("Login pressed")}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ImageBackground>
-  );
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBSre-H4FbXm5YxyFNKAqLBO6w6dlEt37w",
+    authDomain: "homera-29390.firebaseapp.com",
+    projectId: "homera-29390",
+    storageBucket: "homera-29390.appspot.com",
+    messagingSenderId: "668234129560",
+    appId: "1:668234129560:web:9179111d32308c46b070ed",
+    measurementId: "G-EMY06VRLXE",
+  };
+  
+  return <SignInPage />;
 }
