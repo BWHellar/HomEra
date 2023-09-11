@@ -9,11 +9,7 @@ import {
   Image,
 } from "react-native";
 
-export default function SignInPage() {
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-
-  
+export default function SignInPage({navigation}) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -108,7 +104,7 @@ export default function SignInPage() {
           </View>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => console.log("Login pressed")}
+            onPress={() => navigation.navigate('Home')}
           >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
