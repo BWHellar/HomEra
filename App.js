@@ -15,7 +15,7 @@ import ResidentsHome from "./components/ResidentsHome";
 import ScheduleHome from "./components/ScheduleHome";
 import SettingsHome from "./components/SettingsHome";
 import ProfileHome from "./components/ProfileHome";
-
+import { PaperProvider } from 'react-native-paper';
 export default function App() {
   const Stack = createNativeStackNavigator();
   
@@ -31,6 +31,7 @@ export default function App() {
 
   return (
     <>
+    <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Sign In" component={SignInPage} />
@@ -49,6 +50,7 @@ export default function App() {
         </Stack.Navigator>
       <BottomNavigation />
       </NavigationContainer>
+      </PaperProvider>
     </>
   );
 }

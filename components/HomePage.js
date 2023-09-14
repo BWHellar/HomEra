@@ -78,7 +78,7 @@ const HomePage = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require("../images/gradient.jpg")}
+      source={require("../images/gradient.png")}
       style={styles.background}
     >
       <View style={styles.dropdownContainer}>
