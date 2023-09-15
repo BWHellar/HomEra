@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { Button, Text, Portal, Modal } from "react-native-paper";
-import DatePicker from 'react-native-date-picker'
+import DatePicker from 'react-native-modern-datepicker';
+
 const ScheduleHome = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState('');
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const [visible, setVisible] = React.useState(false);
-  const [date, setDate] = useState(new Date())
+
   const handleDayPress = (day) => {
     setSelectedDate(day.dateString);
   };
@@ -43,8 +44,9 @@ const ScheduleHome = () => {
           markedDates={markedDates}
         />
       </View>
+      <ScrollView style={styles.scheduleContainer}>
       {selectedDate && (
-        <View style={styles.scheduleContainer}>
+        <View >
           <Text style={styles.scheduleText}>Schedule for {selectedDate}</Text>
           <View style={styles.line} />
           <View style={styles.scheduleItem}>
@@ -64,13 +66,16 @@ const ScheduleHome = () => {
           </View>
         </View>
       )}
+      </ScrollView>
       <Portal>
       <Modal
           visible={visible}
           onDismiss={hideModal}
           contentContainerStyle={containerStyle}
         >
-         <DatePicker date={date} onDateChange={setDate} />
+ <DatePicker
+      onSelectedChange={date => setSelectedDate(date)}
+    />
           <Button
             compact
             textColor="red"
@@ -119,13 +124,17 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#F8F8F8",
     borderRadius: 8,
-    marginTop: -516,
+    // marginTop: -116,
+    // height:'500px'
   },
   scheduleText: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
   },
+  // scrollSection: {
+  //   height:'500px'
+  // },
   line: {
     height: 1,
     backgroundColor: "gray",

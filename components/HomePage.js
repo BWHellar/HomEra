@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start", // Change to "flex-start" to align items at the top
-    marginTop: 140, // Increase the marginTop to create space for the dropdown
+    marginTop: 70, // Increase the marginTop to create space for the dropdown
   },
   title: {
     fontSize: 24,
