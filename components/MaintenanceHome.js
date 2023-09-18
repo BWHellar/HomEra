@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+
 import { ImageBackground, View, StyleSheet, ScrollView } from "react-native";
 import {
   List,
@@ -15,13 +16,15 @@ import {
   Modal,
 } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
+import { UNITLIST, MAINTENANCEITEMS } from "../constants";
 
 const MaintenanceHome = () => {
   const [visible, setVisible] = React.useState(false);
   const [visible2, setVisible2] = React.useState(false);
-  const [checked, setChecked] = React.useState(false);
+  const [checkedEnter, setCheckedEnter] = React.useState(false);
+  const [checkedFire, setCheckedFire] = React.useState(false);
+  const [checkedPet, setCheckedPet] = React.useState(false);
   const [text, setText] = React.useState("");
-  const [value, setValue] = React.useState("");
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const showModal2 = () => setVisible2(true);
@@ -30,102 +33,54 @@ const MaintenanceHome = () => {
   const [showDropDown2, setShowDropDown2] = React.useState(false);
   const [unit, setUnit] = React.useState("");
   const [category, setCategory] = React.useState("");
-
-  const unitList = [
-    {
-      label: "Unit 1",
-      value: "1",
-    },
-    {
-      label: "Unit 2",
-      value: "2",
-    },
-    {
-      label: "Unit 3",
-      value: "3",
-    },
-  ];
-  const items = [
+  const [inputList, setInputList] = useState([
     {
       title: "Fridge",
-      description: "Item description",
-      leftIcon: "fridge",
-      rightIcon: "dots-horizontal",
+      description: "Category 1",
+      unit: "Unit 1",
+      fire: true,
+      enter: false,
+      pet: true,
     },
     {
-      title: "Doors",
-      description: "Item description",
-      leftIcon: "door",
-      rightIcon: "dots-horizontal",
+      title: "Item 2",
+      description: "Category 2",
+      unit: "Unit 2",
+      fire: false,
+      enter: true,
+      pet: false,
     },
-    {
-      title: "Washer",
-      description: "Item description",
-      leftIcon: "dishwasher",
-      rightIcon: "dots-horizontal",
-    },
+  ]);
 
-    {
-      title: "Faucet",
-      description: "Item description",
-      leftIcon: "water-pump",
-      rightIcon: "dots-horizontal",
-    },
-    {
-      title: "Stove",
-      description: "Item description",
-      leftIcon: "stove",
-      rightIcon: "dots-horizontal",
-    },
-    {
-      title: "Paint",
-      description: "Item description",
-      leftIcon: "format-paint",
-      rightIcon: "dots-horizontal",
-    },
-
-    {
-      title: "Lightbulb",
-      description: "Item description",
-      leftIcon: "lightbulb",
-      rightIcon: "dots-horizontal",
-    },
-    {
-      title: "Locks",
-      description: "Item description",
-      leftIcon: "lock",
-      rightIcon: "dots-horizontal",
-    },
-    {
-      title: "External",
-      description: "Item description",
-      leftIcon: "grass",
-      rightIcon: "dots-horizontal",
-    },
-
-    {
-      title: "Windows",
-      description: "Item description",
-      leftIcon: "window-open-variant",
-      rightIcon: "dots-horizontal",
-    },
-    {
-      title: "Trash",
-      description: "Item description",
-      leftIcon: "delete",
-      rightIcon: "dots-horizontal",
-    },
-    {
-      title: "Miscellaneous",
-      description: "Item description",
-      leftIcon: "domain",
-      rightIcon: "dots-horizontal",
-    },
-  ];
-  const categoryList = items.map((item) => ({
+  const categoryList = MAINTENANCEITEMS.map((item) => ({
     label: item.title,
     value: item.title,
   }));
+  const handleSegmentedButtonChange = (value) => {
+    if (value === "upload") {
+    } else if (value === "submit") {
+      handleAddItem()
+    }
+  };
+  const handleAddItem = () => {
+    const newItem = {
+      title: text,
+      description: category,
+      unit: unit,
+      fire: checkedFire,
+      enter: checkedEnter,
+      pet: checkedPet,
+    };
+    setInputList((prevInputList) => [...prevInputList, newItem]);
+    setText("");
+    setCategory("");
+    setUnit("");
+    setCheckedEnter(false);
+    setCheckedPet(false);
+    setCheckedFire(false);
+    hideModal2(true)
+  };
+
   return (
     <ImageBackground
       source={require("../images/gradient.png")}
@@ -148,15 +103,15 @@ const MaintenanceHome = () => {
           </View>
         </View>
         <ScrollView style={styles.scrollSection}>
-          {items.map((item, index) => (
+          {inputList.map((item, index) => (
             <List.Item
               key={index}
               title={item.title}
               description={item.description}
-              left={(props) => <List.Icon {...props} icon={item.leftIcon} />}
+              left={(props) => <List.Icon {...props} icon="wrench" />}
               right={(props) => (
                 <IconButton
-                  icon={item.rightIcon}
+                  icon="dots-horizontal"
                   onPress={() => {
                     showModal(item.title);
                   }}
@@ -196,7 +151,7 @@ const MaintenanceHome = () => {
             onDismiss={() => setShowDropDown(false)}
             value={unit}
             setValue={setUnit}
-            list={unitList}
+            list={UNITLIST}
           />
           <DropDown
             label={"Category"}
@@ -212,15 +167,28 @@ const MaintenanceHome = () => {
             label="Description"
             multiline
             mode="outlined"
+            onChangeText={setText}
+            value={text}
             numberOfLines={4}
             style={{ minHeight: 100 }}
           />
-          <Checkbox.Item label="Enter Permission?" status="checked" />
-          <Checkbox.Item label="Fire/Water Related?" status="checked" />
-          <Checkbox.Item label="Pet Ownership?" status="checked" />
+          <Checkbox.Item
+            label="Enter Permission?"
+            status={checkedEnter ? "checked" : "unchecked"}
+            onPress={() => setCheckedEnter(!checkedEnter)}
+          />
+          <Checkbox.Item
+            label="Fire/Water Related?"
+            status={checkedFire ? "checked" : "unchecked"}
+            onPress={() => setCheckedFire(!checkedFire)}
+          />
+          <Checkbox.Item
+            label="Pet Ownership?"
+            status={checkedPet ? "checked" : "unchecked"}
+            onPress={() => setCheckedPet(!checkedPet)}
+          />
           <SegmentedButtons
-            value={value}
-            onValueChange={setValue}
+            onValueChange={handleSegmentedButtonChange}
             buttons={[
               {
                 value: "upload",

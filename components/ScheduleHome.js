@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, FlatList } from "react-native";
+import { View, StyleSheet, ScrollView, ImageBackground,FlatList } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { Button, TextInput, Text, Portal, Modal } from "react-native-paper";
 import DatePicker from "react-native-modern-datepicker";
@@ -76,6 +76,10 @@ const ScheduleHome = () => {
   );
 
   return (
+    <ImageBackground
+      source={require("../images/gradient.png")}
+      style={styles.background}
+    >
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.titleContainer}>
@@ -101,23 +105,19 @@ const ScheduleHome = () => {
           markedDates={markedDates}
         />
       </View>
-      {
-        filteredScheduleItems.length === 0 ? (
-          
-      <View style={styles.noItemsContainer}>
-        <Text style={styles.noItemsText}>Please Select a Date</Text>
-      </View>
-        ):(
-
-      <View style={styles.scheduleContainer}>
-        <FlatList
-          data={filteredScheduleItems}
-          renderItem={renderScheduleItem}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-        )
-      }
+      {filteredScheduleItems.length === 0 ? (
+        <View style={styles.noItemsContainer}>
+          <Text style={styles.noItemsText}>Please Select a Date</Text>
+        </View>
+      ) : (
+        <View style={styles.scheduleContainer}>
+          <FlatList
+            data={filteredScheduleItems}
+            renderItem={renderScheduleItem}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+      )}
       <Portal>
         <Modal
           visible={visible}
@@ -156,6 +156,7 @@ const ScheduleHome = () => {
         </Modal>
       </Portal>
     </View>
+    </ImageBackground>
   );
 };
 const styles = StyleSheet.create({
@@ -184,6 +185,11 @@ const styles = StyleSheet.create({
   calendarContainer: {
     flex: 1,
     padding: 16,
+  },
+  background: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
   calendar: {
     borderWidth: 1,
