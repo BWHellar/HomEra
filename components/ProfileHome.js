@@ -23,11 +23,25 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 const ProfileHome = () => {
   const [visible, setVisible] = React.useState(false);
   const [reason, setReason] = React.useState("");
+  const [data, setData] = React.useState({
+    Name: "Mike Jones",
+    Phone: "123-456-7890",
+    Email: "example@example.com",
+    Address: "123 Street, City, State, ZIP",
+    Password: "password",
+  });
   const [text, setText] = React.useState("");
   const showModal = (item) => {
     setReason(item);
     setVisible(true);
   };
+  const updateItem = () => {
+    setData(prevData => ({
+      ...prevData,
+      [reason]: text
+    }));
+    setVisible(false);
+  }
   const hideModal = () => {
     setReason("");
     setVisible(false);
@@ -41,25 +55,6 @@ const ProfileHome = () => {
     marginRight: "auto",
   };
 
-  const openImagePicker = () => {
-    const options = {
-      mediaType: 'photo',
-      includeBase64: false,
-      maxHeight: 2000,
-      maxWidth: 2000,
-    };
-
-    launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('Image picker error: ', response.error);
-      } else {
-        let imageUri = response.uri || response.assets?.[0]?.uri;
-        setSelectedImage(imageUri);
-      }
-    });
-  };
   return (
     <ImageBackground
       source={require("../images/gradient.png")}
@@ -70,21 +65,13 @@ const ProfileHome = () => {
           <Avatar.Image
             size={105}
             source={require("../images/LoginBackground.jpg")}
-            // onClick={handleAvatarPress}
           />
-          {/* <Button
-            icon="camera"
-            mode="contained"
-            onPress={openImagePicker}
-          >
-            Press me
-          </Button> */}
         </View>
         <View style={styles.infoContainer}>
           <View style={styles.row}>
             <Card.Title
               title="Name"
-              subtitle="Mike Jones"
+              subtitle={data.Name}
               left={(props) => <Avatar.Icon {...props} icon="account" />}
               right={(props) => (
                 <IconButton
@@ -100,14 +87,14 @@ const ProfileHome = () => {
           <View style={styles.row}>
             <Card.Title
               title="Phone Number"
-              subtitle="123-456-7890"
+              subtitle={data.Phone}
               left={(props) => <Avatar.Icon {...props} icon="phone" />}
               right={(props) => (
                 <IconButton
                   {...props}
                   icon="dots-vertical"
                   onPress={() => {
-                    showModal("Phone Number");
+                    showModal("Phone");
                   }}
                 />
               )}
@@ -116,7 +103,7 @@ const ProfileHome = () => {
           <View style={styles.row}>
             <Card.Title
               title="Email"
-              subtitle="example@example.com"
+              subtitle={data.Email}
               left={(props) => <Avatar.Icon {...props} icon="email" />}
               right={(props) => (
                 <IconButton
@@ -132,7 +119,7 @@ const ProfileHome = () => {
           <View style={styles.row}>
             <Card.Title
               title="Address"
-              subtitle="123 Street, City, State, ZIP"
+              subtitle={data.Address}
               left={(props) => <Avatar.Icon {...props} icon="home" />}
               right={(props) => (
                 <IconButton
@@ -148,7 +135,7 @@ const ProfileHome = () => {
           <View style={styles.row}>
             <Card.Title
               title="Password"
-              subtitle="********"
+              subtitle={data.Password}
               left={(props) => <Avatar.Icon {...props} icon="lock" />}
               right={(props) => (
                 <IconButton
@@ -176,6 +163,7 @@ const ProfileHome = () => {
             value={text}
             onChangeText={(text) => setText(text)}
           />
+          <Button onPress={() => updateItem()}>Update</Button>
         </Modal>
       </Portal>
     </ImageBackground>
@@ -215,7 +203,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 40,
+    marginBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     paddingHorizontal: 10,
