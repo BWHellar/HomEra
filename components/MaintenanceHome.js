@@ -159,7 +159,7 @@ const MaintenanceHome = () => {
             <Text style={styles.title}>
               {details.unit} - {details.title}
             </Text>
-            
+
             <View style={styles.detailsContainer}>
               <View style={styles.detailsColumn}>
                 <Icon
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 4,
     padding: 10,
   },
@@ -291,9 +291,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonContainer: {
     marginLeft: 10,
