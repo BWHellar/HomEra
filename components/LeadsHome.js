@@ -8,16 +8,20 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
-import { TextInput, Modal, Portal, Paragraph } from "react-native-paper";
+import {
+  TextInput,
+  Modal,
+  Portal,
+  Paragraph,
+  SegmentedButtons,
+} from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const LeadsHome = () => {
   const [visible, setVisible] = useState(false);
   const [chosenData, setChosenData] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
-  const [leads, setLeads] = useState([
-   
-  ]);
+  const [leads, setLeads] = useState([]);
   const [formData, setFormData] = useState({
     fullName: "",
     contactInformation: {
@@ -45,51 +49,65 @@ const LeadsHome = () => {
   });
 
   const handleSubmit = () => {
-    // Handle form submission
-    setLeads((prevLeads) => [...prevLeads, formData]);
-    setFormData({
-      fullName: "",
-      contactInformation: {
-        phoneNumber: "",
-        email: "",
-      },
-      desiredMoveInDate: "",
-      budget: "",
-      rentalHistory: "",
-      employmentInformation: {
-        employmentStatus: "",
-        employerDetails: "",
-        incomeVerification: "",
-      },
-      numberOfOccupants: "",
-      petInformation: {
-        hasPets: false,
-        petType: "",
-        petSize: "",
-      },
-      desiredPropertyType: "",
-      preferredLocation: "",
-      amenities: [],
-      additionalComments: "",
-    });
-    setModalVisible(false);
+    const isFieldEmpty = (value) => value.trim() === "";
+
+    const isFormValid = Object.values(formData).every((value) =>
+      typeof value !== "object"
+        ? !isFieldEmpty(value)
+        : !Object.values(value).some(isFieldEmpty)
+    );
+
+    if (isFormValid && formData.amenities.length > 0) {
+      // Handle form submission
+      setLeads((prevLeads) => [...prevLeads, formData]);
+      setFormData({
+        fullName: "",
+        contactInformation: {
+          phoneNumber: "",
+          email: "",
+        },
+        desiredMoveInDate: "",
+        budget: "",
+        rentalHistory: "",
+        employmentInformation: {
+          employmentStatus: "",
+          employerDetails: "",
+          incomeVerification: "",
+        },
+        numberOfOccupants: "",
+        petInformation: {
+          hasPets: false,
+          petType: "",
+          petSize: "",
+        },
+        desiredPropertyType: "",
+        preferredLocation: "",
+        amenities: [],
+        additionalComments: "",
+      });
+      setModalVisible(false);
+    } else {
+      // Show an error message or handle the case where not all TextInputs are filled out
+      // For example:
+      alert("Please fill out all fields before submitting!");
+    }
   };
   const showModal = (item) => {
     setChosenData(item);
     setVisible(true);
   };
   const handleInputChange = (key, value) => {
-  const keys = key.split(".");
-  setFormData((prevFormData) => {
-    let updatedFormData = { ...prevFormData };
-    let nestedObject = updatedFormData;
-    for (let i = 0; i < keys.length - 1; i++) {
-      nestedObject = nestedObject[keys[i]];
-    }
-    nestedObject[keys[keys.length - 1]] = value;
-    return updatedFormData;
-  });
-};
+    const keys = key.split(".");
+    setFormData((prevFormData) => {
+      let updatedFormData = { ...prevFormData };
+      let nestedObject = updatedFormData;
+      for (let i = 0; i < keys.length - 1; i++) {
+        nestedObject = nestedObject[keys[i]];
+      }
+      nestedObject[keys[keys.length - 1]] = value;
+      return updatedFormData;
+    });
+  };
 
   const hideModal = () => {
     setVisible(false);
@@ -109,6 +127,13 @@ const LeadsHome = () => {
       </View>
     </TouchableWithoutFeedback>
   );
+  const handleSegmentedButtonChange = (value) => {
+    if (value === "cancel") {
+      setModalVisible(false);
+    } else if (value === "submit") {
+      handleSubmit();
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -218,12 +243,14 @@ const LeadsHome = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Full Name"
+                mode="outlined"
                 value={formData.fullName}
                 onChangeText={(text) => handleInputChange("fullName", text)}
               />
               <TextInput
                 style={styles.input}
                 placeholder="Phone Number"
+                mode="outlined"
                 value={formData.contactInformation.phoneNumber}
                 onChangeText={(text) =>
                   handleInputChange("contactInformation.phoneNumber", text)
@@ -232,6 +259,7 @@ const LeadsHome = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Email"
+                mode="outlined"
                 value={formData.contactInformation.email}
                 onChangeText={(text) =>
                   handleInputChange("contactInformation.email", text)
@@ -241,6 +269,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Desired Move-in Date"
                 value={formData.desiredMoveInDate}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange("desiredMoveInDate", text)
                 }
@@ -249,6 +278,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Budget"
                 value={formData.budget.toString()}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange("budget", parseInt(text))
                 }
@@ -257,6 +287,7 @@ const LeadsHome = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Rental History"
+                mode="outlined"
                 value={formData.rentalHistory}
                 onChangeText={(text) =>
                   handleInputChange("rentalHistory", text)
@@ -266,6 +297,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Employment Status"
                 value={formData.employmentInformation.employmentStatus}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange(
                     "employmentInformation.employmentStatus",
@@ -277,6 +309,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Employer Details"
                 value={formData.employmentInformation.employerDetails}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange(
                     "employmentInformation.employerDetails",
@@ -288,6 +321,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Income Verification"
                 value={formData.employmentInformation.incomeVerification}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange(
                     "employmentInformation.incomeVerification",
@@ -299,6 +333,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Number of Occupants"
                 value={formData.numberOfOccupants.toString()}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange("numberOfOccupants", parseInt(text))
                 }
@@ -308,6 +343,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Pet Type"
                 value={formData.petInformation.petType}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange("petInformation.petType", text)
                 }
@@ -316,6 +352,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Pet Size"
                 value={formData.petInformation.petSize}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange("petInformation.petSize", text)
                 }
@@ -324,6 +361,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Desired Property Type"
                 value={formData.desiredPropertyType}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange("desiredPropertyType", text)
                 }
@@ -332,6 +370,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Preferred Location"
                 value={formData.preferredLocation}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange("preferredLocation", text)
                 }
@@ -340,6 +379,7 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Amenities"
                 value={formData.amenities.join(", ")}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange("amenities", text.split(","))
                 }
@@ -348,14 +388,28 @@ const LeadsHome = () => {
                 style={styles.input}
                 placeholder="Additional Comments"
                 value={formData.additionalComments}
+                mode="outlined"
                 onChangeText={(text) =>
                   handleInputChange("additionalComments", text)
                 }
               />
             </View>
           </ScrollView>
-          <Button title="Submit" onPress={handleSubmit} />
-          <Button title="Cancel" onPress={() => setModalVisible(false)} />
+          <SegmentedButtons
+            onValueChange={handleSegmentedButtonChange}
+            buttons={[
+              {
+                value: "cancel",
+                label: "Cancel",
+                icon: "camera",
+              },
+              {
+                value: "submit",
+                label: "Submit",
+                icon: "check",
+              },
+            ]}
+          />
         </Modal>
       </Portal>
     </View>
@@ -375,7 +429,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    flexGrow: 1,
+    // flexGrow: 1,
+    borderWidth: 1,
+    borderColor: 'black',
   },
   title: {
     fontSize: 14,
