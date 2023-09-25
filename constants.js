@@ -28,6 +28,34 @@ export const PERSONLIST = [
     value: "Meero Cairo",
   },
 ];
+export const CARDLIST = [
+  {
+    label: "*******5434",
+    value: "*******5434",
+  },
+  {
+    label: "*******8445",
+    value: "*******8445",
+  },
+  {
+    label: "*******2322",
+    value: "*******2322",
+  },
+];
+export const BUYPOINTSLIST = [
+  {
+    label: "20,000 Points for $20",
+    value: "20,000 Points for $20",
+  },
+  {
+    label: "50,000 Points for $45",
+    value: "50,000 Points for $45",
+  },
+  {
+    label: "100,000 Points for $90",
+    value: "100,000 Points for $90",
+  },
+];
 export const AMOUNTLIST = [
   {
     label: "500",

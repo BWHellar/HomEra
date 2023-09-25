@@ -19,7 +19,8 @@ import {
   Modal,
 } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
-import { PERSONLIST, AMOUNTLIST } from "../constants";
+import { PERSONLIST, AMOUNTLIST, BUYPOINTSLIST, CARDLIST } from "../constants";
+import moment from "moment";
 
 const LoyaltyPage = () => {
   const [isModalVisible, setModalVisible] = React.useState(false);
@@ -27,6 +28,8 @@ const LoyaltyPage = () => {
   const [showDropDown, setShowDropDown] = React.useState(false);
   const [person, setPerson] = React.useState(false);
   const [amount, setAmount] = React.useState(false);
+  const [buyPoints, setBuyPoints] = React.useState(false);
+  const [cardList, setCardList] = React.useState(false);
   const [showDropDown2, setShowDropDown2] = React.useState(false);
   const [text, setText] = React.useState("");
   const [listItems, setListItems] = React.useState([
@@ -69,14 +72,55 @@ const LoyaltyPage = () => {
           />
         </View>
         <View style={styles.scrollViewContainer}>
-        <Text style={styles.title}>Transactions</Text>
+          <Text style={styles.title}>Transactions</Text>
           <View style={styles.scrollViewWrapper}>
             <ScrollView style={styles.scrollView}>
-              {listItems.map((item, index) => (
-                <Text key={index} style={styles.listItem}>
-                  {item}
-                </Text>
-              ))}
+              {Array(6)
+                .fill()
+                .map((_, index) => (
+                  <>
+                    <View style={styles.row} key={index}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Text
+                          style={[
+                            styles.cell,
+                            styles.leftAlign,
+                            styles.textPadding,
+                          ]}
+                        >
+                          {moment()
+                            .subtract(Math.floor(Math.random() * 365), "days")
+                            .format("MM-DD-YY HH:mm")}
+                        </Text>
+                        <Text
+                          style={[
+                            styles.cell,
+                            styles.leftBottomAlign,
+                            styles.textPadding,
+                          ]}
+                        >
+                          - {Math.floor(Math.random() * 10) * 100 + 100} Points
+                        </Text>
+                      </View>
+                      <Text
+                        style={[
+                          styles.cell,
+                          styles.leftAlign,
+                          styles.textPadding,
+                          { flex: 1, marginTop: 8 },
+                        ]}
+                      >
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      </Text>
+                    </View>
+                    <View style={styles.line} />
+                  </>
+                ))}
             </ScrollView>
           </View>
         </View>
@@ -97,7 +141,7 @@ const LoyaltyPage = () => {
             list={PERSONLIST}
           />
           <DropDown
-            label={"Category"}
+            label={"Points"}
             mode={"outlined"}
             visible={showDropDown2}
             showDropDown={() => setShowDropDown2(true)}
@@ -115,21 +159,67 @@ const LoyaltyPage = () => {
             numberOfLines={4}
             style={{ minHeight: 100 }}
           />
-          <SegmentedButtons
-            onValueChange={handleSegmentedButtonChange}
-            buttons={[
-              {
-                value: "upload",
-                label: "Upload",
-                icon: "",
-              },
-              {
-                value: "add",
-                label: "Add",
-                icon: "check",
-              },
-            ]}
+          <View style={styles.segmentedButtonsContainer}>
+            <SegmentedButtons
+              onValueChange={handleSegmentedButtonChange}
+              buttons={[
+                {
+                  value: "upload",
+                  label: "Upload",
+                  icon: "cancel",
+                },
+                {
+                  value: "add",
+                  label: "Add",
+                  icon: "check",
+                },
+              ]}
+            />
+          </View>
+        </Modal>
+        <Modal
+          visible={isModalVisibleAdd}
+          onDismiss={toggleModalAdd}
+          contentContainerStyle={styles.modalContainer}
+        >
+          <Text>Add Points</Text>
+          <DropDown
+            label={"Point Package"}
+            mode={"outlined"}
+            visible={showDropDown}
+            showDropDown={() => setShowDropDown(true)}
+            onDismiss={() => setShowDropDown(false)}
+            value={buyPoints}
+            setValue={setBuyPoints}
+            list={BUYPOINTSLIST}
           />
+          <DropDown
+            label={"Payment"}
+            mode={"outlined"}
+            visible={showDropDown2}
+            showDropDown={() => setShowDropDown2(true)}
+            onDismiss={() => setShowDropDown2(false)}
+            value={cardList}
+            setValue={setCardList}
+            list={CARDLIST}
+          />
+          <View style={styles.segmentedButtonsContainer}>
+            <SegmentedButtons
+              onValueChange={handleSegmentedButtonChange}
+              buttons={[
+                {
+                  value: "cancel",
+                  label: "cancel",
+                  icon: "cancel",
+                },
+                {
+                  value: "add",
+                  label: "Add",
+                  icon: "check",
+                },
+              ]}
+            />
+          </View>
         </Modal>
       </View>
     </ImageBackground>
@@ -145,6 +235,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 20,
+  },
+  segmentedButtonsContainer: {
+    marginTop: 10,
+  },
+  leftAlign: {
+    textAlign: "left",
+  },
+  leftBottomAlign: {
+    textAlign: "right",
+    fontWeight: "bold",
+  },
+  line: {
+    borderBottomWidth: 1,
+    borderBottomColor: "black",
   },
   imageContainer: {
     flex: 1,
@@ -164,6 +268,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 0,
+  },
+  cell: {
+    flex: 1,
+    fontSize: 14,
+  },
+  textPadding: {
+    paddingHorizontal: 5,
   },
   scrollViewContainer: {
     flex: 1,
