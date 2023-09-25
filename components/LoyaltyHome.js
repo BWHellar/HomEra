@@ -1,12 +1,196 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React from "react";
+import {
+  View,
+  Button,
+  ScrollView,
+  StyleSheet,
+  ImageBackground,
+  Image,
+} from "react-native";
+import {
+  List,
+  IconButton,
+  // Button,
+  Checkbox,
+  SegmentedButtons,
+  Portal,
+  Text,
+  TextInput,
+  Modal,
+} from "react-native-paper";
+import DropDown from "react-native-paper-dropdown";
+import { PERSONLIST, AMOUNTLIST } from "../constants";
 
-const LoyaltyHome = () => {
+const LoyaltyPage = () => {
+  const [isModalVisible, setModalVisible] = React.useState(false);
+  const [isModalVisibleAdd, setModalVisibleAdd] = React.useState(false);
+  const [showDropDown, setShowDropDown] = React.useState(false);
+  const [person, setPerson] = React.useState(false);
+  const [amount, setAmount] = React.useState(false);
+  const [showDropDown2, setShowDropDown2] = React.useState(false);
+  const [text, setText] = React.useState("");
+  const [listItems, setListItems] = React.useState([
+    "Item 1",
+    "Item 2",
+    "Item 3",
+    "Item 4",
+    "Item 5",
+    "Item 6",
+    "Item 7",
+  ]);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+  const toggleModalAdd = () => {
+    setModalVisibleAdd(!isModalVisibleAdd);
+  };
+  const handleSegmentedButtonChange = (value) => {
+    if (value === "upload") {
+    } else if (value === "submit") {
+      handleAddItem();
+    }
+  };
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Welcome to the Loyalty Page!</Text>
-    </View>
+    <ImageBackground
+      source={require("../images/gradient.png")}
+      style={styles.background}
+    >
+      <View style={styles.container}>
+        <View style={styles.buttonContainer}>
+          <Button title="Add Points" onPress={toggleModalAdd} color="#007AFF" />
+          <Button title="Send Points" onPress={toggleModal} color="#007AFF" />
+        </View>
+        <View style={styles.imageContainer}>
+          <Image
+            source={require("../images/LoyaltyImage.png")}
+            style={styles.bannerImage}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={styles.scrollViewContainer}>
+        <Text style={styles.title}>Transactions</Text>
+          <View style={styles.scrollViewWrapper}>
+            <ScrollView style={styles.scrollView}>
+              {listItems.map((item, index) => (
+                <Text key={index} style={styles.listItem}>
+                  {item}
+                </Text>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+        <Modal
+          visible={isModalVisible}
+          onDismiss={toggleModal}
+          contentContainerStyle={styles.modalContainer}
+        >
+          <Text>Gift Points</Text>
+          <DropDown
+            label={"Person"}
+            mode={"outlined"}
+            visible={showDropDown}
+            showDropDown={() => setShowDropDown(true)}
+            onDismiss={() => setShowDropDown(false)}
+            value={person}
+            setValue={setPerson}
+            list={PERSONLIST}
+          />
+          <DropDown
+            label={"Category"}
+            mode={"outlined"}
+            visible={showDropDown2}
+            showDropDown={() => setShowDropDown2(true)}
+            onDismiss={() => setShowDropDown2(false)}
+            value={amount}
+            setValue={setAmount}
+            list={AMOUNTLIST}
+          />
+          <TextInput
+            label="Send a Note"
+            multiline
+            mode="outlined"
+            onChangeText={setText}
+            value={text}
+            numberOfLines={4}
+            style={{ minHeight: 100 }}
+          />
+          <SegmentedButtons
+            onValueChange={handleSegmentedButtonChange}
+            buttons={[
+              {
+                value: "upload",
+                label: "Upload",
+                icon: "",
+              },
+              {
+                value: "add",
+                label: "Add",
+                icon: "check",
+              },
+            ]}
+          />
+        </Modal>
+      </View>
+    </ImageBackground>
   );
 };
 
-export default LoyaltyHome;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  imageContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  bannerImage: {
+    width: "100%",
+    height: "100%",
+  },
+  background: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 0,
+  },
+  scrollViewContainer: {
+    flex: 1,
+  },
+  scrollView: {
+    height: "50%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  scrollViewWrapper: {
+    height: "80%",
+  },
+  listItem: {
+    padding: 10,
+    fontSize: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#DDDDDD",
+  },
+  modalContainer: {
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 10,
+    width: "80%",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+});
+
+export default LoyaltyPage;

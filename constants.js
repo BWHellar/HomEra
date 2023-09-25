@@ -14,6 +14,34 @@ export const UNITLIST = [
     value: "3",
   },
 ];
+export const PERSONLIST = [
+  {
+    label: "Billy Bob",
+    value: "Billy Bob",
+  },
+  {
+    label: "Johanis Joplin",
+    value: "Johanis Joplin",
+  },
+  {
+    label: "Meero Cairo",
+    value: "Meero Cairo",
+  },
+];
+export const AMOUNTLIST = [
+  {
+    label: "500",
+    value: "500",
+  },
+  {
+    label: "1000",
+    value: "1000",
+  },
+  {
+    label: "1500",
+    value: "1500",
+  },
+];
 export const InvoiceList = [
   {
     label: "Invoices",

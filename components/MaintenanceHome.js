@@ -4,9 +4,6 @@ import { ImageBackground, View, StyleSheet, ScrollView } from "react-native";
 import {
   List,
   IconButton,
-  Avatar,
-  Card,
-  Badge,
   Button,
   Checkbox,
   SegmentedButtons,

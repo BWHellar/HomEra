@@ -401,7 +401,7 @@ const LeadsHome = () => {
               {
                 value: "cancel",
                 label: "Cancel",
-                icon: "camera",
+                icon: "",
               },
               {
                 value: "submit",
