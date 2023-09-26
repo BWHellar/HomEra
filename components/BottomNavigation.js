@@ -1,7 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import HomePage from "./HomePage";
 import { useNavigation } from "@react-navigation/native";
 
 const BottomNavigation = () => {
@@ -18,7 +17,6 @@ const BottomNavigation = () => {
 
   return (
     <View style={styles.container}>
-      {/* Your navigation items */}
       <TouchableOpacity onPress={goToSettings}>
         <Icon name="gear" size={24} color="#333" style={styles.navItem} />
       </TouchableOpacity>

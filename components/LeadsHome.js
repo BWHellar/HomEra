@@ -110,7 +110,6 @@ const LeadsHome = () => {
     );
 
     if (isFormValid && formData.amenities.length > 0) {
-      // Handle form submission
       setLeads((prevLeads) => [...prevLeads, formData]);
       setFormData({
         fullName: "",
@@ -139,8 +138,6 @@ const LeadsHome = () => {
       });
       setModalVisible(false);
     } else {
-      // Show an error message or handle the case where not all TextInputs are filled out
-      // For example:
       alert("Please fill out all fields before submitting!");
     }
   };
@@ -525,8 +522,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginHorizontal: 5,
-    width: 80, // Adjust the width of the boxes as desired
-    height: 50, // Adjust the height of the boxes as desired
+    width: 80, 
+    height: 50, 
   },
   analyticsLabelText: {
     fontSize: 12,
@@ -544,13 +541,11 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   scrollContainer: {
-    // flexGrow: 1,
     borderWidth: 1,
     borderColor: "black",
   },
   title: {
     fontSize: 14,
-    // fontWeight: "bold",
   },
   boldText: {
     fontWeight: "bold",

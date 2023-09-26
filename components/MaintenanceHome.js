@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-
 import {
   ImageBackground,
   TouchableWithoutFeedback,
   View,
   StyleSheet,
   FlatList,
-  ScrollView,
 } from "react-native";
 import {
-  List,
-  IconButton,
   Button,
   Checkbox,
   SegmentedButtons,
@@ -37,7 +33,6 @@ const MaintenanceHome = () => {
   const hideModal = () => setVisible(false);
   const showModal2 = () => setVisible2(true);
   const hideModal2 = () => setVisible2(false);
-  const showModal3 = () => setVisible3(true);
   const hideModal3 = () => setVisible3(false);
   const [showDropDown, setShowDropDown] = React.useState(false);
   const [showDropDown2, setShowDropDown2] = React.useState(false);

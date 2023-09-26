@@ -1,19 +1,14 @@
 import React from "react";
 import {
   View,
-  // Button,
   ScrollView,
   StyleSheet,
   ImageBackground,
   Image,
 } from "react-native";
 import {
-  List,
-  IconButton,
   Button,
-  Checkbox,
   SegmentedButtons,
-  Portal,
   Text,
   TextInput,
   Modal,

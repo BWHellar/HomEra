@@ -1,9 +1,6 @@
 import React from "react";
 import {
   View,
-  FlatList,
-  TextInput,
-  TouchableOpacity,
   ImageBackground,
   Text,
   Dimensions,
@@ -12,11 +9,6 @@ import {
 import DropDown from "react-native-paper-dropdown";
 import {
   LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
 } from "react-native-chart-kit";
 import { InvoiceList, MonthList } from "../constants";
 const AccountingHome = () => {
@@ -53,16 +45,15 @@ const AccountingHome = () => {
             labels: currentMonth,
             datasets: [{ data: data }],
           }}
-          width={Dimensions.get("window").width - 10} // from react-native
+          width={Dimensions.get("window").width - 10}
           height={300}
           yAxisLabel="$"
           yAxisSuffix="k"
-          yAxisInterval={1} // optional, defaults to 1
+          yAxisInterval={1}
           chartConfig={{
-            // backgroundColor: "#00e6cf",
             backgroundGradientFrom: "rgba(0, 161, 145, 0.1)",
             backgroundGradientTo: "rgba(0, 80, 72, 0.1)",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 2, 
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {

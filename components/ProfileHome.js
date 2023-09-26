@@ -2,22 +2,18 @@ import React from "react";
 import {
   ImageBackground,
   View,
-  Image,
-  TouchableOpacity,
   StyleSheet,
 } from "react-native";
 import {
   Avatar,
   Card,
   IconButton,
-  Badge,
   Button,
   Portal,
   Text,
   TextInput,
   Modal,
 } from "react-native-paper";
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 
 const ProfileHome = () => {
@@ -174,8 +170,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start", // Change to "flex-start" to align items at the top
-    marginTop: 0, // Increase the marginTop to create space for the dropdown
+    justifyContent: "flex-start", 
+    marginTop: 0,
   },
   background: {
     flex: 1,

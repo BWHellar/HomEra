@@ -4,16 +4,13 @@ import {
   View,
   Text,
   StyleSheet,
-  HapticFeedback,
   TouchableOpacity,
   Image,
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ModalDropdown from "react-native-modal-dropdown";
 
 const HomePage = ({ navigation }) => {
-  const Stack = createNativeStackNavigator();
   const [selectedItem, setSelectedItem] = useState(null);
   const options = [
     "Apartment 1",
@@ -73,7 +70,6 @@ const HomePage = ({ navigation }) => {
       image: require("../images/ScheduleHome.png"),
       onPress: () => navigation.navigate("Schedule"),
     },
-    // Add more icons as needed
   ];
 
   return (
@@ -115,8 +111,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start", // Change to "flex-start" to align items at the top
-    marginTop: 70, // Increase the marginTop to create space for the dropdown
+    justifyContent: "flex-start", 
+    marginTop: 70, 
   },
   title: {
     fontSize: 24,
@@ -131,10 +127,10 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-evenly", // evenly spaced icons horizontally
-    alignItems: "flex-start", // align icons to the top of the container
+    justifyContent: "space-evenly", 
+    alignItems: "flex-start", 
     width: "100%",
-    maxWidth: 400, // adjust the maximum width as needed
+    maxWidth: 400, 
   },
   icon: {
     width: 100,
@@ -143,27 +139,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    shadowColor: "rgba(0, 0, 0, 0.5)", // add shadow color (black with 50% opacity)
+    shadowColor: "rgba(0, 0, 0, 0.5)", 
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.8, // add shadow opacity (80%)
-    shadowRadius: 4, // add shadow radius
-    elevation: 5, // for Android, add elevation to display shadow
+    shadowOpacity: 0.8, 
+    shadowRadius: 4, 
+    elevation: 5, 
   },
   iconImage: {
     width: "100%",
     height: "100%",
     resizeMode: "cover",
     borderRadius: 10,
-    opacity: 0.9, // make the image slightly transparent (80% opacity)
+    opacity: 0.9, 
   },
   iconText: {
     fontSize: 16,
   },
   dropdown: {
-    width: "100%", // Change width to 100%
+    width: "100%",
     borderWidth: 1,
     borderColor: "#00e6cf",
     borderRadius: 8,
@@ -175,10 +171,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     paddingLeft:'39%',
-    // paddingRight:'25%'
   },
   dropdownContainer: {
-    width: "100%", // Change width to 100%
+    width: "100%",
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
@@ -188,7 +183,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     padding: 10,
-    textAlign: "center", // Add textAlign property
+    textAlign: "center", 
 
   },
 });

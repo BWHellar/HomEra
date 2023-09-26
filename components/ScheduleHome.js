@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   View,
   StyleSheet,
-  ScrollView,
   ImageBackground,
   FlatList,
 } from "react-native";
@@ -30,7 +29,6 @@ const ScheduleHome = () => {
       (item) => item.id === day.dateString
     );
 
-    // Order filteredItems by time in ascending order
     const sortedItems = filteredItems.sort((a, b) => {
       const timeA = moment(a.time, "h:mm A");
       const timeB = moment(b.time, "h:mm A");
