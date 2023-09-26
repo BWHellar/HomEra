@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, ImageBackground,FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  ImageBackground,
+  FlatList,
+} from "react-native";
 import { Calendar } from "react-native-calendars";
 import { Button, TextInput, Text, Portal, Modal } from "react-native-paper";
 import DatePicker from "react-native-modern-datepicker";
@@ -80,82 +86,102 @@ const ScheduleHome = () => {
       source={require("../images/gradient.png")}
       style={styles.background}
     >
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Schedule</Text>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.titleContainer}>
+            <View style={styles.analyticsContainer}>
+              <View style={styles.analyticsBox}>
+                <Text style={styles.analyticsLabelText}>New</Text>
+                <Text style={styles.analyticsNumberText}>
+                  {Math.floor(Math.random() * 100)}
+                </Text>
+              </View>
+              <View style={styles.analyticsBox}>
+                <Text style={styles.analyticsLabelText}>Upcoming</Text>
+                <Text style={styles.analyticsNumberText}>
+                  {Math.floor(Math.random() * 100)}
+                </Text>
+              </View>
+              <View style={styles.analyticsBox}>
+                <Text style={styles.analyticsLabelText}>Attention</Text>
+                <Text style={styles.analyticsNumberText}>
+                  {Math.floor(Math.random() * 100)}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              compact
+              mode="outlined"
+              style={[styles.button, { marginTop: 30 }]}
+              onPress={() => {
+                showModal();
+              }}
+              color="#A875FF"
+            >
+              New
+            </Button>
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            compact
-            mode="outlined"
-            style={{ marginTop: 30 }}
-            onPress={() => {
-              showModal();
-            }}
+        <View style={styles.calendarContainer}>
+          <Calendar
+            style={styles.calendar}
+            onDayPress={handleDayPress}
+            markedDates={markedDates}
+          />
+        </View>
+        {filteredScheduleItems.length === 0 ? (
+          <View style={styles.noItemsContainer}>
+            <Text style={styles.noItemsText}>Please Select a Date</Text>
+          </View>
+        ) : (
+          <View style={styles.scheduleContainer}>
+            <FlatList
+              data={filteredScheduleItems}
+              renderItem={renderScheduleItem}
+              keyExtractor={(item) => item.id}
+            />
+          </View>
+        )}
+        <Portal>
+          <Modal
+            visible={visible}
+            onDismiss={hideModal}
+            contentContainerStyle={containerStyle}
           >
-            New
-          </Button>
-        </View>
+            <Text>New Maintenance for Apartment 1</Text>
+            <TextInput
+              label="Title"
+              mode="outlined"
+              value={userInput}
+              onChangeText={setUserInput}
+            />
+            <DatePicker
+              onDateChange={(date) => setSelectedDate(date)}
+              onTimeChange={(time) => setSelectedTime(time)}
+              value={selectedDate}
+            />
+            <TextInput
+              label="Description"
+              multiline
+              mode="outlined"
+              onChangeText={setUserInputDescription}
+              value={userInputDescription}
+              numberOfLines={4}
+              style={{ minHeight: 100 }}
+            />
+            <Button
+              compact
+              mode="contained-tonal"
+              style={{ marginTop: 30 }}
+              onPress={handleSubmit}
+            >
+              Submit
+            </Button>
+          </Modal>
+        </Portal>
       </View>
-      <View style={styles.calendarContainer}>
-        <Calendar
-          style={styles.calendar}
-          onDayPress={handleDayPress}
-          markedDates={markedDates}
-        />
-      </View>
-      {filteredScheduleItems.length === 0 ? (
-        <View style={styles.noItemsContainer}>
-          <Text style={styles.noItemsText}>Please Select a Date</Text>
-        </View>
-      ) : (
-        <View style={styles.scheduleContainer}>
-          <FlatList
-            data={filteredScheduleItems}
-            renderItem={renderScheduleItem}
-            keyExtractor={(item) => item.id}
-          />
-        </View>
-      )}
-      <Portal>
-        <Modal
-          visible={visible}
-          onDismiss={hideModal}
-          contentContainerStyle={containerStyle}
-        >
-          <Text>New Maintenance for Apartment 1</Text>
-          <TextInput
-            label="Title"
-            mode="outlined"
-            value={userInput}
-            onChangeText={setUserInput}
-          />
-          <DatePicker
-            onDateChange={(date) => setSelectedDate(date)}
-            onTimeChange={(time) => setSelectedTime(time)}
-            value={selectedDate}
-          />
-          <TextInput
-            label="Description"
-            multiline
-            mode="outlined"
-            onChangeText={setUserInputDescription}
-            value={userInputDescription}
-            numberOfLines={4}
-            style={{ minHeight: 100 }}
-          />
-          <Button
-            compact
-            mode="contained-tonal"
-            style={{ marginTop: 30 }}
-            onPress={handleSubmit}
-          >
-            Submit
-          </Button>
-        </Modal>
-      </Portal>
-    </View>
     </ImageBackground>
   );
 };
@@ -182,9 +208,37 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 16,
   },
+  analyticsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  analyticsBox: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#A875FF",
+    borderRadius: 10,
+    padding: 10,
+    marginHorizontal: 5,
+    width: 80, 
+    height: 50, 
+  },
+  analyticsLabelText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "white",
+  },
+  analyticsNumberText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+  },
   calendarContainer: {
     flex: 1,
     padding: 16,
+  },
+  button: {
+    width: 80,
   },
   background: {
     flex: 1,
@@ -231,6 +285,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginLeft: 10,
+    paddingBottom: 20,
   },
   scheduleItemText: {
     fontSize: 16,

@@ -186,14 +186,6 @@ const LeadsHome = () => {
       handleSubmit();
     }
   };
-  const getRandomNumber = () => {
-    return Math.floor(Math.random() * 100);
-  };
-
-  const getRandomColor = () => {
-    const colors = ["red", "blue", "green", "yellow", "orange"];
-    return colors[Math.floor(Math.random() * colors.length)];
-  };
 
   return (
     <ImageBackground
@@ -207,33 +199,33 @@ const LeadsHome = () => {
               <View style={styles.analyticsBox}>
                 <Text style={styles.analyticsLabelText}>New</Text>
                 <Text style={styles.analyticsNumberText}>
-                  {getRandomNumber()}
+                  {Math.floor(Math.random() * 100)}
                 </Text>
               </View>
               <View style={styles.analyticsBox}>
                 <Text style={styles.analyticsLabelText}>Existing</Text>
                 <Text style={styles.analyticsNumberText}>
-                  {getRandomNumber()}
+                  {Math.floor(Math.random() * 100)}
                 </Text>
               </View>
               <View style={styles.analyticsBox}>
                 <Text style={styles.analyticsLabelText}>Waiting</Text>
                 <Text style={styles.analyticsNumberText}>
-                  {getRandomNumber()}
+                  {Math.floor(Math.random() * 100)}
                 </Text>
               </View>
             </View>
           </View>
           <View style={styles.buttonContainer}>
-          <Button
-    compact
-    mode="outlined"
-    style={[styles.button, { marginTop: 30 }]}
-    onPress={() => setModalVisible(true)}
-    color="#A875FF"
-  >
-    Add
-  </Button>
+            <Button
+              compact
+              mode="outlined"
+              style={[styles.button, { marginTop: 30 }]}
+              onPress={() => setModalVisible(true)}
+              color="#A875FF"
+            >
+              Add
+            </Button>
           </View>
         </View>
         <FlatList
@@ -522,13 +514,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   analyticsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     marginTop: 10,
   },
   analyticsBox: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#A875FF",
     borderRadius: 10,
     padding: 10,
@@ -538,13 +530,13 @@ const styles = StyleSheet.create({
   },
   analyticsLabelText: {
     fontSize: 12,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   analyticsNumberText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   titleText: {
     fontSize: 16,
@@ -565,10 +557,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginLeft: 10,
-    paddingBottom:20
+    paddingBottom: 20,
   },
   button: {
-    width:80,
+    width: 80,
   },
   card: {
     marginBottom: 10,

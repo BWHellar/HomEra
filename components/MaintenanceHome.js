@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-import { ImageBackground, View, StyleSheet, ScrollView } from "react-native";
+import {
+  ImageBackground,
+  TouchableWithoutFeedback,
+  View,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+} from "react-native";
 import {
   List,
   IconButton,
@@ -39,15 +46,15 @@ const MaintenanceHome = () => {
   const [inputList, setInputList] = useState([
     {
       title: "Fridge",
-      description: "Category 1",
+      description: "Something is broken and it needs to be fixed.",
       unit: "Unit 1",
       fire: true,
       enter: false,
       pet: true,
     },
     {
-      title: "Item 2",
-      description: "Category 2",
+      title: "Mixer",
+      description: "Something is broken and it needs to be fixed.",
       unit: "Unit 2",
       fire: false,
       enter: true,
@@ -87,6 +94,34 @@ const MaintenanceHome = () => {
     setVisible3(true);
     setDetails(item);
   };
+  const renderItem = ({ item }) => (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        showDetails(item);
+      }}
+    >
+      <View style={styles.card}>
+        <View style={styles.cardContent}>
+          <Icon name="wrench" size={18} color="#000" style={styles.icon} />
+          <View style={styles.textContainer}>
+            <Text style={styles.titleText}>
+              {item.title} - {item.unit}
+            </Text>
+            <Text style={styles.descriptionText}>{item.description}</Text>
+          </View>
+          <Icon
+            onPress={() => {
+              showModal(item.title);
+            }}
+            name="eraser"
+            size={14}
+            color="#000"
+            style={styles.icon}
+          />
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
 
   return (
     <ImageBackground
@@ -96,40 +131,44 @@ const MaintenanceHome = () => {
       <View style={{ flex: 1 }}>
         <View style={styles.header}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Maintenance</Text>
+            <View style={styles.analyticsContainer}>
+              <View style={styles.analyticsBox}>
+                <Text style={styles.analyticsLabelText}>New</Text>
+                <Text style={styles.analyticsNumberText}>
+                  {Math.floor(Math.random() * 100)}
+                </Text>
+              </View>
+              <View style={styles.analyticsBox}>
+                <Text style={styles.analyticsLabelText}>Urgent</Text>
+                <Text style={styles.analyticsNumberText}>
+                  {Math.floor(Math.random() * 100)}
+                </Text>
+              </View>
+              <View style={styles.analyticsBox}>
+                <Text style={styles.analyticsLabelText}>Waiting</Text>
+                <Text style={styles.analyticsNumberText}>
+                  {Math.floor(Math.random() * 100)}
+                </Text>
+              </View>
+            </View>
           </View>
           <View style={styles.buttonContainer}>
             <Button
               compact
               mode="outlined"
-              style={{ marginTop: 30 }}
+              style={[styles.button, { marginTop: 30 }]}
               onPress={showModal2}
+              color="#A875FF"
             >
-              New
+              Add
             </Button>
           </View>
         </View>
-        <ScrollView style={styles.scrollSection}>
-          {inputList.map((item, index) => (
-            <List.Item
-              onPress={() => {
-                showDetails(item);
-              }}
-              key={index}
-              title={item.title}
-              description={item.description}
-              left={(props) => <List.Icon {...props} icon="wrench" />}
-              right={(props) => (
-                <IconButton
-                  icon="dots-horizontal"
-                  onPress={() => {
-                    showModal(item.title);
-                  }}
-                />
-              )}
-            />
-          ))}
-        </ScrollView>
+        <FlatList
+          data={inputList}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
       </View>
       <Portal>
         <Modal
@@ -294,11 +333,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginLeft: 10,
+    paddingBottom: 20,
   },
-  scrollSection: {
-    marginBottom: 40,
-  },
-
   modalContent: {
     backgroundColor: "#fff",
     padding: 20,
@@ -313,15 +349,69 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
-  detailsColumn: {
-    flex: 1,
-    // flexDirection: 'row',
+  analyticsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  analyticsBox: {
+    justifyContent: "center",
     alignItems: "center",
-    justifyContent: "center", // Center align the columns horizontally
+    backgroundColor: "#A875FF",
+    borderRadius: 10,
+    padding: 10,
+    marginHorizontal: 5,
+    width: 80, 
+    height: 50, 
+  },
+  analyticsLabelText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "white",
+  },
+  button: {
+    width: 80,
+  },
+  cardContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   icon: {
-    marginRight: 8,
+    marginRight: 10,
   },
+  textContainer: {
+    flex: 1,
+  },
+  titleText: {
+    marginBottom: 5,
+    fontSize: 16,
+  },
+  descriptionText: {
+    fontSize: 14,
+  },
+  card: {
+    marginBottom: 10,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 10,
+    shadowColor: "rgba(0, 0, 0, 0.1)",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  analyticsNumberText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+  },
+  detailsColumn: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
   unit: {
     fontSize: 16,
     marginBottom: 10,

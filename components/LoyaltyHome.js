@@ -1,7 +1,7 @@
 import React from "react";
 import {
   View,
-  Button,
+  // Button,
   ScrollView,
   StyleSheet,
   ImageBackground,
@@ -10,7 +10,7 @@ import {
 import {
   List,
   IconButton,
-  // Button,
+  Button,
   Checkbox,
   SegmentedButtons,
   Portal,
@@ -61,8 +61,24 @@ const LoyaltyPage = () => {
     >
       <View style={styles.container}>
         <View style={styles.buttonContainer}>
-          <Button title="Add Points" onPress={toggleModalAdd} color="#007AFF" />
-          <Button title="Send Points" onPress={toggleModal} color="#007AFF" />
+          <Button
+              compact
+              mode="outlined"
+              style={[styles.button, { marginTop: 30 }]}
+              onPress={toggleModalAdd}
+              color="#A875FF"
+            >
+              Add Points
+            </Button>
+            <Button
+              compact
+              mode="outlined"
+              style={[styles.button, { marginTop: 30 }]}
+              onPress={toggleModal}
+              color="#A875FF"
+            >
+              Send Points
+            </Button>
         </View>
         <View style={styles.imageContainer}>
           <Image
@@ -234,7 +250,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: 0,
   },
   segmentedButtonsContainer: {
     marginTop: 10,
