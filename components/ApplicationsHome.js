@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
 
-const ApplicationsHome = () => {
+const ApplicationsHome = ({ navigation }) => {
   const data = [
     { id: '1', name: 'Application 1', info: 'Random information 1' },
     { id: '2', name: 'Application 2', info: 'Random information 2' },
@@ -23,7 +23,7 @@ const ApplicationsHome = () => {
           <Text style={styles.title}>Applications</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <Button color="#00e6cf" title="Add" onPress={() => {}} />
+          <Button color="#00e6cf" title="Add" onPress={() => {navigation.navigate("Applications Add")}} />
         </View>
       </View>
       <FlatList

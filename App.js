@@ -14,6 +14,7 @@ import PropertiesHome from "./components/PropertiesHome";
 import ResidentsHome from "./components/ResidentsHome";
 import ScheduleHome from "./components/ScheduleHome";
 import SettingsHome from "./components/SettingsHome";
+import ApplicationsAdd from "./components/ApplicationsAdd";
 import ProfileHome from "./components/ProfileHome";
 import { PaperProvider } from 'react-native-paper';
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
           <Stack.Screen name="Home" component={HomePage} />
           <Stack.Screen name="Accounting" component={AccountingHome} />
           <Stack.Screen name="Applications" component={ApplicationsHome} />
+          <Stack.Screen name="Applications Add" component={ApplicationsAdd} />
           <Stack.Screen name="Leads" component={LeadsHome} />
           <Stack.Screen name="Loyalty" component={LoyaltyHome} />
           <Stack.Screen name="Maintenance" component={MaintenanceHome} />
