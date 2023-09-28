@@ -47,9 +47,28 @@ const ApplicationsAdd = () => {
     SupervisorName: "",
     SupervisorEmail: "",
   });
+  const [inputs3, setInputs3] = useState({
+    FirstName: "",
+    LastName: "",
+    Phone: "",
+    Email: "",
+    DOB: "",
+  });
 
   const handleInputChange = (field, value) => {
     setInputs((prevInputs) => ({
+      ...prevInputs,
+      [field]: value,
+    }));
+  };
+  const handleInputChange2 = (field, value) => {
+    setInputs2((prevInputs) => ({
+      ...prevInputs,
+      [field]: value,
+    }));
+  };
+  const handleInputChange3 = (field, value) => {
+    setInputs3((prevInputs) => ({
       ...prevInputs,
       [field]: value,
     }));
@@ -158,7 +177,7 @@ const ApplicationsAdd = () => {
             label="Mobile Phone"
             mode="outlined"
             value={inputs2.MobilePhone}
-            onChangeText={(value) => handleInputChange("MobilePhone", value)}
+            onChangeText={(value) => handleInputChange2("MobilePhone", value)}
           />
           <DropDown
             label={"Government Id"}
@@ -168,7 +187,7 @@ const ApplicationsAdd = () => {
             showDropDown={() => setShowDropDown4(true)}
             onDismiss={() => setShowDropDown4(false)}
             value={inputs2.GovernmentId}
-            setValue={(value) => handleInputChange("GovernmentId", value)}
+            setValue={(value) => handleInputChange2("GovernmentId", value)}
             list={PERSONLIST}
           />
           <TextInput
@@ -176,7 +195,7 @@ const ApplicationsAdd = () => {
             label="ID Number"
             mode="outlined"
             value={inputs2.IDNumber}
-            onChangeText={(value) => handleInputChange("IDNumber", value)}
+            onChangeText={(value) => handleInputChange2("IDNumber", value)}
           />
           <DropDown
             label={"Issuing State"}
@@ -186,7 +205,7 @@ const ApplicationsAdd = () => {
             showDropDown={() => setShowDropDown5(true)}
             onDismiss={() => setShowDropDown5(false)}
             value={inputs2.IssuingState}
-            setValue={(value) => handleInputChange("IssuingState", value)}
+            setValue={(value) => handleInputChange2("IssuingState", value)}
             list={PERSONLIST}
           />
           <TextInput
@@ -204,7 +223,7 @@ const ApplicationsAdd = () => {
             showDropDown={() => setShowDropDown6(true)}
             onDismiss={() => setShowDropDown6(false)}
             value={inputs2.MaritalStatus}
-            setValue={(value) => handleInputChange("MaritalStatus", value)}
+            setValue={(value) => handleInputChange2("MaritalStatus", value)}
             list={PERSONLIST}
           />
           <Text style={styles.sectionTitle}>Leasing History</Text>
@@ -237,7 +256,7 @@ const ApplicationsAdd = () => {
             label="Monthly Rent"
             mode="outlined"
             value={inputs2.MonthlyRent}
-            onChangeText={(value) => handleInputChange("MonthlyRent", value)}
+            onChangeText={(value) => handleInputChange2("MonthlyRent", value)}
           />
           <TextInput
             style={styles.input}
@@ -258,21 +277,21 @@ const ApplicationsAdd = () => {
             label="Landlord Name"
             mode="outlined"
             value={inputs2.LandlordName}
-            onChangeText={(value) => handleInputChange("LandlordName", value)}
+            onChangeText={(value) => handleInputChange2("LandlordName", value)}
           />
           <TextInput
             style={styles.input}
             label="Landlord Email"
             mode="outlined"
             value={inputs2.LandlordEmail}
-            onChangeText={(value) => handleInputChange("LandlordEmail", value)}
+            onChangeText={(value) => handleInputChange2("LandlordEmail", value)}
           />
           <TextInput
             style={styles.input}
-            label="LandlordPhone"
+            label="Landlord Phone"
             mode="outlined"
             value={inputs2.LandlordPhone}
-            onChangeText={(value) => handleInputChange("LandlordPhone", value)}
+            onChangeText={(value) => handleInputChange2("LandlordPhone", value)}
           />
           <Text style={styles.sectionTitle}>Employment History</Text>
           <GooglePlacesAutocomplete
@@ -304,36 +323,40 @@ const ApplicationsAdd = () => {
             label="Occupation"
             mode="outlined"
             value={inputs2.Occupation}
-            onChangeText={(value) => handleInputChange("Occupation", value)}
+            onChangeText={(value) => handleInputChange2("Occupation", value)}
           />
-          
+
           <TextInput
             style={styles.input}
             label="Company"
             mode="outlined"
             value={inputs2.Company}
-            onChangeText={(value) => handleInputChange("Company", value)}
+            onChangeText={(value) => handleInputChange2("Company", value)}
           />
           <TextInput
             style={styles.input}
             label="Monthly Income"
             mode="outlined"
             value={inputs2.Income}
-            onChangeText={(value) => handleInputChange("Income", value)}
+            onChangeText={(value) => handleInputChange2("Income", value)}
           />
           <TextInput
             style={styles.input}
             label="Supervisor Name"
             mode="outlined"
             value={inputs.SupervisorName}
-            onChangeText={(value) => handleInputChange("SupervisorName", value)}
+            onChangeText={(value) =>
+              handleInputChange2("SupervisorName", value)
+            }
           />
-           <TextInput
+          <TextInput
             style={styles.input}
             label="Supervisor Email"
             mode="outlined"
             value={inputs.SupervisorEmail}
-            onChangeText={(value) => handleInputChange("SupervisorEmail", value)}
+            onChangeText={(value) =>
+              handleInputChange2("SupervisorEmail", value)
+            }
           />
           <TextInput
             style={styles.input}
@@ -350,6 +373,46 @@ const ApplicationsAdd = () => {
             onTouchStart={() => setShowDatePicker(true)}
           />
         </View>
+        {parseInt(inputs.Adults) > 1 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Co-Applicant</Text>
+            <TextInput
+              style={styles.input}
+              label="First Name"
+              mode="outlined"
+              value={inputs.FirstName}
+              onChangeText={(value) => handleInputChange3("FirstName", value)}
+            />
+            <TextInput
+              style={styles.input}
+              label="Last Name"
+              mode="outlined"
+              value={inputs.LastName}
+              onChangeText={(value) => handleInputChange3("LastName", value)}
+            />
+            <TextInput
+              style={styles.input}
+              label="Date of Birth"
+              mode="outlined"
+              value={selectedDate}
+              onTouchStart={() => setShowDatePicker(true)}
+            />
+            <TextInput
+              style={styles.input}
+              label="Email"
+              mode="outlined"
+              value={inputs.Email}
+              onChangeText={(value) => handleInputChange3("Email", value)}
+            />
+            <TextInput
+              style={styles.Children}
+              label="Phone"
+              mode="outlined"
+              value={inputs.Children}
+              onChangeText={(value) => handleInputChange3("Phone", value)}
+            />
+          </View>
+        )}
         <Button mode="contained" onPress={() => console.log(inputs)}>
           Save
         </Button>
