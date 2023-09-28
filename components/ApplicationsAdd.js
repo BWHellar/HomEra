@@ -126,6 +126,16 @@ const ApplicationsAdd = () => {
       return updatedUserPets;
     });
   };
+  const handleInputChange5 = (index, field, value) => {
+    setUserCars((prevUserCars) => {
+      const updatedUserCars = [...prevUserCars];
+      updatedUserCars[index] = {
+        ...updatedUserCars[index],
+        [field]: value,
+      };
+      return updatedUserCars;
+    });
+  };
 
 
   return (
@@ -471,7 +481,7 @@ const ApplicationsAdd = () => {
             />
           </View>
         ))}
-        {/* Pets and Cars if any */}
+        {/* Pets if any */}
         {userPets.map((pet, index) => (
           <View key={index} style={styles.section}>
             <Text style={styles.sectionTitle}>Pet {index + 1}</Text>
@@ -499,7 +509,7 @@ const ApplicationsAdd = () => {
               mode="outlined"
               value={pet.Species || ""}
               onChangeText={(value) =>
-                handleInputChange4(index, "Sepcies", value)
+                handleInputChange4(index, "Species", value)
               }
             />
             <TextInput
@@ -518,6 +528,48 @@ const ApplicationsAdd = () => {
               value={pet.Color || ""}
               onChangeText={(value) =>
                 handleInputChange4(index, "Color", value)
+              }
+            />
+          </View>
+        ))}
+        {/* Cars if any */}
+        {userCars.map((car, index) => (
+          <View key={index} style={styles.section}>
+            <Text style={styles.sectionTitle}>Car {index + 1}</Text>
+            <TextInput
+              style={styles.input}
+              label="Make"
+              mode="outlined"
+              value={car.Make || ""}
+              onChangeText={(value) =>
+                handleInputChange5(index, "Make", value)
+              }
+            />
+            <TextInput
+              style={styles.input}
+              label="Model"
+              mode="outlined"
+              value={car.Model || ""}
+              onChangeText={(value) =>
+                handleInputChange5(index, "Model", value)
+              }
+            />
+            <TextInput
+              style={styles.input}
+              label="Plate"
+              mode="outlined"
+              value={car.Plate || ""}
+              onChangeText={(value) =>
+                handleInputChange5(index, "Plate", value)
+              }
+            />
+            <TextInput
+              style={styles.input}
+              label="Color"
+              mode="outlined"
+              value={car.Color || ""}
+              onChangeText={(value) =>
+                handleInputChange5(index, "Color", value)
               }
             />
           </View>
