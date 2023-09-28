@@ -47,19 +47,27 @@ const ApplicationsAdd = () => {
     SupervisorName: "",
     SupervisorEmail: "",
   });
-  const [inputs3, setInputs3] = useState({
-    FirstName: "",
-    LastName: "",
-    Phone: "",
-    Email: "",
-    DOB: "",
-  });
+  const [coApplicants, setCoApplicants] = useState([]);
 
   const handleInputChange = (field, value) => {
     setInputs((prevInputs) => ({
       ...prevInputs,
       [field]: value,
     }));
+    if (field == "Adults") {
+      const numCoApplicants = parseInt(value) - 1;
+      setCoApplicants(
+        Array(numCoApplicants)
+          .fill()
+          .map((_, index) => ({
+            FirstName: "",
+            LastName: "",
+            Email: "",
+            Phone: "",
+            id: index + 1,
+          }))
+      );
+    }
   };
   const handleInputChange2 = (field, value) => {
     setInputs2((prevInputs) => ({
@@ -67,16 +75,21 @@ const ApplicationsAdd = () => {
       [field]: value,
     }));
   };
-  const handleInputChange3 = (field, value) => {
-    setInputs3((prevInputs) => ({
-      ...prevInputs,
-      [field]: value,
-    }));
+  const handleInputChange3 = (index, field, value) => {
+    setCoApplicants((prevCoApplicants) => {
+      const updatedCoApplicants = [...prevCoApplicants];
+      updatedCoApplicants[index] = {
+        ...updatedCoApplicants[index],
+        [field]: value,
+      };
+      return updatedCoApplicants;
+    });
   };
 
   return (
     <>
       <ScrollView contentContainerStyle={styles.container}>
+        {/* Unit Info */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Unit Info</Text>
           <TextInput
@@ -156,6 +169,7 @@ const ApplicationsAdd = () => {
             onChangeText={(value) => handleInputChange("Pets", value)}
           />
         </View>
+        {/* Primary Applicant and Info */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Primary Applicant</Text>
           <TextInput
@@ -373,46 +387,49 @@ const ApplicationsAdd = () => {
             onTouchStart={() => setShowDatePicker(true)}
           />
         </View>
-        {parseInt(inputs.Adults) > 1 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Co-Applicant</Text>
+        {/* Co Applicant if any */}
+        {coApplicants.map((coApplicant, index) => (
+          <View key={index} style={styles.section}>
+            <Text style={styles.sectionTitle}>Co-Applicant {index + 1}</Text>
             <TextInput
               style={styles.input}
               label="First Name"
               mode="outlined"
-              value={inputs.FirstName}
-              onChangeText={(value) => handleInputChange3("FirstName", value)}
+              value={coApplicant.FirstName || ""}
+              onChangeText={(value) =>
+                handleInputChange3(index, "FirstName", value)
+              }
             />
             <TextInput
               style={styles.input}
               label="Last Name"
               mode="outlined"
-              value={inputs.LastName}
-              onChangeText={(value) => handleInputChange3("LastName", value)}
-            />
-            <TextInput
-              style={styles.input}
-              label="Date of Birth"
-              mode="outlined"
-              value={selectedDate}
-              onTouchStart={() => setShowDatePicker(true)}
+              value={coApplicant.LastName || ""}
+              onChangeText={(value) =>
+                handleInputChange3(index, "LastName", value)
+              }
             />
             <TextInput
               style={styles.input}
               label="Email"
               mode="outlined"
-              value={inputs.Email}
-              onChangeText={(value) => handleInputChange3("Email", value)}
+              value={coApplicant.Email || ""}
+              onChangeText={(value) =>
+                handleInputChange3(index, "Email", value)
+              }
             />
             <TextInput
-              style={styles.Children}
+              style={styles.input}
               label="Phone"
               mode="outlined"
-              value={inputs.Children}
-              onChangeText={(value) => handleInputChange3("Phone", value)}
+              value={coApplicant.Phone || ""}
+              onChangeText={(value) =>
+                handleInputChange3(index, "Phone", value)
+              }
             />
           </View>
-        )}
+        ))}
+        {/* Pets and Cars if any */}
         <Button mode="contained" onPress={() => console.log(inputs)}>
           Save
         </Button>
