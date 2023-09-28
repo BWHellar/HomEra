@@ -48,6 +48,8 @@ const ApplicationsAdd = () => {
     SupervisorEmail: "",
   });
   const [coApplicants, setCoApplicants] = useState([]);
+  const [userCars, setUserCars] = useState([]);
+  const [userPets, setUserPets] = useState([]);
 
   const handleInputChange = (field, value) => {
     setInputs((prevInputs) => ({
@@ -64,6 +66,35 @@ const ApplicationsAdd = () => {
             LastName: "",
             Email: "",
             Phone: "",
+            id: index + 1,
+          }))
+      );
+    }
+    if (field == "Pets") {
+      const numPets = parseInt(value);
+      setUserPets(
+        Array(numPets)
+          .fill()
+          .map((_, index) => ({
+            Name: "",
+            Weight: "",
+            Species: "",
+            Breed: "",
+            Color: "",
+            id: index + 1,
+          }))
+      );
+    }
+    if (field == "Cars") {
+      const numCars = parseInt(value);
+      setUserCars(
+        Array(numCars)
+          .fill()
+          .map((_, index) => ({
+            Make: "",
+            Model: "",
+            Plate: "",
+            Color: "",
             id: index + 1,
           }))
       );
@@ -85,6 +116,17 @@ const ApplicationsAdd = () => {
       return updatedCoApplicants;
     });
   };
+  const handleInputChange4 = (index, field, value) => {
+    setUserPets((prevUserPets) => {
+      const updatedUserPets = [...prevUserPets];
+      updatedUserPets[index] = {
+        ...updatedUserPets[index],
+        [field]: value,
+      };
+      return updatedUserPets;
+    });
+  };
+
 
   return (
     <>
@@ -430,6 +472,56 @@ const ApplicationsAdd = () => {
           </View>
         ))}
         {/* Pets and Cars if any */}
+        {userPets.map((pet, index) => (
+          <View key={index} style={styles.section}>
+            <Text style={styles.sectionTitle}>Pet {index + 1}</Text>
+            <TextInput
+              style={styles.input}
+              label="Name"
+              mode="outlined"
+              value={pet.Name || ""}
+              onChangeText={(value) =>
+                handleInputChange4(index, "Name", value)
+              }
+            />
+            <TextInput
+              style={styles.input}
+              label="Weight"
+              mode="outlined"
+              value={pet.Weight || ""}
+              onChangeText={(value) =>
+                handleInputChange4(index, "Weight", value)
+              }
+            />
+            <TextInput
+              style={styles.input}
+              label="Species"
+              mode="outlined"
+              value={pet.Species || ""}
+              onChangeText={(value) =>
+                handleInputChange4(index, "Sepcies", value)
+              }
+            />
+            <TextInput
+              style={styles.input}
+              label="Breed"
+              mode="outlined"
+              value={pet.Breed || ""}
+              onChangeText={(value) =>
+                handleInputChange4(index, "Breed", value)
+              }
+            />
+            <TextInput
+              style={styles.input}
+              label="Color"
+              mode="outlined"
+              value={pet.Color || ""}
+              onChangeText={(value) =>
+                handleInputChange4(index, "Color", value)
+              }
+            />
+          </View>
+        ))}
         <Button mode="contained" onPress={() => console.log(inputs)}>
           Save
         </Button>
