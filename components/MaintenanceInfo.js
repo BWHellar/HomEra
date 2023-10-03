@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, Modal } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const MaintenanceInfo = ({ navigation }) => {
@@ -19,12 +19,15 @@ const MaintenanceInfo = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("123 456 7890");
   const [email, setEmail] = useState("someemail@example.com");
   const [submitted, setSubmitted] = useState("10/13/1989");
+  const [notes, setNotes] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleCompleteTask = () => {
-    // Perform action to mark the task as complete
-    // For example, make an API call or update state in your app
     console.log("Task marked as complete!");
     navigation.navigate("Maintenance");
+  };
+  const handleSubmit = () => {
+    setModalVisible(false);
   };
   return (
     <>
@@ -71,7 +74,7 @@ const MaintenanceInfo = ({ navigation }) => {
                   compact
                   mode="outlined"
                   style={[styles.button, { marginTop: 30, width: 80 }]}
-                  onPress={() => navigation.navigate("Maintenance Add")}
+                  onPress={() => setModalVisible(true)}
                   color="#A875FF"
                 >
                   Mark
@@ -98,6 +101,8 @@ const MaintenanceInfo = ({ navigation }) => {
               <Text style={styles.text}>{email}</Text>
               <Text style={styles.label}>Date Submitted:</Text>
               <Text style={styles.text}>{submitted}</Text>
+              <Text style={styles.label}>Notes:</Text>
+              <Text style={styles.text}>{notes}</Text>
             </ScrollView>
           </View>
           <Button
@@ -109,6 +114,25 @@ const MaintenanceInfo = ({ navigation }) => {
             Mark Complete
           </Button>
         </View>
+        <Modal visible={modalVisible} onDismiss={() => setModalVisible(false)}>
+          <View style={styles.modalContainer}>
+            <TextInput
+              multiline
+              numberOfLines={7}
+              label="Enter internal notes"
+              value={notes}
+              onChangeText={setNotes}
+              style={styles.textInput}
+            />
+            <Button
+              mode="contained"
+              onPress={handleSubmit}
+              style={styles.submitButton}
+            >
+              Submit
+            </Button>
+          </View>
+        </Modal>
       </ImageBackground>
     </>
   );
@@ -147,6 +171,29 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  modalContainer: {
+
+    padding: 16,
+  },
+  modalContent: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 16,
+    width: "80%",
+    maxHeight: "80%",
+  },
+  textInput: {
+    height: 140,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginBottom: 16,
+    fontSize: 16,
+  },
+  submitButton: {
+    marginTop: 8,
+    alignSelf: "flex-end",
+  },
   analyticsBox: {
     justifyContent: "center",
     alignItems: "center",
@@ -171,7 +218,7 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     flexGrow: 1,
-    paddingBottom: 20, // Adjust this value to set the height of the ScrollView
+    paddingBottom: 20, 
   },
   label: {
     fontSize: 16,
