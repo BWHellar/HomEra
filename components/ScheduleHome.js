@@ -11,17 +11,10 @@ import DatePicker from "react-native-modern-datepicker";
 import moment from "moment";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const ScheduleHome = () => {
+const ScheduleHome = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
-  const [userInput, setUserInput] = useState("");
-  const [userInputDescription, setUserInputDescription] = useState("");
-  const [visible, setVisible] = useState(false);
   const [filteredScheduleItems, setFilteredScheduleItems] = useState([]);
   const [scheduleItems, setScheduleItems] = useState([]);
-
-  const showModal = () => setVisible(true);
-  const hideModal = () => setVisible(false);
 
   const handleDayPress = (day) => {
     setSelectedDate(day.dateString);
@@ -38,23 +31,7 @@ const ScheduleHome = () => {
     setFilteredScheduleItems(sortedItems);
   };
 
-  const handleSubmit = () => {
-    if (selectedDate && userInput) {
-      const formattedTime = moment(selectedTime, "HH:mm").format("h:mm A");
-      const newItem = {
-        id: selectedDate.replace(/\//g, "-"),
-        time: formattedTime,
-        title: userInput,
-        description: userInputDescription,
-      };
-      setScheduleItems([...scheduleItems, newItem]);
-      setUserInput("");
-      setUserInputDescription("");
-      setSelectedDate("");
-      setSelectedTime("");
-      hideModal();
-    }
-  };
+  
   const markedDates = {
     [selectedDate]: {
       selected: true,
@@ -109,14 +86,13 @@ const ScheduleHome = () => {
             </View>
           </View>
           <View style={styles.buttonContainer}>
+          <Button color="#00e6cf" title="Add"  />
+
             <Button
               compact
               mode="outlined"
-              style={[styles.button, { marginTop: 30 }]}
-              onPress={() => {
-                showModal();
-              }}
-              color="#A875FF"
+              style={[styles.button, { marginTop: 0 }]}
+              onPress={() => {navigation.navigate("Schedule Add")}}
             >
               New
             </Button>
@@ -142,43 +118,6 @@ const ScheduleHome = () => {
             />
           </View>
         )}
-        <Portal>
-          <Modal
-            visible={visible}
-            onDismiss={hideModal}
-            contentContainerStyle={containerStyle}
-          >
-            <Text>New Maintenance for Apartment 1</Text>
-            <TextInput
-              label="Title"
-              mode="outlined"
-              value={userInput}
-              onChangeText={setUserInput}
-            />
-            <DatePicker
-              onDateChange={(date) => setSelectedDate(date)}
-              onTimeChange={(time) => setSelectedTime(time)}
-              value={selectedDate}
-            />
-            <TextInput
-              label="Description"
-              multiline
-              mode="outlined"
-              onChangeText={setUserInputDescription}
-              value={userInputDescription}
-              numberOfLines={4}
-              style={{ minHeight: 100 }}
-            />
-            <Button
-              compact
-              mode="contained-tonal"
-              style={{ marginTop: 30 }}
-              onPress={handleSubmit}
-            >
-              Submit
-            </Button>
-          </Modal>
-        </Portal>
       </View>
     </ImageBackground>
   );
