@@ -41,9 +41,7 @@ const MaintenanceHome = ({ navigation }) => {
   };
   const renderItem = ({ item }) => (
     <TouchableWithoutFeedback
-      onPress={() => {
-        showDetails(item);
-      }}
+    onPress={() => navigation.navigate("Maintenance Info")}
     >
       <View style={styles.card}>
         <View style={styles.cardContent}>
@@ -131,50 +129,7 @@ const MaintenanceHome = ({ navigation }) => {
             Delete
           </Button>
         </Modal>
-        <Modal
-          visible={visible3}
-          onDismiss={hideModal3}
-          contentContainerStyle={containerStyle}
-        >
-          <View style={styles.modalContent}>
-            <Text style={styles.title}>
-              {details.unit} - {details.title}
-            </Text>
-
-            <View style={styles.detailsContainer}>
-              <View style={styles.detailsColumn}>
-                <Icon
-                  name={details.fire ? "check" : "times"}
-                  size={16}
-                  color={details.fire ? "green" : "red"}
-                  style={styles.iconCheck}
-                />
-                <Text style={styles.iconText}>Fire</Text>
-              </View>
-              <View style={styles.detailsColumn}>
-                <Icon
-                  name={details.enter ? "check" : "times"}
-                  size={16}
-                  color={details.enter ? "green" : "red"}
-                  style={styles.iconCheck}
-                />
-                <Text style={styles.iconText}>Enter</Text>
-              </View>
-              <View style={styles.detailsColumn}>
-                <Icon
-                  name={details.pet ? "check" : "times"}
-                  size={16}
-                  color={details.pet ? "green" : "red"}
-                  style={styles.iconCheck}
-                />
-                <Text style={styles.iconText}>Pet</Text>
-              </View>
-            </View>
-            <View style={styles.descriptionContainer}>
-              <Text style={styles.description}>{details.description}</Text>
-            </View>
-          </View>
-        </Modal>
+        
       </Portal>
     </ImageBackground>
   );

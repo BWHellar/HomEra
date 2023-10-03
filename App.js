@@ -14,6 +14,7 @@ import PropertiesHome from "./components/PropertiesHome";
 import ResidentsHome from "./components/ResidentsHome";
 import ScheduleHome from "./components/ScheduleHome";
 import SettingsHome from "./components/SettingsHome";
+import MaintenanceInfo from "./components/MaintenanceInfo";
 import ApplicationsAdd from "./components/ApplicationsAdd";
 import MaintenanceAdd from "./components/MaintenanceAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
@@ -45,6 +46,7 @@ export default function App() {
           <Stack.Screen name="Applications" component={ApplicationsHome} />
           <Stack.Screen name="Applications Add" component={ApplicationsAdd} />
           <Stack.Screen name="Maintenance Add" component={MaintenanceAdd} />
+          <Stack.Screen name="Maintenance Info" component={MaintenanceInfo} />
           <Stack.Screen name="Schedule Add" component={ScheduleAdd} />
           <Stack.Screen name="Leads" component={LeadsHome} />
           <Stack.Screen name="Loyalty" component={LoyaltyHome} />
