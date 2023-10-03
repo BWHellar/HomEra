@@ -20,7 +20,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import { UNITLIST, MAINTENANCEITEMS } from "../constants";
 
-const MaintenanceHome = () => {
+const MaintenanceHome = ({navigation}) => {
   const [visible, setVisible] = React.useState(false);
   const [visible2, setVisible2] = React.useState(false);
   const [visible3, setVisible3] = React.useState(false);
@@ -152,7 +152,8 @@ const MaintenanceHome = () => {
               compact
               mode="outlined"
               style={[styles.button, { marginTop: 30 }]}
-              onPress={showModal2}
+              onPress={()=>    navigation.navigate("Maintenance Add")
+            }
               color="#A875FF"
             >
               Add
