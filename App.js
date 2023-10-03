@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SignInPage from "./components/SignInPage";
 import HomePage from "./components/HomePage";
 import BottomNavigation from "./components/BottomNavigation";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AccountingHome from "./components/AccountingHome";
 import ApplicationsHome from "./components/ApplicationsHome";

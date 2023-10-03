@@ -6,38 +6,16 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-import {
-  Button,
-  Checkbox,
-  SegmentedButtons,
-  Portal,
-  Text,
-  TextInput,
-  Modal,
-} from "react-native-paper";
-import DropDown from "react-native-paper-dropdown";
+import { Button, Portal, Text, Modal } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import { UNITLIST, MAINTENANCEITEMS } from "../constants";
-
-const MaintenanceHome = ({navigation}) => {
+const MaintenanceHome = ({ navigation }) => {
   const [visible, setVisible] = React.useState(false);
-  const [visible2, setVisible2] = React.useState(false);
   const [visible3, setVisible3] = React.useState(false);
-  const [checkedEnter, setCheckedEnter] = React.useState(false);
-  const [checkedFire, setCheckedFire] = React.useState(false);
-  const [checkedPet, setCheckedPet] = React.useState(false);
   const [details, setDetails] = React.useState({});
-  const [text, setText] = React.useState("");
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const showModal2 = () => setVisible2(true);
-  const hideModal2 = () => setVisible2(false);
   const hideModal3 = () => setVisible3(false);
-  const [showDropDown, setShowDropDown] = React.useState(false);
-  const [showDropDown2, setShowDropDown2] = React.useState(false);
-  const [unit, setUnit] = React.useState("");
-  const [category, setCategory] = React.useState("");
   const [inputList, setInputList] = useState([
     {
       title: "Fridge",
@@ -57,34 +35,6 @@ const MaintenanceHome = ({navigation}) => {
     },
   ]);
 
-  const categoryList = MAINTENANCEITEMS.map((item) => ({
-    label: item.title,
-    value: item.title,
-  }));
-  const handleSegmentedButtonChange = (value) => {
-    if (value === "upload") {
-    } else if (value === "submit") {
-      handleAddItem();
-    }
-  };
-  const handleAddItem = () => {
-    const newItem = {
-      title: text,
-      description: category,
-      unit: unit,
-      fire: checkedFire,
-      enter: checkedEnter,
-      pet: checkedPet,
-    };
-    setInputList((prevInputList) => [...prevInputList, newItem]);
-    setText("");
-    setCategory("");
-    setUnit("");
-    setCheckedEnter(false);
-    setCheckedPet(false);
-    setCheckedFire(false);
-    hideModal2(true);
-  };
   const showDetails = (item) => {
     setVisible3(true);
     setDetails(item);
@@ -152,8 +102,7 @@ const MaintenanceHome = ({navigation}) => {
               compact
               mode="outlined"
               style={[styles.button, { marginTop: 30 }]}
-              onPress={()=>    navigation.navigate("Maintenance Add")
-            }
+              onPress={() => navigation.navigate("Maintenance Add")}
               color="#A875FF"
             >
               Add
@@ -226,72 +175,6 @@ const MaintenanceHome = ({navigation}) => {
             </View>
           </View>
         </Modal>
-        <Modal
-          visible={visible2}
-          onDismiss={hideModal2}
-          contentContainerStyle={containerStyle}
-        >
-          <Text>New Request for Apartment 1</Text>
-          <DropDown
-            label={"Unit"}
-            mode={"outlined"}
-            visible={showDropDown}
-            showDropDown={() => setShowDropDown(true)}
-            onDismiss={() => setShowDropDown(false)}
-            value={unit}
-            setValue={setUnit}
-            list={UNITLIST}
-          />
-          <DropDown
-            label={"Category"}
-            mode={"outlined"}
-            visible={showDropDown2}
-            showDropDown={() => setShowDropDown2(true)}
-            onDismiss={() => setShowDropDown2(false)}
-            value={category}
-            setValue={setCategory}
-            list={categoryList}
-          />
-          <TextInput
-            label="Description"
-            multiline
-            mode="outlined"
-            onChangeText={setText}
-            value={text}
-            numberOfLines={4}
-            style={{ minHeight: 100 }}
-          />
-          <Checkbox.Item
-            label="Enter Permission?"
-            status={checkedEnter ? "checked" : "unchecked"}
-            onPress={() => setCheckedEnter(!checkedEnter)}
-          />
-          <Checkbox.Item
-            label="Fire/Water Related?"
-            status={checkedFire ? "checked" : "unchecked"}
-            onPress={() => setCheckedFire(!checkedFire)}
-          />
-          <Checkbox.Item
-            label="Pet Ownership?"
-            status={checkedPet ? "checked" : "unchecked"}
-            onPress={() => setCheckedPet(!checkedPet)}
-          />
-          <SegmentedButtons
-            onValueChange={handleSegmentedButtonChange}
-            buttons={[
-              {
-                value: "upload",
-                label: "Upload",
-                icon: "camera",
-              },
-              {
-                value: "submit",
-                label: "Submit",
-                icon: "check",
-              },
-            ]}
-          />
-        </Modal>
       </Portal>
     </ImageBackground>
   );
@@ -357,8 +240,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginHorizontal: 5,
-    width: 80, 
-    height: 50, 
+    width: 80,
+    height: 50,
   },
   analyticsLabelText: {
     fontSize: 12,

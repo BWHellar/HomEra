@@ -1,34 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-    ImageBackground,
-    TouchableWithoutFeedback,
-    View,
-    StyleSheet,
-    FlatList,
-  } from "react-native";
+  ImageBackground,
+  TouchableWithoutFeedback,
+  View,
+  StyleSheet,
+} from "react-native";
 import {
-    Button,
-    Checkbox,
-    SegmentedButtons,
-    Portal,
-    Text,
-    TextInput,
-    Modal,
-  } from "react-native-paper"
-import DatePicker from "react-native-modern-datepicker";
+  Checkbox,
+  SegmentedButtons,
+  Text,
+  TextInput,
+} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
-import { PERSONLIST } from "../constants";
 import { UNITLIST, MAINTENANCEITEMS } from "../constants";
 
 const MaintenanceAdd = ({ navigation }) => {
-    const [showDropDown, setShowDropDown] = React.useState(false);
-    const [showDropDown2, setShowDropDown2] = React.useState(false);
-    const [category, setCategory] = React.useState("");
-    const [text, setText] = React.useState("");
-    const [checkedEnter, setCheckedEnter] = React.useState(false);
-    const [checkedFire, setCheckedFire] = React.useState(false);
-    const [checkedPet, setCheckedPet] = React.useState(false);
-    const [unit, setUnit] = React.useState("");
+  const [showDropDown, setShowDropDown] = React.useState(false);
+  const [showDropDown2, setShowDropDown2] = React.useState(false);
+  const [category, setCategory] = React.useState("");
+  const [text, setText] = React.useState("");
+  const [checkedEnter, setCheckedEnter] = React.useState(false);
+  const [checkedFire, setCheckedFire] = React.useState(false);
+  const [checkedPet, setCheckedPet] = React.useState(false);
+  const [unit, setUnit] = React.useState("");
 
   const handlePressOutside = () => {
     Keyboard.dismiss();
@@ -52,9 +46,8 @@ const MaintenanceAdd = ({ navigation }) => {
       enter: checkedEnter,
       pet: checkedPet,
     };
-    console.log(newItem)
-    navigation.navigate("Maintenance")
-   
+    console.log(newItem);
+    navigation.navigate("Maintenance");
   };
 
   return (
@@ -67,42 +60,40 @@ const MaintenanceAdd = ({ navigation }) => {
           <View style={styles.container}>
             <Text>New Request for Apartment 1</Text>
             <View style={styles.input}>
-            <DropDown
-              label={"Unit"}
-              mode={"outlined"}
-              visible={showDropDown}
-              
-              showDropDown={() => setShowDropDown(true)}
-              onDismiss={() => setShowDropDown(false)}
-              value={unit}
-              setValue={setUnit}
-              list={UNITLIST}
-            />
+              <DropDown
+                label={"Unit"}
+                mode={"outlined"}
+                visible={showDropDown}
+                showDropDown={() => setShowDropDown(true)}
+                onDismiss={() => setShowDropDown(false)}
+                value={unit}
+                setValue={setUnit}
+                list={UNITLIST}
+              />
             </View>
             <View style={styles.input}>
-            <DropDown
-              label={"Category"}
-              mode={"outlined"}
-              style={styles.input}
-              visible={showDropDown2}
-              showDropDown={() => setShowDropDown2(true)}
-              onDismiss={() => setShowDropDown2(false)}
-              value={category}
-              setValue={setCategory}
-              list={categoryList}
-            />
+              <DropDown
+                label={"Category"}
+                mode={"outlined"}
+                style={styles.input}
+                visible={showDropDown2}
+                showDropDown={() => setShowDropDown2(true)}
+                onDismiss={() => setShowDropDown2(false)}
+                value={category}
+                setValue={setCategory}
+                list={categoryList}
+              />
             </View>
             <View style={styles.input}>
-            <TextInput
-              label="Description"
-              multiline
-              mode="outlined"
-              
-              onChangeText={setText}
-              value={text}
-              numberOfLines={4}
-              style={[styles.input, { minHeight: 150 }]}
-            />
+              <TextInput
+                label="Description"
+                multiline
+                mode="outlined"
+                onChangeText={setText}
+                value={text}
+                numberOfLines={4}
+                style={[styles.input, { minHeight: 150 }]}
+              />
             </View>
             <Checkbox.Item
               label="Enter Permission?"
@@ -155,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   buttons: {
-    marginTop:90,
+    marginTop: 90,
   },
   background: {
     flex: 1,

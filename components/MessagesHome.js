@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import DropDown from "react-native-paper-dropdown";
+import { Button } from "react-native-paper";
 import {
   View,
   FlatList,
   TextInput,
-  TouchableOpacity,ImageBackground,
+  TouchableOpacity,
+  ImageBackground,
   Text,
   StyleSheet,
 } from "react-native";
@@ -65,46 +67,47 @@ const MessagesHome = () => {
       source={require("../images/gradient.png")}
       style={styles.background}
     >
-    <View style={styles.container}>
-      <View style={{ paddingHorizontal: 16 }}>
-      <DropDown
-        label={"User"}
-        mode={"outlined"}
-        visible={showDropDown}
-        showDropDown={() => setShowDropDown(true)}
-        onDismiss={() => setShowDropDown(false)}
-        value={user}
-        setValue={setUser}
-        list={unitList}
-        
-      />
-      </View>
-      <FlatList
-        ref={flatListRef}
-        data={messages}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.messageList}
-        onContentSizeChange={() =>
-          flatListRef.current.scrollToEnd({ animated: true })
-        }
-      />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Type your message"
-          value={inputText}
-          onChangeText={setInputText}
-          multiline={true}
-          numberOfLines={1}
-          autoCorrect={false}
-          enablesReturnKeyAutomatically={true}
+      <View style={styles.container}>
+        <View style={{ paddingHorizontal: 16 }}>
+          <DropDown
+            label={"User"}
+            mode={"outlined"}
+            visible={showDropDown}
+            showDropDown={() => setShowDropDown(true)}
+            onDismiss={() => setShowDropDown(false)}
+            value={user}
+            setValue={setUser}
+            list={unitList}
+          />
+        </View>
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          contentContainerStyle={styles.messageList}
+          onContentSizeChange={() =>
+            flatListRef.current.scrollToEnd({ animated: true })
+          }
         />
-        <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-          <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Type your message"
+            value={inputText}
+            onChangeText={setInputText}
+            multiline={true}
+            numberOfLines={1}
+            autoCorrect={false}
+            enablesReturnKeyAutomatically={true}
+          />
+          <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
+            <Button compact mode="outlined">
+              Send
+            </Button>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
     </ImageBackground>
   );
 };
@@ -160,12 +163,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     fontSize: 16,
   },
-  sendButton: {
-    backgroundColor: "#007BFF",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
+
   sendButtonText: {
     color: "#FFFFFF",
     fontSize: 16,

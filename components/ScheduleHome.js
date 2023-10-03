@@ -6,8 +6,7 @@ import {
   FlatList,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
-import { Button, TextInput, Text, Portal, Modal } from "react-native-paper";
-import DatePicker from "react-native-modern-datepicker";
+import { Button,  Text } from "react-native-paper";
 import moment from "moment";
 import Icon from "react-native-vector-icons/FontAwesome";
 

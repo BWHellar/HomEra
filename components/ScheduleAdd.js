@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ImageBackground,ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
-import { TextInput, Button, Modal } from "react-native-paper";
+import { View, Text, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { TextInput, Button } from "react-native-paper";
 import DatePicker from "react-native-modern-datepicker";
-import DropDown from "react-native-paper-dropdown";
-import { PERSONLIST } from "../constants";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
 
 const ScheduleAdd = ({ navigation }) => {
   const [userInput, setUserInput] = useState("");
@@ -60,7 +58,7 @@ const ScheduleAdd = ({ navigation }) => {
           />
           <Button
             compact
-            mode="contained-tonal"
+            mode="outlined"
             style={{ marginTop: 30 }}
             onPress={handleSubmit}
           >
