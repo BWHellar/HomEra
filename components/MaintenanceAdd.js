@@ -113,16 +113,21 @@ const MaintenanceAdd = ({ navigation }) => {
             <SegmentedButtons
               onValueChange={handleSegmentedButtonChange}
               style={styles.buttons}
+              buttonStyle={styles.button}
               buttons={[
                 {
                   value: "upload",
                   label: "Upload",
                   icon: "camera",
+                  uncheckedColor: "#A875FF",
+                  checkedColor:"#A875FF"
                 },
                 {
                   value: "submit",
                   label: "Submit",
                   icon: "check",
+                  uncheckedColor: "#A875FF",
+                  checkedColor:"#A875FF"
                 },
               ]}
             />
@@ -147,6 +152,10 @@ const styles = StyleSheet.create({
   },
   buttons: {
     marginTop: 90,
+  },
+  button: {
+    color:'red'
+
   },
   background: {
     flex: 1,

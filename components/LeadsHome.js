@@ -18,7 +18,7 @@ import {
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const LeadsHome = () => {
+const LeadsHome = ({navigation}) => {
   const [visible, setVisible] = useState(false);
   const [chosenData, setChosenData] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
@@ -163,7 +163,7 @@ const LeadsHome = () => {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableWithoutFeedback onPress={() => showModal(item)}>
+    <TouchableWithoutFeedback onPress={() => navigation.navigate("Lead Info")}>
       <View style={styles.card}>
         <Text>{item.fullName}</Text>
         <Text>
@@ -231,82 +231,6 @@ const LeadsHome = () => {
           keyExtractor={(item) => item.id}
         />
         <Portal>
-          <Modal
-            visible={visible}
-            onDismiss={hideModal}
-            contentContainerStyle={styles.modalContainer}
-          >
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Name:</Text> {"\n"}{" "}
-                {chosenData?.fullName}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Email:</Text>
-                {"\n"} {chosenData?.contactInformation?.email}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Phone:</Text>
-                {"\n"} {chosenData?.contactInformation?.phoneNumber}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Desired Move-In Date:</Text>
-                {"\n"} {chosenData?.desiredMoveInDate}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Budget:</Text>
-                {"\n"} {chosenData?.budget}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Rental History:</Text>
-                {"\n"} {chosenData?.rentalHistory}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Employment Status:</Text>
-                {"\n"} {chosenData?.employmentInformation?.employmentStatus}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Employer Details:</Text>
-                {"\n"} {chosenData?.employmentInformation?.employerDetails}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Income Verification:</Text>
-                {"\n"} {chosenData?.employmentInformation?.incomeVerification}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Number of Occupants:</Text>
-                {"\n"} {chosenData?.numberOfOccupants}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Has Pets:</Text>
-                {"\n"} {chosenData?.petInformation?.hasPets ? "Yes" : "No"}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Pet Type:</Text>
-                {"\n"} {chosenData?.petInformation?.petType}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Pet Size:</Text>
-                {"\n"} {chosenData?.petInformation?.petSize}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Desired Property Type:</Text>
-                {"\n"} {chosenData?.desiredPropertyType}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Preferred Location:</Text>
-                {"\n"} {chosenData?.preferredLocation}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Amenities:</Text>
-                {"\n"} {chosenData?.amenities}
-              </Paragraph>
-              <Paragraph style={styles.title}>
-                <Text style={styles.boldText}>Additional Comments:</Text>
-                {"\n"} {chosenData?.additionalComments}
-              </Paragraph>
-            </ScrollView>
-          </Modal>
           <Modal
             contentContainerStyle={styles.modalContainer}
             visible={modalVisible}
