@@ -53,6 +53,49 @@ const LeadAdd = ({ navigation }) => {
       return updatedFormData;
     });
   };
+  const handleSubmit = () => {
+    const isFieldEmpty = (value) => value.trim() === "";
+
+    const isFormValid = Object.values(formData).every((value) =>
+      typeof value !== "object"
+        ? !isFieldEmpty(value)
+        : !Object.values(value).some(isFieldEmpty)
+    );
+
+    if (isFormValid && formData.amenities.length > 0) {
+      setLeads((prevLeads) => [...prevLeads, formData]);
+      setFormData({
+        fullName: "",
+        contactInformation: {
+          phoneNumber: "",
+          email: "",
+        },
+        desiredMoveInDate: "",
+        budget: "",
+        rentalHistory: "",
+        employmentInformation: {
+          employmentStatus: "",
+          employerDetails: "",
+          incomeVerification: "",
+        },
+        numberOfOccupants: "",
+        petInformation: {
+          hasPets: false,
+          petType: "",
+          petSize: "",
+        },
+        desiredPropertyType: "",
+        preferredLocation: "",
+        amenities: [],
+        additionalComments: "",
+      });
+      setModalVisible(false);
+    } else {
+      alert("Please fill out all fields before submitting!");
+    }
+  };
+
+
 
   return (
     <>
@@ -223,7 +266,7 @@ const LeadAdd = ({ navigation }) => {
             compact
             mode="outlined"
             style={[styles.button, { marginTop: 20 }]}
-            // onPress={handleCompleteTask}
+            onPress={handleSubmit}
           >
             Add
           </Button>
