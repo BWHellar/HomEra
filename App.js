@@ -17,6 +17,7 @@ import SettingsHome from "./components/SettingsHome";
 import MaintenanceInfo from "./components/MaintenanceInfo";
 import LeadInfo from "./components/LeadInfo";
 import ApplicationsAdd from "./components/ApplicationsAdd";
+import LeadAdd from "./components/LeadAdd";
 import MaintenanceAdd from "./components/MaintenanceAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
@@ -47,6 +48,7 @@ export default function App() {
           <Stack.Screen name="Applications" component={ApplicationsHome} />
           <Stack.Screen name="Applications Add" component={ApplicationsAdd} />
           <Stack.Screen name="Maintenance Add" component={MaintenanceAdd} />
+          <Stack.Screen name="Lead Add" component={LeadAdd} />
           <Stack.Screen name="Lead Info" component={LeadInfo} />
           <Stack.Screen name="Maintenance Info" component={MaintenanceInfo} />
           <Stack.Screen name="Schedule Add" component={ScheduleAdd} />

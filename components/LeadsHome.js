@@ -218,7 +218,7 @@ const LeadsHome = ({navigation}) => {
               compact
               mode="outlined"
               style={[styles.button, { marginTop: 30 }]}
-              onPress={() => setModalVisible(true)}
+              onPress={() => navigation.navigate("Lead Add")}
               color="#A875FF"
             >
               Add
