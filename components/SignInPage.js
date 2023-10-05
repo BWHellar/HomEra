@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,19 @@ import {
   Image,
 } from "react-native";
 
-export default function SignInPage({navigation}) {
+import "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  getIdTokenResult,
+  getIdToken,
+  getAuth,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+
+export default function SignInPage({ route }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -75,6 +87,34 @@ export default function SignInPage({navigation}) {
       textAlign: "center",
     },
   });
+  const firebaseConfig = {
+    apiKey: "AIzaSyDA1wcz3xYK8r-wUWmUj_HGmqlrzIMjgus",
+    authDomain: "leasera-production.firebaseapp.com",
+    databaseURL: "https://leasera-production.firebaseio.com",
+    projectId: "leasera-production",
+    storageBucket: "leasera-production.appspot.com",
+    messagingSenderId: "913859279590",
+    appId: "1:913859279590:web:11b02c03a5b7f109ecd927",
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const handleUsernameChange = (text) => {
+    setUsername(text);
+  };
+
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+  };
+
+  const loginAction = () => {
+    signInWithEmailAndPassword(auth, username, password)
+      .then(async () => {
+        console.log(auth.currentUser);
+      })
+      .catch((e) => {
+        console.log(constAuth);
+      });
+  };
 
   return (
     <ImageBackground
@@ -92,7 +132,12 @@ export default function SignInPage({navigation}) {
           <Text style={styles.banner}>Login</Text>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Username</Text>
-            <TextInput style={styles.input} placeholder="Enter your username" />
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your username"
+              value={username}
+              onChangeText={handleUsernameChange}
+            />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Password</Text>
@@ -100,12 +145,11 @@ export default function SignInPage({navigation}) {
               style={styles.input}
               placeholder="Enter your password"
               secureTextEntry={true}
+              value={password}
+              onChangeText={handlePasswordChange}
             />
           </View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Home')}
-          >
+          <TouchableOpacity style={styles.button} onPress={() => loginAction()}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
         </View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SignInPage from "./components/SignInPage";
 import HomePage from "./components/HomePage";
 import BottomNavigation from "./components/BottomNavigation";
@@ -21,49 +21,58 @@ import LeadAdd from "./components/LeadAdd";
 import MaintenanceAdd from "./components/MaintenanceAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
-import { PaperProvider } from 'react-native-paper';
+import { PaperProvider } from "react-native-paper";
 
+import { initializeApp } from "firebase/app";
+import "firebase/auth";
 
 export default function App() {
+
   const Stack = createNativeStackNavigator();
-  
+
   const firebaseConfig = {
-    apiKey: "AIzaSyBSre-H4FbXm5YxyFNKAqLBO6w6dlEt37w",
-    authDomain: "homera-29390.firebaseapp.com",
-    projectId: "homera-29390",
-    storageBucket: "homera-29390.appspot.com",
-    messagingSenderId: "668234129560",
-    appId: "1:668234129560:web:9179111d32308c46b070ed",
-    measurementId: "G-EMY06VRLXE",
+    apiKey: "AIzaSyDA1wcz3xYK8r-wUWmUj_HGmqlrzIMjgus",
+    authDomain: "leasera-production.firebaseapp.com",
+    databaseURL: "https://leasera-production.firebaseio.com",
+    projectId: "leasera-production",
+    storageBucket: "leasera-production.appspot.com",
+    messagingSenderId: "913859279590",
+    appId: "1:913859279590:web:11b02c03a5b7f109ecd927",
   };
+  useEffect(() => {
+    initializeApp(firebaseConfig);
+  }, []);
 
   return (
     <>
-    <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Sign In" component={SignInPage} />
-          <Stack.Screen name="Home" component={HomePage} />
-          <Stack.Screen name="Accounting" component={AccountingHome} />
-          <Stack.Screen name="Applications" component={ApplicationsHome} />
-          <Stack.Screen name="Applications Add" component={ApplicationsAdd} />
-          <Stack.Screen name="Maintenance Add" component={MaintenanceAdd} />
-          <Stack.Screen name="Lead Add" component={LeadAdd} />
-          <Stack.Screen name="Lead Info" component={LeadInfo} />
-          <Stack.Screen name="Maintenance Info" component={MaintenanceInfo} />
-          <Stack.Screen name="Schedule Add" component={ScheduleAdd} />
-          <Stack.Screen name="Leads" component={LeadsHome} />
-          <Stack.Screen name="Loyalty" component={LoyaltyHome} />
-          <Stack.Screen name="Maintenance" component={MaintenanceHome} />
-          <Stack.Screen name="Messages" component={MessagesHome} />
-          <Stack.Screen name="Properties" component={PropertiesHome} />
-          <Stack.Screen name="Residents" component={ResidentsHome} />
-          <Stack.Screen name="Schedule" component={ScheduleHome} />
-          <Stack.Screen name="Settings" component={SettingsHome} />
-          <Stack.Screen name="Profile" component={ProfileHome} />
-        </Stack.Navigator>
-      <BottomNavigation />
-      </NavigationContainer>
+      <PaperProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Sign In">
+            <Stack.Screen
+              name="Sign In"
+              component={SignInPage}
+            />
+            <Stack.Screen name="Home" component={HomePage} />
+            <Stack.Screen name="Accounting" component={AccountingHome} />
+            <Stack.Screen name="Applications" component={ApplicationsHome} />
+            <Stack.Screen name="Applications Add" component={ApplicationsAdd} />
+            <Stack.Screen name="Maintenance Add" component={MaintenanceAdd} />
+            <Stack.Screen name="Lead Add" component={LeadAdd} />
+            <Stack.Screen name="Lead Info" component={LeadInfo} />
+            <Stack.Screen name="Maintenance Info" component={MaintenanceInfo} />
+            <Stack.Screen name="Schedule Add" component={ScheduleAdd} />
+            <Stack.Screen name="Leads" component={LeadsHome} />
+            <Stack.Screen name="Loyalty" component={LoyaltyHome} />
+            <Stack.Screen name="Maintenance" component={MaintenanceHome} />
+            <Stack.Screen name="Messages" component={MessagesHome} />
+            <Stack.Screen name="Properties" component={PropertiesHome} />
+            <Stack.Screen name="Residents" component={ResidentsHome} />
+            <Stack.Screen name="Schedule" component={ScheduleHome} />
+            <Stack.Screen name="Settings" component={SettingsHome} />
+            <Stack.Screen name="Profile" component={ProfileHome} />
+          </Stack.Navigator>
+          <BottomNavigation />
+        </NavigationContainer>
       </PaperProvider>
     </>
   );
