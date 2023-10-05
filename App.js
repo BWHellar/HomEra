@@ -56,7 +56,7 @@ export default function App() {
 
   const someValue = "test";
   const loginAction = (username, password) => {
-    console.log(username, password)
+    console.log(username, password);
     signInWithEmailAndPassword(auth, username, password)
       .then(async () => {
         getIdTokenResult(auth.currentUser).then(async (idTokenResult) => {
@@ -97,7 +97,7 @@ export default function App() {
                   Cookie.set(MANAGER, idTokenResult.claims.manager, {
                     domain: "leasera.com",
                   });
-                  setIsAuthenticated(true)
+                  setIsAuthenticated(true);
                   // setSessionTimeout(time, client);
                 }
               }
@@ -113,6 +113,20 @@ export default function App() {
     }
   };
 
+  const unregisterAuthToken = () => {
+    auth.signOut();
+    Cookie.remove(TOKEN, {
+      domain: "leasera.com",
+    });
+    Cookie.remove(MANAGER, {
+      domain: "leasera.com",
+    });
+    console.log(Cookie.get("token"))
+    if(Cookie.get("token") == undefined) {
+      setIsAuthenticated(false)
+    }
+  };
+
   return (
     <>
       <PaperProvider>
@@ -122,7 +136,10 @@ export default function App() {
               <Stack.Screen
                 name="Sign In"
                 component={SignInPage}
-                initialParams={{ loginAction:(username,password) =>loginAction(username,password)}}
+                initialParams={{
+                  loginAction: (username, password) =>
+                    loginAction(username, password),
+                }}
               />
             ) : (
               <>
@@ -154,7 +171,13 @@ export default function App() {
                 <Stack.Screen name="Properties" component={PropertiesHome} />
                 <Stack.Screen name="Residents" component={ResidentsHome} />
                 <Stack.Screen name="Schedule" component={ScheduleHome} />
-                <Stack.Screen name="Settings" component={SettingsHome} />
+                <Stack.Screen
+                  name="Settings"
+                  component={SettingsHome}
+                  initialParams={{
+                    logoutAction: () => unregisterAuthToken(),
+                  }}
+                />
                 <Stack.Screen name="Profile" component={ProfileHome} />
               </>
             )}
