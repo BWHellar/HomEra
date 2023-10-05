@@ -9,11 +9,13 @@ import {
   Image,
 } from "react-native";
 import "firebase/auth";
-
+import { HelperText } from "react-native-paper";
 
 export default function SignInPage({ route }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [failedEmail, setFailedEmail] = useState(false);
+  const [failedPassword, setFailedPassword] = useState(false);
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -84,18 +86,26 @@ export default function SignInPage({ route }) {
     setUsername(text);
   };
 
-  useEffect(() => {
-    console.log(route)
-  }, []);
-
   const handlePasswordChange = (text) => {
     setPassword(text);
   };
-  
-  const loginPress = () => {
-    route.params.loginAction(username, password);
-  }
 
+  const loginPress = async () => {
+    try {
+      const result = await route.params.loginAction(username, password);
+      console.log(result);
+    } catch (error) {
+      if (error.code === "auth/wrong-password") {
+        setFailedPassword(true)
+        setFailedEmail(false)
+      } else if (error.code === "auth/invalid-email") {
+        setFailedEmail(true)
+        setFailedPassword(false)
+      } else {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <ImageBackground
@@ -119,6 +129,9 @@ export default function SignInPage({ route }) {
               value={username}
               onChangeText={handleUsernameChange}
             />
+            <HelperText type="error" visible={failedEmail}>
+              Please check email!
+            </HelperText>
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Password</Text>
@@ -129,6 +142,9 @@ export default function SignInPage({ route }) {
               value={password}
               onChangeText={handlePasswordChange}
             />
+            <HelperText type="error" visible={failedPassword}>
+              Please check password!
+            </HelperText>
           </View>
           <TouchableOpacity style={styles.button} onPress={() => loginPress()}>
             <Text style={styles.buttonText}>Login</Text>

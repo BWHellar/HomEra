@@ -56,22 +56,29 @@ export default function App() {
 
   const someValue = "test";
   const loginAction = (username, password) => {
-    console.log(username, password);
-    signInWithEmailAndPassword(auth, username, password)
-      .then(async () => {
-        getIdTokenResult(auth.currentUser).then(async (idTokenResult) => {
-          if (
-            idTokenResult.claims.manager &&
-            idTokenResult.claims.email_verified == true
-          ) {
-            onRequestSuccess(idTokenResult);
-            return true;
-          }
+    return new Promise((resolve, reject) => {
+      signInWithEmailAndPassword(auth, username, password)
+        .then(() => {
+          getIdTokenResult(auth.currentUser)
+            .then((idTokenResult) => {
+              if (
+                idTokenResult.claims.manager &&
+                idTokenResult.claims.email_verified === true
+              ) {
+                onRequestSuccess(idTokenResult);
+                resolve(true);
+              } else {
+                resolve(false);
+              }
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+        .catch((error) => {
+          reject(error);
         });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    });
   };
   const registerAuthToken = (token) => {
     Cookie.set(TOKEN, token, {
