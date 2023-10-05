@@ -8,16 +8,8 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-
 import "firebase/auth";
-import {
-  signInWithEmailAndPassword,
-  getIdTokenResult,
-  getIdToken,
-  getAuth,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { initializeApp } from "firebase/app";
+
 
 export default function SignInPage({ route }) {
   const [username, setUsername] = useState("");
@@ -87,34 +79,23 @@ export default function SignInPage({ route }) {
       textAlign: "center",
     },
   });
-  const firebaseConfig = {
-    apiKey: "AIzaSyDA1wcz3xYK8r-wUWmUj_HGmqlrzIMjgus",
-    authDomain: "leasera-production.firebaseapp.com",
-    databaseURL: "https://leasera-production.firebaseio.com",
-    projectId: "leasera-production",
-    storageBucket: "leasera-production.appspot.com",
-    messagingSenderId: "913859279590",
-    appId: "1:913859279590:web:11b02c03a5b7f109ecd927",
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+
   const handleUsernameChange = (text) => {
     setUsername(text);
   };
 
+  useEffect(() => {
+    console.log(route)
+  }, []);
+
   const handlePasswordChange = (text) => {
     setPassword(text);
   };
+  
+  const loginPress = () => {
+    route.params.loginAction(username, password);
+  }
 
-  const loginAction = () => {
-    signInWithEmailAndPassword(auth, username, password)
-      .then(async () => {
-        console.log(auth.currentUser);
-      })
-      .catch((e) => {
-        console.log(constAuth);
-      });
-  };
 
   return (
     <ImageBackground
@@ -149,7 +130,7 @@ export default function SignInPage({ route }) {
               onChangeText={handlePasswordChange}
             />
           </View>
-          <TouchableOpacity style={styles.button} onPress={() => loginAction()}>
+          <TouchableOpacity style={styles.button} onPress={() => loginPress()}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
         </View>

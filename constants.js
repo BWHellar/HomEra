@@ -1,3 +1,8 @@
+import Cookie from "js-cookie";
+export const getAuthToken = () => Cookie.get("token");
+export const TOKEN = 'token';
+export const MANAGER = 'manager';
+export const EXPIRE_TIME = 'expireTime';
 export const API_URL = "https://api.example.com";
 export const MAX_RESULTS = 10;
 export const UNITLIST = [

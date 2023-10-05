@@ -22,13 +22,22 @@ import MaintenanceAdd from "./components/MaintenanceAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
 import { PaperProvider } from "react-native-paper";
+import { getAuthToken, TOKEN, MANAGER } from "./constants";
 
+import {
+  signInWithEmailAndPassword,
+  getIdTokenResult,
+  getIdToken,
+  getAuth,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import "firebase/auth";
+
+import Cookie from "js-cookie";
 
 export default function App() {
-
   const Stack = createNativeStackNavigator();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const firebaseConfig = {
     apiKey: "AIzaSyDA1wcz3xYK8r-wUWmUj_HGmqlrzIMjgus",
@@ -39,37 +48,116 @@ export default function App() {
     messagingSenderId: "913859279590",
     appId: "1:913859279590:web:11b02c03a5b7f109ecd927",
   };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
   useEffect(() => {
     initializeApp(firebaseConfig);
   }, []);
+
+  const someValue = "test";
+  const loginAction = (username, password) => {
+    console.log(username, password)
+    signInWithEmailAndPassword(auth, username, password)
+      .then(async () => {
+        getIdTokenResult(auth.currentUser).then(async (idTokenResult) => {
+          if (
+            idTokenResult.claims.manager &&
+            idTokenResult.claims.email_verified == true
+          ) {
+            onRequestSuccess(idTokenResult);
+            return true;
+          }
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const registerAuthToken = (token) => {
+    Cookie.set(TOKEN, token, {
+      domain: "leasera.com",
+    });
+  };
+  const onRequestSuccess = async () => {
+    const time = "3600";
+    let authFlag = true;
+    if (auth.currentUser) {
+      getIdTokenResult(auth.currentUser)
+        .then(async (idTokenResult) => {
+          if (
+            idTokenResult.claims.manager ||
+            idTokenResult.claims.serviceProfessional
+          ) {
+            onAuthStateChanged(auth, async (user) => {
+              if (authFlag) {
+                authFlag = false;
+                if (user) {
+                  const token = await getIdToken(auth.currentUser, true);
+                  registerAuthToken(token);
+                  Cookie.set(MANAGER, idTokenResult.claims.manager, {
+                    domain: "leasera.com",
+                  });
+                  setIsAuthenticated(true)
+                  // setSessionTimeout(time, client);
+                }
+              }
+            });
+          }
+        })
+        .catch(() => {
+          console.log("id token catch");
+          return false;
+        });
+    } else {
+      console.log("Currrent user unavailable.");
+    }
+  };
 
   return (
     <>
       <PaperProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Sign In">
-            <Stack.Screen
-              name="Sign In"
-              component={SignInPage}
-            />
-            <Stack.Screen name="Home" component={HomePage} />
-            <Stack.Screen name="Accounting" component={AccountingHome} />
-            <Stack.Screen name="Applications" component={ApplicationsHome} />
-            <Stack.Screen name="Applications Add" component={ApplicationsAdd} />
-            <Stack.Screen name="Maintenance Add" component={MaintenanceAdd} />
-            <Stack.Screen name="Lead Add" component={LeadAdd} />
-            <Stack.Screen name="Lead Info" component={LeadInfo} />
-            <Stack.Screen name="Maintenance Info" component={MaintenanceInfo} />
-            <Stack.Screen name="Schedule Add" component={ScheduleAdd} />
-            <Stack.Screen name="Leads" component={LeadsHome} />
-            <Stack.Screen name="Loyalty" component={LoyaltyHome} />
-            <Stack.Screen name="Maintenance" component={MaintenanceHome} />
-            <Stack.Screen name="Messages" component={MessagesHome} />
-            <Stack.Screen name="Properties" component={PropertiesHome} />
-            <Stack.Screen name="Residents" component={ResidentsHome} />
-            <Stack.Screen name="Schedule" component={ScheduleHome} />
-            <Stack.Screen name="Settings" component={SettingsHome} />
-            <Stack.Screen name="Profile" component={ProfileHome} />
+            {!isAuthenticated ? (
+              <Stack.Screen
+                name="Sign In"
+                component={SignInPage}
+                initialParams={{ loginAction:(username,password) =>loginAction(username,password)}}
+              />
+            ) : (
+              <>
+                <Stack.Screen name="Home" component={HomePage} />
+                <Stack.Screen name="Accounting" component={AccountingHome} />
+                <Stack.Screen
+                  name="Applications"
+                  component={ApplicationsHome}
+                />
+                <Stack.Screen
+                  name="Applications Add"
+                  component={ApplicationsAdd}
+                />
+                <Stack.Screen
+                  name="Maintenance Add"
+                  component={MaintenanceAdd}
+                />
+                <Stack.Screen name="Lead Add" component={LeadAdd} />
+                <Stack.Screen name="Lead Info" component={LeadInfo} />
+                <Stack.Screen
+                  name="Maintenance Info"
+                  component={MaintenanceInfo}
+                />
+                <Stack.Screen name="Schedule Add" component={ScheduleAdd} />
+                <Stack.Screen name="Leads" component={LeadsHome} />
+                <Stack.Screen name="Loyalty" component={LoyaltyHome} />
+                <Stack.Screen name="Maintenance" component={MaintenanceHome} />
+                <Stack.Screen name="Messages" component={MessagesHome} />
+                <Stack.Screen name="Properties" component={PropertiesHome} />
+                <Stack.Screen name="Residents" component={ResidentsHome} />
+                <Stack.Screen name="Schedule" component={ScheduleHome} />
+                <Stack.Screen name="Settings" component={SettingsHome} />
+                <Stack.Screen name="Profile" component={ProfileHome} />
+              </>
+            )}
           </Stack.Navigator>
           <BottomNavigation />
         </NavigationContainer>
