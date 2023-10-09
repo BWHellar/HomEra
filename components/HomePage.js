@@ -28,19 +28,6 @@ const HomePage = ({ navigation, route }) => {
     getMyProperties();
   }, []);
 
-  const retrieveSelectedLocation = async () => {
-    try {
-      const value = await AsyncStorage.getItem("selectedLocation");
-      if (value !== null) {
-        // Value retrieved successfully
-        console.log(value); // Or do something with the value
-      }
-    } catch (error) {
-      // Error retrieving data
-      console.log(error);
-    }
-  };
-
   const icons = [
     {
       name: "Accounting",
@@ -140,7 +127,7 @@ const HomePage = ({ navigation, route }) => {
       style={styles.background}
     >
       <View style={styles.dropdownContainer}>
-      <Button title="Retrieve Selected Location" onPress={retrieveSelectedLocation} />
+      {/* <Button title="Retrieve Selected Location" onPress={retrieveSelectedLocation} /> */}
         <DropDown
           // label={selectedLocation}
           mode={"outlined"}
