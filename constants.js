@@ -1,4 +1,6 @@
 import Cookie from "js-cookie";
+
+
 export const getAuthToken = () => Cookie.get("token");
 export const TOKEN = 'token';
 export const MANAGER = 'manager';
@@ -187,3 +189,9 @@ export const DEFAULT_OPTIONS = {
     Authorization: "Bearer your-token",
   },
 };
+
+
+export const PERSON_URL = 'https://service-person-oudf2y2rza-uc.a.run.app/person/graphql';
+export const LOCATIONAPI = 'https://service-location-manager-oudf2y2rza-uc.a.run.app/location/graphql';
+
+

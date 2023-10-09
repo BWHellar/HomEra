@@ -21,8 +21,10 @@ import LeadAdd from "./components/LeadAdd";
 import MaintenanceAdd from "./components/MaintenanceAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
+import {personGql} from "./graphql/person";
+import {getClient} from "./components/requiredfiles/apollo";
 import { PaperProvider } from "react-native-paper";
-import { getAuthToken, TOKEN, MANAGER } from "./constants";
+import { getAuthToken, TOKEN, MANAGER,PERSON_URL,LOCATIONAPI  } from "./constants";
 
 import {
   signInWithEmailAndPassword,
@@ -38,6 +40,7 @@ import Cookie from "js-cookie";
 export default function App() {
   const Stack = createNativeStackNavigator();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(false);
 
   const firebaseConfig = {
     apiKey: "AIzaSyDA1wcz3xYK8r-wUWmUj_HGmqlrzIMjgus",
@@ -54,7 +57,6 @@ export default function App() {
     initializeApp(firebaseConfig);
   }, []);
 
-  const someValue = "test";
   const loginAction = (username, password) => {
     return new Promise((resolve, reject) => {
       signInWithEmailAndPassword(auth, username, password)
@@ -86,7 +88,6 @@ export default function App() {
     });
   };
   const onRequestSuccess = async () => {
-    const time = "3600";
     let authFlag = true;
     if (auth.currentUser) {
       getIdTokenResult(auth.currentUser)
@@ -104,8 +105,8 @@ export default function App() {
                   Cookie.set(MANAGER, idTokenResult.claims.manager, {
                     domain: "leasera.com",
                   });
+                  getPersonInfo()
                   setIsAuthenticated(true);
-                  // setSessionTimeout(time, client);
                 }
               }
             });
@@ -128,9 +129,33 @@ export default function App() {
     Cookie.remove(MANAGER, {
       domain: "leasera.com",
     });
-    console.log(Cookie.get("token"))
-    if(Cookie.get("token") == undefined) {
-      setIsAuthenticated(false)
+    if (Cookie.get("token") == undefined) {
+      setIsAuthenticated(false);
+    }
+  };
+
+  const getPersonInfo = () => {
+    const newClient = getClient(PERSON_URL);
+    console.log(JSON.stringify({personGql }));
+    try {
+      newClient
+        .query({
+          query: personGql,
+        })
+        .then((res) => {
+          console.log(res);
+          // const user = res.data.person.edges[0].node;
+          setUser(user);
+          // getMyProperties();
+          return res;
+        })
+        .catch((e) => {
+          console.log(e);
+          return;
+        });
+    } catch (e) {
+      console.log(e);
+      return;
     }
   };
 

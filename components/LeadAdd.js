@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   ImageBackground,
-  TouchableWithoutFeedback,
   View,
   StyleSheet,
   ScrollView,
@@ -11,8 +10,7 @@ import {
   Text,
   TextInput,
 } from "react-native-paper";
-import DropDown from "react-native-paper-dropdown";
-import { UNITLIST, MAINTENANCEITEMS } from "../constants";
+
 
 const LeadAdd = ({ navigation }) => {
   const [formData, setFormData] = useState({
