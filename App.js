@@ -21,10 +21,17 @@ import LeadAdd from "./components/LeadAdd";
 import MaintenanceAdd from "./components/MaintenanceAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
-import {personGql} from "./graphql/person";
-import {getClient} from "./components/requiredfiles/apollo";
+import { personGql } from "./graphql/person";
+import { configureGraphQL } from "./components/requiredfiles/apollo";
 import { PaperProvider } from "react-native-paper";
-import { getAuthToken, TOKEN, MANAGER,PERSON_URL,LOCATIONAPI  } from "./constants";
+import {
+  getAuthToken,
+  TOKEN,
+  MANAGER,
+  PERSON_URL,
+  setDataToAsyncStorage,
+  LOCATIONAPI,
+} from "./constants";
 
 import {
   signInWithEmailAndPassword,
@@ -35,7 +42,6 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 
-import Cookie from "js-cookie";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -82,11 +88,6 @@ export default function App() {
         });
     });
   };
-  const registerAuthToken = (token) => {
-    Cookie.set(TOKEN, token, {
-      domain: "leasera.com",
-    });
-  };
   const onRequestSuccess = async () => {
     let authFlag = true;
     if (auth.currentUser) {
@@ -101,11 +102,9 @@ export default function App() {
                 authFlag = false;
                 if (user) {
                   const token = await getIdToken(auth.currentUser, true);
-                  registerAuthToken(token);
-                  Cookie.set(MANAGER, idTokenResult.claims.manager, {
-                    domain: "leasera.com",
-                  });
-                  getPersonInfo()
+                  setDataToAsyncStorage('TOKEN', token);
+                  getPersonInfo();
+                  console.log(token);
                   setIsAuthenticated(true);
                 }
               }
@@ -121,22 +120,9 @@ export default function App() {
     }
   };
 
-  const unregisterAuthToken = () => {
-    auth.signOut();
-    Cookie.remove(TOKEN, {
-      domain: "leasera.com",
-    });
-    Cookie.remove(MANAGER, {
-      domain: "leasera.com",
-    });
-    if (Cookie.get("token") == undefined) {
-      setIsAuthenticated(false);
-    }
-  };
 
   const getPersonInfo = () => {
-    const newClient = getClient(PERSON_URL);
-    console.log(JSON.stringify({personGql }));
+    const newClient = configureGraphQL(PERSON_URL);
     try {
       newClient
         .query({

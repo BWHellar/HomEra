@@ -1,11 +1,32 @@
-import Cookie from "js-cookie";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+export const setDataToAsyncStorage = async (key: string, value: string) => {
+  return await AsyncStorage.setItem(key, value);
+};
 
-export const getAuthToken = () => Cookie.get("token");
-export const TOKEN = 'token';
-export const MANAGER = 'manager';
-export const EXPIRE_TIME = 'expireTime';
+export const getDataFromAsyncStorage = async (key: string) => {
+  return await AsyncStorage.getItem(key);
+};
+
+export const removeDataFromStorage = async (key: string) => {
+  return await AsyncStorage.removeItem(key);
+};
+
+export const ASYNC_STORAGE_KEYS = {
+  TOKEN: 'TOKEN',
+  EMAIL: 'EMAIL',
+  LOGIN_TIMESTAMP: 'LOGIN_TIMESTAMP',
+  GAPI_TOKEN: 'GAPI_TOKEN',
+  GAPI_CODE: 'GAPI_CODE',
+  PHONE: 'PHONE',
+  FIRST_NAME: 'FIRST_NAME',
+  LAST_NAME: 'LAST_NAME',
+  DOB_MONTH: 'DOB_MONTH',
+  DOB_DAY: 'DOB_DAY',
+  DOB_YEAR: 'DOB_YEAR',
+};
 export const API_URL = "https://api.example.com";
+
 export const MAX_RESULTS = 10;
 export const UNITLIST = [
   {
@@ -104,7 +125,7 @@ export const MonthList = [
   "September",
   "October",
   "November",
-  "December"
+  "December",
 ];
 export const MAINTENANCEITEMS = [
   {
@@ -190,8 +211,7 @@ export const DEFAULT_OPTIONS = {
   },
 };
 
-
-export const PERSON_URL = 'https://service-person-oudf2y2rza-uc.a.run.app/person/graphql';
-export const LOCATIONAPI = 'https://service-location-manager-oudf2y2rza-uc.a.run.app/location/graphql';
-
-
+export const PERSON_URL =
+  "https://service-person-oudf2y2rza-uc.a.run.app/person/graphql";
+export const LOCATIONAPI =
+  "https://service-location-manager-oudf2y2rza-uc.a.run.app/location/graphql";

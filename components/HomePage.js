@@ -10,6 +10,13 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ModalDropdown from "react-native-modal-dropdown";
 
+import {
+  Button,
+} from "react-native-paper";
+import {
+  getDataToAsyncStorage,
+} from "../constants";
+
 const HomePage = ({ navigation }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const options = [
@@ -88,6 +95,7 @@ const HomePage = ({ navigation }) => {
           dropdownTextStyle={styles.dropdownItemText}
         />
       </View>
+
       <View style={styles.container}>
         <Text style={styles.title}>Welcome Home</Text>
         <View style={styles.iconContainer}>

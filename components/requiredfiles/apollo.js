@@ -1,53 +1,56 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  InMemoryCache,
-  HttpLink,
-} from "apollo-boost";
-import { onError } from "apollo-link-error";
-import { getAuthToken } from "../../constants";
+import {ApolloClient, HttpLink, InMemoryCache} from 'apollo-boost';
+import {from} from 'apollo-link';
+import {setContext} from 'apollo-link-context';
+import {onError} from 'apollo-link-error';
+import {ASYNC_STORAGE_KEYS, getDataFromAsyncStorage} from '../../constants';
 
-export const getLink = (uri) => new HttpLink({ uri: uri });
+const cache = new InMemoryCache();
 
-const authLink = new ApolloLink((operation, forward) => {
-  // Retrieve the authorization token from local storage.
-  const token = getAuthToken();
-  // Use the setContext method to set the HTTP headers.
-  operation.setContext({
-    headers: {
-      authorization: token ? `${token}` : "",
-    },
+export const configureGraphQL = (API_URL: string) => {
+  const httpLink = new HttpLink({
+    uri: API_URL,
   });
 
-  // Call the next link in the middleware chain.
-  return forward(operation);
-});
-
-const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
-  if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-    );
-  }
-  if (networkError) {
-    console.log(`[Network error]: ${networkError.message}`);
-  }
-});
-
-export const getClient = (uri) =>
-  new ApolloClient({
-    link: authLink.concat(errorLink).concat(getLink(uri)), // Chain it with the HttpLink
-    cache: new InMemoryCache(),
-    defaultOptions: {
-      watchQuery: {
-        fetchPolicy: "no-cache",
-        errorPolicy: "ignore",
+  const authMiddleware = setContext(async (_, {headers = {}}) => {
+    let userToken = await getDataFromAsyncStorage(ASYNC_STORAGE_KEYS.TOKEN);
+    if (userToken === null) return Promise.reject();
+    return {
+      headers: {
+        ...headers,
+        authorization: userToken,
       },
-      query: {
-        fetchPolicy: "no-cache",
-        errorPolicy: "all",
-      },
-    },
+    };
   });
+
+  const errorWare = onError(({graphQLErrors, networkError}) => {
+    if (graphQLErrors) {
+      graphQLErrors.map((err) => {
+        return {
+          message: err.message,
+          statusCode: err && err.extensions && err.extensions.code,
+        };
+      });
+    }
+
+    // handle request problem without token or expired token
+    if (networkError) {
+      console.log('networkError', JSON.stringify(networkError));
+      if (
+        networkError.response &&
+        networkError.response.status === 400 &&
+        networkError.response.headers.map.server === 'Google Frontend'
+      ) {
+        if (
+          /No Authorization header/gim.exec(networkError?.bodyText) !== null ||
+          /Verifying Token Failed/gim.exec(networkError?.bodyText) !== null
+        ) {
+          console.log('EVENTLISTENER_TYPES.INVALID_TOKEN');
+        }
+      }
+    }
+  });
+  return new ApolloClient({
+    cache,
+    link: errorWare.concat(from([authMiddleware, httpLink])),
+  });
+};
