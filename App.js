@@ -21,7 +21,7 @@ import LeadAdd from "./components/LeadAdd";
 import MaintenanceAdd from "./components/MaintenanceAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
-import { personGql } from "./graphql/person";
+import { personGql, primaryLocations } from "./graphql/person";
 import { configureGraphQL } from "./components/requiredfiles/apollo";
 import { PaperProvider } from "react-native-paper";
 import {
@@ -30,6 +30,7 @@ import {
   MANAGER,
   PERSON_URL,
   setDataToAsyncStorage,
+  getDataFromAsyncStorage,
   LOCATIONAPI,
 } from "./constants";
 
@@ -37,17 +38,20 @@ import {
   signInWithEmailAndPassword,
   getIdTokenResult,
   getIdToken,
+  initializeAuth,
+  getReactNativePersistence,
   getAuth,
   onAuthStateChanged,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(false);
-
+  const [userLocations, setUserLocations] = useState([]);
+  const [user, setUser] = useState(null);
+  const [hasFetchedData, setHasFetchedData] = useState(false);
   const firebaseConfig = {
     apiKey: "AIzaSyDA1wcz3xYK8r-wUWmUj_HGmqlrzIMjgus",
     authDomain: "leasera-production.firebaseapp.com",
@@ -57,12 +61,26 @@ export default function App() {
     messagingSenderId: "913859279590",
     appId: "1:913859279590:web:11b02c03a5b7f109ecd927",
   };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  useEffect(() => {
-    initializeApp(firebaseConfig);
-  }, []);
 
+  useEffect(() => {
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    auth.setPersistence(getReactNativePersistence(AsyncStorage));
+  }, []);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getDataFromAsyncStorage("TOKEN");
+      setIsAuthenticated(data !== null);
+  
+      if (data !== null) {
+        getPersonInfo();
+        getMyProperties();
+      }
+    };
+  
+    fetchData();
+  }, []);
   const loginAction = (username, password) => {
     return new Promise((resolve, reject) => {
       signInWithEmailAndPassword(auth, username, password)
@@ -88,6 +106,7 @@ export default function App() {
         });
     });
   };
+
   const onRequestSuccess = async () => {
     let authFlag = true;
     if (auth.currentUser) {
@@ -102,10 +121,8 @@ export default function App() {
                 authFlag = false;
                 if (user) {
                   const token = await getIdToken(auth.currentUser, true);
-                  setDataToAsyncStorage('TOKEN', token);
+                  setDataToAsyncStorage("TOKEN", token);
                   getPersonInfo();
-                  console.log(token);
-                  setIsAuthenticated(true);
                 }
               }
             });
@@ -116,10 +133,9 @@ export default function App() {
           return false;
         });
     } else {
-      console.log("Currrent user unavailable.");
+      console.log("Current user unavailable.");
     }
   };
-
 
   const getPersonInfo = () => {
     const newClient = configureGraphQL(PERSON_URL);
@@ -130,9 +146,8 @@ export default function App() {
         })
         .then((res) => {
           console.log(res);
-          // const user = res.data.person.edges[0].node;
-          setUser(user);
-          // getMyProperties();
+          const user = res.data.person.edges[0].node;
+          setDataToAsyncStorage("USER", JSON.stringify(user));
           return res;
         })
         .catch((e) => {
@@ -144,6 +159,8 @@ export default function App() {
       return;
     }
   };
+
+  
 
   return (
     <>
@@ -157,11 +174,18 @@ export default function App() {
                 initialParams={{
                   loginAction: (username, password) =>
                     loginAction(username, password),
+                  userLocations: userLocations,
                 }}
               />
             ) : (
               <>
-                <Stack.Screen name="Home" component={HomePage} />
+                <Stack.Screen
+                  name="Home"
+                  component={HomePage}
+                  initialParams={{
+                    userLocations: userLocations,
+                  }}
+                />
                 <Stack.Screen name="Accounting" component={AccountingHome} />
                 <Stack.Screen
                   name="Applications"

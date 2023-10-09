@@ -7,7 +7,7 @@ const SettingsHome = ({route}) => {
   
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Button compact mode="outlined" onPress={() => AsyncStorage.removeItem("token")}>
+      <Button compact mode="outlined" onPress={() => AsyncStorage.removeItem("TOKEN")}>
         Test Logout
       </Button>
     </View>

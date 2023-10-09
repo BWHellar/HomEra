@@ -89,3 +89,36 @@ export const personGql = gql`
     }
   }
 `;
+
+export const primaryLocations = gql`
+  query locations($status: String) {
+    locations(status: $status) {
+      edges {
+        node {
+          totalOccupied
+          name
+          id
+          slPrefixNum
+          slLocationId
+          templateId
+          organizationId
+          pointsBalance
+          customId
+          photos
+          totalUnits
+          addresses {
+            streetOne
+            streetTwo
+            city
+            state
+            country
+            zip
+          }
+          status
+          depositRules
+          esginType
+        }
+      }
+    }
+  }
+`;
