@@ -15,7 +15,6 @@ const MaintenanceHome = ({ navigation }) => {
   const [details, setDetails] = React.useState({});
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const hideModal3 = () => setVisible3(false);
   const [inputList, setInputList] = useState([
     {
       title: "Fridge",

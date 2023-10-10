@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Button, Portal, Text, Modal } from "react-native-paper";
+import { Button } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SettingsHome = ({route}) => {

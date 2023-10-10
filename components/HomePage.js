@@ -4,24 +4,20 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   TouchableOpacity,
   Image,
 } from "react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ModalDropdown from "react-native-modal-dropdown";
 import DropDown from "react-native-paper-dropdown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-import { LOCATIONAPI, getDataFromAsyncStorage } from "../constants";
+import { LOCATIONAPI } from "../constants";
 import { configureGraphQL } from "./requiredfiles/apollo";
-import { personGql, primaryLocations } from "../graphql/person";
+import { primaryLocations } from "../graphql/person";
 
 const HomePage = ({ navigation, route }) => {
   // console.log(route);
   const [locationsDataArray, setLocationsDataArray] = useState([]);
-  const [userData, setUserData] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState("");
 
   useEffect(() => {

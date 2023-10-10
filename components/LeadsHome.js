@@ -6,15 +6,9 @@ import {
   ImageBackground,
   StyleSheet,
   TouchableWithoutFeedback,
-  ScrollView,
 } from "react-native";
 import {
-  TextInput,
-  Modal,
-  Portal,
   Button,
-  Paragraph,
-  SegmentedButtons,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 

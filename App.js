@@ -21,24 +21,18 @@ import LeadAdd from "./components/LeadAdd";
 import MaintenanceAdd from "./components/MaintenanceAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
-import { personGql, primaryLocations } from "./graphql/person";
+import { personGql} from "./graphql/person";
 import { configureGraphQL } from "./components/requiredfiles/apollo";
 import { PaperProvider } from "react-native-paper";
 import {
-  getAuthToken,
-  TOKEN,
-  MANAGER,
   PERSON_URL,
   setDataToAsyncStorage,
   getDataFromAsyncStorage,
-  LOCATIONAPI,
 } from "./constants";
-
 import {
   signInWithEmailAndPassword,
   getIdTokenResult,
   getIdToken,
-  initializeAuth,
   getReactNativePersistence,
   getAuth,
   onAuthStateChanged,
