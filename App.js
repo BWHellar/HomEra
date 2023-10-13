@@ -21,7 +21,9 @@ import LeadAdd from "./components/LeadAdd";
 import MaintenanceAdd from "./components/MaintenanceAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
-import { personGql} from "./graphql/person";
+import { config } from "./components/requiredfiles/config";
+// import { handleLogin } from "./components/requiredfiles/actions";
+import { personGql } from "./graphql/person";
 import { configureGraphQL } from "./components/requiredfiles/apollo";
 import { PaperProvider } from "react-native-paper";
 import {
@@ -46,58 +48,50 @@ export default function App() {
   const [userLocations, setUserLocations] = useState([]);
   const [user, setUser] = useState(null);
   const [hasFetchedData, setHasFetchedData] = useState(false);
-  const firebaseConfig = {
-    apiKey: "AIzaSyDA1wcz3xYK8r-wUWmUj_HGmqlrzIMjgus",
-    authDomain: "leasera-production.firebaseapp.com",
-    databaseURL: "https://leasera-production.firebaseio.com",
-    projectId: "leasera-production",
-    storageBucket: "leasera-production.appspot.com",
-    messagingSenderId: "913859279590",
-    appId: "1:913859279590:web:11b02c03a5b7f109ecd927",
-  };
 
+  const app = initializeApp(config);
+const auth = getAuth(app);
   useEffect(() => {
-    const app = initializeApp(firebaseConfig);
+    const app = initializeApp(config);
     const auth = getAuth(app);
     auth.setPersistence(getReactNativePersistence(AsyncStorage));
   }, []);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await getDataFromAsyncStorage("TOKEN");
       setIsAuthenticated(data !== null);
-  
+
       if (data !== null) {
         getPersonInfo();
         getMyProperties();
       }
     };
-  
+
     fetchData();
   }, []);
-  const loginAction = (username, password) => {
-    return new Promise((resolve, reject) => {
-      signInWithEmailAndPassword(auth, username, password)
-        .then(() => {
-          getIdTokenResult(auth.currentUser)
-            .then((idTokenResult) => {
-              if (
-                idTokenResult.claims.manager &&
-                idTokenResult.claims.email_verified === true
-              ) {
-                onRequestSuccess(idTokenResult);
-                resolve(true);
-              } else {
-                resolve(false);
-              }
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        })
-        .catch((error) => {
-          reject(error);
-        });
+
+  const handleLogin = ( email, password ) =>
+  signInWithEmailAndPassword(auth, email, password)
+    .then(async () => auth.currentUser)
+    .catch((e) => {
+      console.log("User e-mail id or password is incorrect.");
+    });
+
+  const loginAction = async (username, password) => {
+    await handleLogin(username, password).then((res) => {
+      if (res) {
+            getIdTokenResult(auth.currentUser)
+          .then((idTokenResult) => {
+            if (
+              idTokenResult.claims.manager &&
+              idTokenResult.claims.email_verified === true
+            ) {
+              onRequestSuccess(idTokenResult);
+            }
+          })
+          .catch((error) => {});
+      }
     });
   };
 
@@ -153,8 +147,6 @@ export default function App() {
       return;
     }
   };
-
-  
 
   return (
     <>
