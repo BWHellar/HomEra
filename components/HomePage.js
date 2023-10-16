@@ -8,14 +8,28 @@ import {
   Image,
 } from "react-native";
 import DropDown from "react-native-paper-dropdown";
-
-
+import { apiRoute } from '../../secrets';
 const HomePage = ({ navigation, route }) => {
   // console.log(route);r
   const [locationsDataArray, setLocationsDataArray] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState({});
 
+  useEffect(() => {
+    getMyProperties();
+  }, []);
 
+  const getMyProperties = async () => {
+    fetch(`http://${apiRoute}:3000/properties`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setSelectedLocation(data[0]); // Set the first item as selectedLocation
+        setLocationsDataArray(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   const icons = [
     {
@@ -66,15 +80,13 @@ const HomePage = ({ navigation, route }) => {
   ];
   const [showDropDown, setShowDropDown] = React.useState(false);
 
-
-
   return (
     <ImageBackground
       source={require("../images/gradient.png")}
       style={styles.background}
     >
       <View style={styles.dropdownContainer}>
-      {/* <Button title="Retrieve Selected Location" onPress={retrieveSelectedLocation} /> */}
+        {/* <Button title="Retrieve Selected Location" onPress={retrieveSelectedLocation} /> */}
         <DropDown
           // label={selectedLocation}
           mode={"outlined"}
@@ -82,7 +94,10 @@ const HomePage = ({ navigation, route }) => {
           value={selectedLocation} // Set the current selected value
           showDropDown={() => setShowDropDown(true)}
           onDismiss={() => setShowDropDown(false)}
-          list={locationsDataArray}
+          list={locationsDataArray.map((item) => ({
+            label: item.name,
+            value: item,
+          }))}
         />
       </View>
       <View style={styles.container}>

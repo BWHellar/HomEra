@@ -39,3 +39,7 @@ yarn-error.*
 
 # Ignore Gradle build output directory
 build
+
+
+# Ignore secrets file
+secrets.js
