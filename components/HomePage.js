@@ -8,21 +8,14 @@ import {
   Image,
 } from "react-native";
 import DropDown from "react-native-paper-dropdown";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-import { LOCATIONAPI } from "../constants";
-import { configureGraphQL } from "./requiredfiles/apollo";
-import { primaryLocations } from "../graphql/person";
 
 const HomePage = ({ navigation, route }) => {
-  // console.log(route);
+  // console.log(route);r
   const [locationsDataArray, setLocationsDataArray] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState("");
 
-  useEffect(() => {
-    getMyProperties();
-  }, []);
+
 
   const icons = [
     {
@@ -73,49 +66,7 @@ const HomePage = ({ navigation, route }) => {
   ];
   const [showDropDown, setShowDropDown] = React.useState(false);
 
-  const getMyProperties = async () => {
-    const location = configureGraphQL(LOCATIONAPI);
-    try {
-      await location
-        .query({
-          query: primaryLocations,
-          variables: {
-            status: "publish",
-          },
-        })
-        .then((res) => {
-          let locations = res.data.locations.edges;
-          let arrayLoc = locations.map((location, index) => ({
-            // key: "location.node" + index + 1,
-            label: location.node.customId,
-            value: location.node.id,
-          }));
-          AsyncStorage.setItem("selectedLocation", arrayLoc[0].value);
-          setLocationsDataArray(arrayLoc);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    const setInitialValue = async () => {
-      try {
-        const value = await AsyncStorage.getItem("selectedLocation");
-        if (value !== null) {
-          // Value exists in AsyncStorage
-          setSelectedLocation(value);
-        } else if (locationsDataArray.length > 0) {
-          // No value in AsyncStorage, but locationsDataArray is not empty
-          setSelectedLocation(locationsDataArray[0]);
-        }
-      } catch (error) {
-        // Error retrieving data
-        console.log(error);
-      }
-    };
-  
-    setInitialValue();
-  }, []);
+
 
   return (
     <ImageBackground
@@ -131,10 +82,6 @@ const HomePage = ({ navigation, route }) => {
           value={selectedLocation} // Set the current selected value
           showDropDown={() => setShowDropDown(true)}
           onDismiss={() => setShowDropDown(false)}
-          setValue={(selectedValue) => {
-            setSelectedLocation(selectedValue);
-            AsyncStorage.setItem("selectedLocation", selectedValue); // Save the selected value to AsyncStorage
-          }}
           list={locationsDataArray}
         />
       </View>

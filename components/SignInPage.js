@@ -8,7 +8,6 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-import "firebase/auth";
 import { HelperText } from "react-native-paper";
 
 export default function SignInPage({ route }) {
@@ -91,21 +90,10 @@ export default function SignInPage({ route }) {
   };
 
   const loginPress = async () => {
-    try {
-      const result = await route.params.loginAction(username, password);
-      console.log(result);
-    } catch (error) {
-      if (error.code === "auth/wrong-password") {
-        setFailedPassword(true)
-        setFailedEmail(false)
-      } else if (error.code === "auth/invalid-email") {
-        setFailedEmail(true)
-        setFailedPassword(false)
-      } else {
-        console.log(error);
-      }
-    }
-  };
+   if (username == "manager@HomEra.com" && password == "PASSWORD") {
+    console.log(route.params)
+    route.params.setIsAuthenticated(true)
+  }}
 
   return (
     <ImageBackground

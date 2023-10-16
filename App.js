@@ -21,132 +21,21 @@ import LeadAdd from "./components/LeadAdd";
 import MaintenanceAdd from "./components/MaintenanceAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
-import { config } from "./components/requiredfiles/config";
-// import { handleLogin } from "./components/requiredfiles/actions";
-import { personGql } from "./graphql/person";
-import { configureGraphQL } from "./components/requiredfiles/apollo";
 import { PaperProvider } from "react-native-paper";
-import {
-  PERSON_URL,
-  setDataToAsyncStorage,
-  getDataFromAsyncStorage,
-} from "./constants";
-import {
-  signInWithEmailAndPassword,
-  getIdTokenResult,
-  getIdToken,
-  getReactNativePersistence,
-  getAuth,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [userLocations, setUserLocations] = useState([]);
-  const [user, setUser] = useState(null);
-  const [hasFetchedData, setHasFetchedData] = useState(false);
 
-  const app = initializeApp(config);
-const auth = getAuth(app);
-  useEffect(() => {
-    const app = initializeApp(config);
-    const auth = getAuth(app);
-    auth.setPersistence(getReactNativePersistence(AsyncStorage));
-  }, []);
+  const authSet = () => {
+    setIsAuthenticated(true)
+  }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getDataFromAsyncStorage("TOKEN");
-      setIsAuthenticated(data !== null);
 
-      if (data !== null) {
-        getPersonInfo();
-        getMyProperties();
-      }
-    };
 
-    fetchData();
-  }, []);
 
-  const handleLogin = ( email, password ) =>
-  signInWithEmailAndPassword(auth, email, password)
-    .then(async () => auth.currentUser)
-    .catch((e) => {
-      console.log("User e-mail id or password is incorrect.");
-    });
-
-  const loginAction = async (username, password) => {
-    await handleLogin(username, password).then((res) => {
-      if (res) {
-            getIdTokenResult(auth.currentUser)
-          .then((idTokenResult) => {
-            if (
-              idTokenResult.claims.manager &&
-              idTokenResult.claims.email_verified === true
-            ) {
-              onRequestSuccess(idTokenResult);
-            }
-          })
-          .catch((error) => {});
-      }
-    });
-  };
-
-  const onRequestSuccess = async () => {
-    let authFlag = true;
-    if (auth.currentUser) {
-      getIdTokenResult(auth.currentUser)
-        .then(async (idTokenResult) => {
-          if (
-            idTokenResult.claims.manager ||
-            idTokenResult.claims.serviceProfessional
-          ) {
-            onAuthStateChanged(auth, async (user) => {
-              if (authFlag) {
-                authFlag = false;
-                if (user) {
-                  const token = await getIdToken(auth.currentUser, true);
-                  setDataToAsyncStorage("TOKEN", token);
-                  getPersonInfo();
-                }
-              }
-            });
-          }
-        })
-        .catch(() => {
-          console.log("id token catch");
-          return false;
-        });
-    } else {
-      console.log("Current user unavailable.");
-    }
-  };
-
-  const getPersonInfo = () => {
-    const newClient = configureGraphQL(PERSON_URL);
-    try {
-      newClient
-        .query({
-          query: personGql,
-        })
-        .then((res) => {
-          console.log(res);
-          const user = res.data.person.edges[0].node;
-          setDataToAsyncStorage("USER", JSON.stringify(user));
-          return res;
-        })
-        .catch((e) => {
-          console.log(e);
-          return;
-        });
-    } catch (e) {
-      console.log(e);
-      return;
-    }
-  };
 
   return (
     <>
@@ -158,8 +47,8 @@ const auth = getAuth(app);
                 name="Sign In"
                 component={SignInPage}
                 initialParams={{
-                  loginAction: (username, password) =>
-                    loginAction(username, password),
+                  setIsAuthenticated: () =>
+                  authSet(),
                   userLocations: userLocations,
                 }}
               />
