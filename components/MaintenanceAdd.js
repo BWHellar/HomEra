@@ -24,6 +24,7 @@ const MaintenanceAdd = ({ navigation }) => {
   const [checkedPet, setCheckedPet] = React.useState(false);
   const [unit, setUnit] = React.useState("");
 
+
   const handlePressOutside = () => {
     Keyboard.dismiss();
   };
@@ -46,7 +47,6 @@ const MaintenanceAdd = ({ navigation }) => {
       enter: checkedEnter,
       pet: checkedPet,
     };
-    console.log(newItem);
     navigation.navigate("Maintenance");
   };
 

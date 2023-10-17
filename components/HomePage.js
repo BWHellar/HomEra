@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import DropDown from "react-native-paper-dropdown";
-import { apiRoute } from '../../secrets';
+import { apiKey } from '../secrets';
 const HomePage = ({ navigation, route }) => {
   // console.log(route);r
   const [locationsDataArray, setLocationsDataArray] = useState([]);
@@ -19,7 +19,8 @@ const HomePage = ({ navigation, route }) => {
   }, []);
 
   const getMyProperties = async () => {
-    fetch(`http://${apiRoute}:3000/properties`)
+    console.log(apiKey)
+    fetch(`http://${apiKey}:3000/properties`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

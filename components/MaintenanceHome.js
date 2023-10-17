@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ImageBackground,
   TouchableWithoutFeedback,
@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Button, Portal, Text, Modal } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { apiKey } from '../secrets';
 
 const MaintenanceHome = ({ navigation }) => {
   const [visible, setVisible] = React.useState(false);
@@ -16,23 +17,23 @@ const MaintenanceHome = ({ navigation }) => {
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const [inputList, setInputList] = useState([
-    {
-      title: "Fridge",
-      description: "Something is broken and it needs to be fixed.",
-      unit: "Unit 1",
-      fire: true,
-      enter: false,
-      pet: true,
-    },
-    {
-      title: "Mixer",
-      description: "Something is broken and it needs to be fixed.",
-      unit: "Unit 2",
-      fire: false,
-      enter: true,
-      pet: false,
-    },
+    
   ]);
+
+  useEffect(() => {
+    getMyMaintenance();
+  }, []);
+
+  const getMyMaintenance = async () => {
+    fetch(`http://${apiKey}:3000/maintenance`)
+      .then((response) => response.json())
+      .then((data) => {
+        setInputList(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   const showDetails = (item) => {
     setVisible3(true);
@@ -47,7 +48,7 @@ const MaintenanceHome = ({ navigation }) => {
           <Icon name="wrench" size={18} color="#000" style={styles.icon} />
           <View style={styles.textContainer}>
             <Text style={styles.titleText}>
-              {item.title} - {item.unit}
+              {item.property} - {item.unit}
             </Text>
             <Text style={styles.descriptionText}>{item.description}</Text>
           </View>
