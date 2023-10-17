@@ -4,6 +4,7 @@ import {
   TouchableWithoutFeedback,
   View,
   StyleSheet,
+  Keyboard
 } from "react-native";
 import {
   Checkbox,
@@ -13,6 +14,7 @@ import {
 } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import { UNITLIST, MAINTENANCEITEMS } from "../constants";
+import { apiKey } from "../secrets";
 
 const MaintenanceAdd = ({ navigation }) => {
   const [showDropDown, setShowDropDown] = React.useState(false);
@@ -23,7 +25,6 @@ const MaintenanceAdd = ({ navigation }) => {
   const [checkedFire, setCheckedFire] = React.useState(false);
   const [checkedPet, setCheckedPet] = React.useState(false);
   const [unit, setUnit] = React.useState("");
-
 
   const handlePressOutside = () => {
     Keyboard.dismiss();
@@ -38,16 +39,29 @@ const MaintenanceAdd = ({ navigation }) => {
       handleAddItem();
     }
   };
-  const handleAddItem = () => {
-    const newItem = {
-      title: text,
-      description: category,
+  const handleAddItem = async () => {
+    var newItem = {
+      id: 3,
       unit: unit,
-      fire: checkedFire,
+      property: "The First Property",
+      propertyId: 1,
+      category: category,
+      description: text,
       enter: checkedEnter,
+      fire: checkedFire,
       pet: checkedPet,
+      image: "image3.jpg",
     };
-    navigation.navigate("Maintenance");
+    const response = await fetch(`http://${apiKey}:3000/maintenance`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newItem),
+    });
+
+    const data = await response.json();
+    console.log(data); // Newly added item with the generated ID
   };
 
   return (
@@ -120,14 +134,14 @@ const MaintenanceAdd = ({ navigation }) => {
                   label: "Upload",
                   icon: "camera",
                   uncheckedColor: "#A875FF",
-                  checkedColor:"#A875FF"
+                  checkedColor: "#A875FF",
                 },
                 {
                   value: "submit",
                   label: "Submit",
                   icon: "check",
                   uncheckedColor: "#A875FF",
-                  checkedColor:"#A875FF"
+                  checkedColor: "#A875FF",
                 },
               ]}
             />
@@ -154,8 +168,7 @@ const styles = StyleSheet.create({
     marginTop: 90,
   },
   button: {
-    color:'red'
-
+    color: "red",
   },
   background: {
     flex: 1,
