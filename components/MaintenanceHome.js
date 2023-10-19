@@ -12,8 +12,6 @@ import { apiKey } from '../secrets';
 
 const MaintenanceHome = ({ navigation }) => {
   const [visible, setVisible] = React.useState(false);
-  const [visible3, setVisible3] = React.useState(false);
-  const [details, setDetails] = React.useState({});
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const [inputList, setInputList] = useState([
@@ -33,11 +31,6 @@ const MaintenanceHome = ({ navigation }) => {
       .catch((error) => {
         console.error("Error:", error);
       });
-  };
-
-  const showDetails = (item) => {
-    setVisible3(true);
-    setDetails(item);
   };
   const renderItem = ({ item }) => (
     <TouchableWithoutFeedback
