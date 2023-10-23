@@ -10,20 +10,35 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
+import { apiKey } from '../secrets';
 
 const MessagesHome = () => {
-  const [messages, setMessages] = useState([
-    { text: "Hello!", sender: "bot" },
-    { text: "Hi there!", sender: "user" },
-    { text: "How are you?", sender: "user" },
-    { text: "I'm good, thank you!", sender: "bot" },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [user, setUser] = React.useState("");
   const [showDropDown, setShowDropDown] = React.useState(false);
   const [inputText, setInputText] = useState("");
   const flatListRef = useRef(null);
+  const [loading, setLoading] = React.useState(true); // Add a loading state
+
   useEffect(() => {
-    flatListRef.current.scrollToEnd({ animated: true });
+    setLoading(true);
+    getMyData();
+  }, []);
+
+  const getMyData = async () => {
+    fetch(`http://${apiKey}:3000/messages`)
+      .then((response) => response.json())
+      .then((data) => {
+        setMessages(data);
+        setLoading(false); // Set loading state to false once data is fetched
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setLoading(false);
+      });
+  };
+  useEffect(() => {
+    flatListRef?.current?.scrollToEnd({ animated: true });
   }, [messages]);
   const handleSend = () => {
     if (inputText.trim() !== "") {
@@ -80,16 +95,20 @@ const MessagesHome = () => {
             list={unitList}
           />
         </View>
-        <FlatList
-          ref={flatListRef}
-          data={messages}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={styles.messageList}
-          onContentSizeChange={() =>
-            flatListRef.current.scrollToEnd({ animated: true })
-          }
-        />
+        {loading ? (
+          <Text>Loading...</Text>
+        ) : (
+          <FlatList
+            ref={flatListRef}
+            data={messages}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.messageList}
+            onContentSizeChange={() =>
+              flatListRef.current.scrollToEnd({ animated: true })
+            }
+          />
+        )}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.textInput}

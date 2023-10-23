@@ -19,19 +19,10 @@ const AccountingHome = () => {
   const [dataList, setDataList] = React.useState([]);
   const [loading, setLoading] = React.useState(true); // Add a loading state
 
-  const data = Array.from({ length: 6 }, () =>
-    (Math.random() * 100).toFixed(2)
-  );
-  const currentMonth = MonthList.slice(
-    new Date().getMonth() - 5,
-    new Date().getMonth() + 1
-  ).map((month) => month);
-
   useEffect(() => {
     getMyData();
   }, []);
   useEffect(() => {
-    console.log(user)
     setLoading(true)
     getMyData();
   }, [user]);
