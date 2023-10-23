@@ -89,15 +89,15 @@ export const AMOUNTLIST = [
 export const InvoiceList = [
   {
     label: "Invoices",
-    value: "Invoices",
+    value: "invoices",
   },
   {
     label: "Debit",
-    value: "Debit",
+    value: "debit",
   },
   {
     label: "Credit",
-    value: "Credit",
+    value: "credit",
   },
 ];
 

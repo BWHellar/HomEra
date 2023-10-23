@@ -23,7 +23,7 @@ const MaintenanceInfo = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleCompleteTask = () => {
-    console.log("Task marked as complete!");
+
     navigation.navigate("Maintenance");
   };
   const handleSubmit = () => {

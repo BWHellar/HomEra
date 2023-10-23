@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect}from "react";
 import {
   View,
   ImageBackground,
@@ -10,10 +10,14 @@ import DropDown from "react-native-paper-dropdown";
 import {
   LineChart,
 } from "react-native-chart-kit";
+import { apiKey } from '../secrets';
+
 import { InvoiceList, MonthList } from "../constants";
 const AccountingHome = () => {
-  const [user, setUser] = React.useState(InvoiceList[0]);
+  const [user, setUser] = React.useState(InvoiceList[0]?.value);
   const [showDropDown, setShowDropDown] = React.useState(false);
+  const [dataList, setDataList] = React.useState([]);
+  const [loading, setLoading] = React.useState(true); // Add a loading state
 
   const data = Array.from({ length: 6 }, () =>
     (Math.random() * 100).toFixed(2)
@@ -22,6 +26,30 @@ const AccountingHome = () => {
     new Date().getMonth() - 5,
     new Date().getMonth() + 1
   ).map((month) => month);
+
+  useEffect(() => {
+    getMyData();
+  }, []);
+  useEffect(() => {
+    console.log(user)
+    setLoading(true)
+    getMyData();
+  }, [user]);
+
+  const getMyData = async () => {
+    fetch(`http://${apiKey}:3000/accounting/${user}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setDataList(data)
+        setLoading(false); // Set loading state to false once data is fetched
+
+      })
+      .catch((error) => {
+
+        console.error("Error:", error);
+        setLoading(false);
+      });
+  };
   return (
     <ImageBackground
       source={require("../images/gradient.png")}
@@ -40,10 +68,13 @@ const AccountingHome = () => {
         />
       </View>
       <View style={[styles.container, { alignItems: "center" }]}>
+      {loading ? (
+          <Text>Loading...</Text>
+          ) : (
         <LineChart
           data={{
-            labels: currentMonth,
-            datasets: [{ data: data }],
+            labels: dataList.map(item => item.date),
+            datasets: [{ data: dataList.map(item => item.num) }],
           }}
           width={Dimensions.get("window").width - 10}
           height={300}
@@ -71,6 +102,7 @@ const AccountingHome = () => {
             borderRadius: 16,
           }}
         />
+        )}
       </View>
       <View style={styles.container}>
         <View style={styles.header}>
@@ -79,13 +111,13 @@ const AccountingHome = () => {
             {user.label|| user}
           </Text>
         </View>
-        {data.map((item, index) => (
+        {dataList.map((item, index) => (
           <>
           <View style={styles.row} key={item.id}>
             <Text style={[styles.cell, styles.leftAlign]}>
-              {currentMonth[index]}
+              {item.date}
             </Text>
-            <Text style={[styles.cell, styles.rightAlign]}>${item}k</Text>
+            <Text style={[styles.cell, styles.rightAlign]}>${item.num}k</Text>
           </View>
           <View style={styles.line} />
           </>
