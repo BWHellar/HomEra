@@ -61,7 +61,7 @@ const MaintenanceAdd = ({ navigation }) => {
     });
 
     const data = await response.json();
-    console.log(data); // Newly added item with the generated ID
+    console.log(data); 
   };
 
   return (

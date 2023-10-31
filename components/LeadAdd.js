@@ -288,7 +288,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    // paddingBottom: 20,
     padding: 16,
   },
   buttons: {
@@ -303,7 +302,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   modalContent: {
-    // backgroundColor: "white",
     padding: 16,
     borderRadius: 8,
   },

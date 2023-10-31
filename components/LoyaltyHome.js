@@ -27,15 +27,6 @@ const LoyaltyPage = () => {
   const [cardList, setCardList] = React.useState(false);
   const [showDropDown2, setShowDropDown2] = React.useState(false);
   const [text, setText] = React.useState("");
-  const [listItems, setListItems] = React.useState([
-    "Item 1",
-    "Item 2",
-    "Item 3",
-    "Item 4",
-    "Item 5",
-    "Item 6",
-    "Item 7",
-  ]);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };

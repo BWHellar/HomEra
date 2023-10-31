@@ -18,7 +18,7 @@ const MessagesHome = () => {
   const [showDropDown, setShowDropDown] = React.useState(false);
   const [inputText, setInputText] = useState("");
   const flatListRef = useRef(null);
-  const [loading, setLoading] = React.useState(true); // Add a loading state
+  const [loading, setLoading] = React.useState(true); 
 
   useEffect(() => {
     setLoading(true);
@@ -30,7 +30,7 @@ const MessagesHome = () => {
       .then((response) => response.json())
       .then((data) => {
         setMessages(data);
-        setLoading(false); // Set loading state to false once data is fetched
+        setLoading(false); 
       })
       .catch((error) => {
         console.error("Error:", error);

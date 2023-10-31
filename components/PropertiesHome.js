@@ -6,7 +6,6 @@ const PropertiesHome = () => {
     { id: '1', name: 'Property 1', info: 'Random information 1' },
     { id: '2', name: 'Property 2', info: 'Random information 2' },
     { id: '3', name: 'Property 3', info: 'Random information 3' },
-    // Add more entries as needed
   ];
 
   const renderItem = ({ item }) => (

@@ -12,12 +12,12 @@ import {
 } from "react-native-chart-kit";
 import { apiKey } from '../secrets';
 
-import { InvoiceList, MonthList } from "../constants";
+import { InvoiceList } from "../constants";
 const AccountingHome = () => {
   const [user, setUser] = React.useState(InvoiceList[0]?.value);
   const [showDropDown, setShowDropDown] = React.useState(false);
   const [dataList, setDataList] = React.useState([]);
-  const [loading, setLoading] = React.useState(true); // Add a loading state
+  const [loading, setLoading] = React.useState(true); 
 
   useEffect(() => {
     getMyData();
@@ -32,7 +32,7 @@ const AccountingHome = () => {
       .then((response) => response.json())
       .then((data) => {
         setDataList(data)
-        setLoading(false); // Set loading state to false once data is fetched
+        setLoading(false); 
 
       })
       .catch((error) => {

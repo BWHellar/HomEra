@@ -6,7 +6,6 @@ const ApplicationsHome = ({ navigation }) => {
     { id: '1', name: 'Application 1', info: 'Random information 1' },
     { id: '2', name: 'Application 2', info: 'Random information 2' },
     { id: '3', name: 'Application 3', info: 'Random information 3' },
-    // Add more entries as needed
   ];
 
   const renderItem = ({ item }) => (

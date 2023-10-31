@@ -10,7 +10,6 @@ import {
 import DropDown from "react-native-paper-dropdown";
 import { apiKey } from '../secrets';
 const HomePage = ({ navigation, route }) => {
-  // console.log(route);r
   const [locationsDataArray, setLocationsDataArray] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState({});
 
@@ -24,7 +23,7 @@ const HomePage = ({ navigation, route }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setSelectedLocation(data[0]); // Set the first item as selectedLocation
+        setSelectedLocation(data[0]); 
         setLocationsDataArray(data);
       })
       .catch((error) => {
@@ -87,12 +86,10 @@ const HomePage = ({ navigation, route }) => {
       style={styles.background}
     >
       <View style={styles.dropdownContainer}>
-        {/* <Button title="Retrieve Selected Location" onPress={retrieveSelectedLocation} /> */}
         <DropDown
-          // label={selectedLocation}
           mode={"outlined"}
           visible={showDropDown}
-          value={selectedLocation} // Set the current selected value
+          value={selectedLocation} 
           showDropDown={() => setShowDropDown(true)}
           onDismiss={() => setShowDropDown(false)}
           list={locationsDataArray.map((item) => ({
