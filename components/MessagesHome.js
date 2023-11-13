@@ -11,6 +11,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { apiKey } from '../secrets';
+import LoadingData from "./LoadingData";
+import NoData from "./NoData";
 
 const MessagesHome = () => {
   const [messages, setMessages] = useState([]);
@@ -33,6 +35,7 @@ const MessagesHome = () => {
         setLoading(false); 
       })
       .catch((error) => {
+        setMessages(null);
         console.error("Error:", error);
         setLoading(false);
       });
@@ -95,9 +98,12 @@ const MessagesHome = () => {
             list={unitList}
           />
         </View>
-        {loading ? (
-          <Text>Loading...</Text>
-        ) : (
+        {messages?.length === 0 ? (
+        <LoadingData />
+      ) : messages === null ? (
+        <NoData />
+      ) : (
+     
           <FlatList
             ref={flatListRef}
             data={messages}
