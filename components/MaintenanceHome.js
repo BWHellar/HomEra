@@ -9,6 +9,8 @@ import {
 import { Button, Portal, Text, Modal } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { apiKey } from '../secrets';
+import LoadingData from "./LoadingData";
+import NoData from "./NoData";
 
 const MaintenanceHome = ({ navigation }) => {
   const [visible, setVisible] = React.useState(false);
@@ -29,6 +31,7 @@ const MaintenanceHome = ({ navigation }) => {
         setInputList(data);
       })
       .catch((error) => {
+        setInputList(null)
         console.error("Error:", error);
       });
   };
@@ -100,11 +103,17 @@ const MaintenanceHome = ({ navigation }) => {
             </Button>
           </View>
         </View>
+        {inputList?.length === 0 ? (
+        <LoadingData />
+      ) : inputList === null ? (
+        <NoData />
+      ) : (
         <FlatList
           data={inputList}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
+        )}
       </View>
       <Portal>
         <Modal
