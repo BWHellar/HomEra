@@ -7,17 +7,13 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import {
-  Button,
-} from "react-native-paper";
+import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import LoadingData from "./LoadingData";
 import NoData from "./NoData";
 
 const LeadsHome = ({ navigation }) => {
-  const [leads, setLeads] = React.useState([
-    
-  ]);
+  const [leads, setLeads] = React.useState([]);
 
   useEffect(() => {
     getMyData();
@@ -78,7 +74,7 @@ const LeadsHome = ({ navigation }) => {
         },
       ]);
     }, 2000);
-  }
+  };
 
   const renderItem = ({ item }) => (
     <TouchableWithoutFeedback onPress={() => navigation.navigate("Lead Info")}>
@@ -137,16 +133,16 @@ const LeadsHome = ({ navigation }) => {
           </View>
         </View>
         {leads?.length === 0 ? (
-        <LoadingData />
-      ) : leads === null ? (
-        <NoData />
-      ) : (
-        <FlatList
-          data={leads}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
-      )}
+          <LoadingData />
+        ) : leads === null ? (
+          <NoData />
+        ) : (
+          <FlatList
+            data={leads}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+          />
+        )}
       </View>
     </ImageBackground>
   );

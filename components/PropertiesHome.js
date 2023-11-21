@@ -1,12 +1,24 @@
-import React from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import React, { useEffect } from "react";
+import { View, Text, FlatList, Button, StyleSheet } from "react-native";
+import LoadingData from "./LoadingData";
+import NoData from "./NoData";
 
 const PropertiesHome = () => {
-  const data = [
-    { id: '1', name: 'Property 1', info: 'Random information 1' },
-    { id: '2', name: 'Property 2', info: 'Random information 2' },
-    { id: '3', name: 'Property 3', info: 'Random information 3' },
-  ];
+  const [dataList, setDataList] = React.useState([]);
+
+  useEffect(() => {
+    getMyData();
+  }, []);
+
+  const getMyData = async () => {
+    setTimeout(() => {
+      setDataList([
+        { id: "1", name: "Property 1", info: "Random information 1" },
+        { id: "2", name: "Property 2", info: "Random information 2" },
+        { id: "3", name: "Property 3", info: "Random information 3" },
+      ]);
+    }, 2000);
+  };
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
@@ -25,20 +37,26 @@ const PropertiesHome = () => {
           <Button color="#00e6cf" title="Add" onPress={() => {}} />
         </View>
       </View>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
+      {dataList?.length === 0 ? (
+        <LoadingData />
+      ) : dataList === null ? (
+        <NoData />
+      ) : (
+        <FlatList
+          data={dataList}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingTop: 20,
     paddingBottom: 20,
     paddingHorizontal: 16,
@@ -48,17 +66,17 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   buttonContainer: {
     marginLeft: 10,
   },
   card: {
     marginBottom: 10,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 8,
     padding: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowColor: "rgba(0, 0, 0, 0.1)",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 1,
     shadowRadius: 4,
