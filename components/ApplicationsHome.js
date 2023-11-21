@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, FlatList, Button, StyleSheet } from "react-native";
 import LoadingData from "./LoadingData";
 import NoData from "./NoData";
 
 const ApplicationsHome = ({ navigation }) => {
-  const [dataList, setDataList] = React.useState([
-    { id: "1", name: "Application 1", info: "Random information 1" },
-    { id: "2", name: "Application 2", info: "Random information 2" },
-    { id: "3", name: "Application 3", info: "Random information 3" },
-  ]);
+  const [dataList, setDataList] = React.useState([]);
+
+  useEffect(() => {
+    getMyData();
+  }, []);
+
+  const getMyData = async () => {
+    setTimeout(() => {
+      setDataList([
+        { id: "1", name: "Application 1", info: "Random information 1" },
+        { id: "2", name: "Application 2", info: "Random information 2" },
+        { id: "3", name: "Application 3", info: "Random information 3" },
+      ]);
+    }, 2000);
+  }
   
   const renderItem = ({ item }) => (
     <View style={styles.card}>
