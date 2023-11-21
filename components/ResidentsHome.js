@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
@@ -17,62 +17,15 @@ import {
   SegmentedButtons,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
+import LoadingData from "./LoadingData";
+import NoData from "./NoData";
 
 const ResidentsHome = () => {
   const [visible, setVisible] = useState(false);
   const [chosenData, setChosenData] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [leads, setLeads] = useState([
-    {
-      fullName: "John Doe",
-      contactInformation: {
-        phoneNumber: "1234567890",
-        email: "johndoe@example.com",
-      },
-      desiredMoveInDate: "2022-01-01",
-      budget: 1000,
-      rentalHistory: "No rental history",
-      employmentInformation: {
-        employmentStatus: "Employed",
-        employerDetails: "ABC Company",
-        incomeVerification: "Pay stub",
-      },
-      numberOfOccupants: 2,
-      petInformation: {
-        hasPets: true,
-        petType: "Dog",
-        petSize: "Medium",
-      },
-      desiredPropertyType: "Apartment",
-      preferredLocation: "City",
-      amenities: ["Gym", "Swimming pool"],
-      additionalComments: "No additional comments",
-    },
-    {
-      fullName: "Jane Smith",
-      contactInformation: {
-        phoneNumber: "9876543210",
-        email: "janesmith@example.com",
-      },
-      desiredMoveInDate: "2022-02-15",
-      budget: 1500,
-      rentalHistory: "Previous rental experience",
-      employmentInformation: {
-        employmentStatus: "Self-employed",
-        employerDetails: "XYZ Business",
-        incomeVerification: "Bank statements",
-      },
-      numberOfOccupants: 3,
-      petInformation: {
-        hasPets: true,
-        petType: "Cat",
-        petSize: "Small",
-      },
-      desiredPropertyType: "House",
-      preferredLocation: "Suburbs",
-      amenities: ["Backyard", "Parking"],
-      additionalComments: "Looking for a pet-friendly place",
-    },
+   
   ]);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -162,6 +115,67 @@ const ResidentsHome = () => {
     setVisible(false);
   };
 
+  useEffect(() => {
+    getMyData();
+  }, []);
+
+  const getMyData = async () => {
+    setTimeout(() => {
+      setLeads([
+        {
+          fullName: "John Doe",
+          contactInformation: {
+            phoneNumber: "1234567890",
+            email: "johndoe@example.com",
+          },
+          desiredMoveInDate: "2022-01-01",
+          budget: 1000,
+          rentalHistory: "No rental history",
+          employmentInformation: {
+            employmentStatus: "Employed",
+            employerDetails: "ABC Company",
+            incomeVerification: "Pay stub",
+          },
+          numberOfOccupants: 2,
+          petInformation: {
+            hasPets: true,
+            petType: "Dog",
+            petSize: "Medium",
+          },
+          desiredPropertyType: "Apartment",
+          preferredLocation: "City",
+          amenities: ["Gym", "Swimming pool"],
+          additionalComments: "No additional comments",
+        },
+        {
+          fullName: "Jane Smith",
+          contactInformation: {
+            phoneNumber: "9876543210",
+            email: "janesmith@example.com",
+          },
+          desiredMoveInDate: "2022-02-15",
+          budget: 1500,
+          rentalHistory: "Previous rental experience",
+          employmentInformation: {
+            employmentStatus: "Self-employed",
+            employerDetails: "XYZ Business",
+            incomeVerification: "Bank statements",
+          },
+          numberOfOccupants: 3,
+          petInformation: {
+            hasPets: true,
+            petType: "Cat",
+            petSize: "Small",
+          },
+          desiredPropertyType: "House",
+          preferredLocation: "Suburbs",
+          amenities: ["Backyard", "Parking"],
+          additionalComments: "Looking for a pet-friendly place",
+        },
+      ]);
+    }, 2000);
+  };
+
   const renderItem = ({ item }) => (
     <TouchableWithoutFeedback onPress={() => showModal(item)}>
       <View style={styles.card}>
@@ -226,11 +240,17 @@ const ResidentsHome = () => {
             </Button>
           </View>
         </View>
+        {leads?.length === 0 ? (
+        <LoadingData />
+      ) : leads === null ? (
+        <NoData />
+      ) : (
         <FlatList
           data={leads}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
+      )}
         <Portal>
           <Modal
             visible={visible}
