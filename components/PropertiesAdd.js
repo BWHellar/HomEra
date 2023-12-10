@@ -13,6 +13,7 @@ import { Surface, List } from "react-native-paper";
 
 import { apiKey } from "../secrets";
 const PropertiesAdd = ({ navigation, route }) => {
+  const { address } = route.params;
   const [locationsDataArray, setLocationsDataArray] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState({});
 
@@ -89,17 +90,7 @@ const PropertiesAdd = ({ navigation, route }) => {
       style={styles.background}
     >
       <View style={styles.dropdownContainer}>
-        <DropDown
-          mode={"outlined"}
-          visible={showDropDown}
-          value={selectedLocation}
-          showDropDown={() => setShowDropDown(true)}
-          onDismiss={() => setShowDropDown(false)}
-          list={locationsDataArray.map((item) => ({
-            label: item.name,
-            value: item,
-          }))}
-        />
+        <Text style={styles.title}>{address}</Text>
       </View>
       <View style={styles.container}>
         <Text style={styles.title}>New Properties</Text>
@@ -137,12 +128,16 @@ const PropertiesAdd = ({ navigation, route }) => {
             <List.Item
               title="Detailed Property Description"
               description="Provide accurate and comprehensive information about the property."
-              left={(props) => <List.Icon {...props} icon="alert-octagram-outline" />}
+              left={(props) => (
+                <List.Icon {...props} icon="alert-octagram-outline" />
+              )}
             />
             <List.Item
               title="Set Competitive Rental Price"
               description="Ensure the rental price is attractive compared to similar properties in the area."
-              left={(props) => <List.Icon {...props} icon="alert-octagram-outline" />}
+              left={(props) => (
+                <List.Icon {...props} icon="alert-octagram-outline" />
+              )}
             />
           </ScrollView>
         </Surface>
@@ -216,31 +211,19 @@ const styles = StyleSheet.create({
   iconText: {
     fontSize: 16,
   },
-  dropdown: {
-    width: "100%",
-    borderWidth: 1,
-    borderColor: "#00e6cf",
-    borderRadius: 8,
-    paddingTop: 10,
-    paddingBottom: 10,
-    backgroundColor: "#fff",
-  },
-  dropdownText: {
-    fontSize: 16,
-    color: "#333",
-    paddingLeft: "39%",
-  },
   dropdownContainer: {
     width: "100%",
     borderWidth: 1,
+    height: 48, // Set the desired height
     borderColor: "#ccc",
     borderRadius: 8,
     backgroundColor: "#fff",
+    justifyContent: "center", // Center vertically
+    alignItems: "center", // Center horizontally
   },
-  dropdownItemText: {
+  title: {
     fontSize: 16,
-    color: "#333",
-    padding: 10,
+    fontWeight: "bold",
     textAlign: "center",
   },
 });

@@ -1,11 +1,30 @@
-import React, { useEffect } from "react";
-import { View, Text, FlatList,  StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { Modal, Button } from "react-native-paper";
 import LoadingData from "./LoadingData";
 import NoData from "./NoData";
 
 const PropertiesHome = ({ navigation }) => {
   const [dataList, setDataList] = React.useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [address, setAddress] = useState("");
+
+  const handleAddButtonPress = () => {
+    setModalVisible(true);
+  };
+
+  const handleOkButtonPress = () => {
+    setModalVisible(false);
+    navigation.navigate("Properties Add", { address });
+
+  };
 
   useEffect(() => {
     getMyData();
@@ -54,19 +73,16 @@ const PropertiesHome = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-            <Button
-              compact
-              mode="outlined"
-              style={[styles.button, { marginTop: 30 }]}
-              onPress={() => {
-                navigation.navigate("Properties Add");
-              }}
-              color="#A875FF"
-            >
-              Add
-            </Button>
-          </View>
-        
+          <Button
+            mode="outlined"
+            compact
+            style={[styles.button, { marginTop: 30 }]}
+            onPress={handleAddButtonPress}
+            color="#A875FF"
+          >
+            Add
+          </Button>
+        </View>
       </View>
 
       {dataList?.length === 0 ? (
@@ -80,6 +96,27 @@ const PropertiesHome = ({ navigation }) => {
           keyExtractor={(item) => item.id}
         />
       )}
+      <Modal visible={modalVisible} onDismiss={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter address"
+              value={address}
+              onChangeText={setAddress}
+            />
+
+            <Button
+              mode="contained"
+              style={styles.okButton}
+              onPress={handleOkButtonPress}
+              color="#A875FF"
+            >
+              OK
+            </Button>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -92,6 +129,33 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
     paddingHorizontal: 16,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    height: 150, 
+    width: 300,
+    borderRadius: 8,
+    alignItems: 'center', 
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  okButton: {
+    marginTop: 10,
+    width:'100%',
+    alignSelf: 'flex-end',
   },
   titleContainer: {
     flex: 1,
