@@ -4,11 +4,14 @@ import {
   View,
   Text,
   StyleSheet,
+  ScrollView,
   TouchableOpacity,
   Image,
 } from "react-native";
 import DropDown from "react-native-paper-dropdown";
-import { apiKey } from '../secrets';
+import { Surface, List } from "react-native-paper";
+
+import { apiKey } from "../secrets";
 const PropertiesAdd = ({ navigation, route }) => {
   const [locationsDataArray, setLocationsDataArray] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState({});
@@ -18,12 +21,12 @@ const PropertiesAdd = ({ navigation, route }) => {
   }, []);
 
   const getMyProperties = async () => {
-    console.log(apiKey)
+    console.log(apiKey);
     fetch(`http://${apiKey}:3000/properties`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setSelectedLocation(data[0]); 
+        setSelectedLocation(data[0]);
         setLocationsDataArray(data);
       })
       .catch((error) => {
@@ -77,7 +80,6 @@ const PropertiesAdd = ({ navigation, route }) => {
       image: require("../images/AddOther.png"),
       onPress: () => navigation.navigate("Maintenance"),
     },
- 
   ];
   const [showDropDown, setShowDropDown] = React.useState(false);
 
@@ -90,7 +92,7 @@ const PropertiesAdd = ({ navigation, route }) => {
         <DropDown
           mode={"outlined"}
           visible={showDropDown}
-          value={selectedLocation} 
+          value={selectedLocation}
           showDropDown={() => setShowDropDown(true)}
           onDismiss={() => setShowDropDown(false)}
           list={locationsDataArray.map((item) => ({
@@ -112,8 +114,38 @@ const PropertiesAdd = ({ navigation, route }) => {
               <Text style={styles.iconText}>{icon.name}</Text>
             </TouchableOpacity>
           ))}
-          <Text style={styles.title}>New Properties</Text>
         </View>
+        <Surface style={styles.surface} elevation={4}>
+          <View>
+            <Text style={styles.subtitle}>Tips</Text>
+          </View>
+          <ScrollView>
+            <List.Item
+              title="Research the Market"
+              description="Understand the demand, rental rates, and competition in the area."
+              left={(props) => (
+                <List.Icon {...props} icon="alert-octagram-outline" />
+              )}
+            />
+            <List.Item
+              title="High-Quality Photos"
+              description="Capture appealing images to showcase the property's best features."
+              left={(props) => (
+                <List.Icon {...props} icon="alert-octagram-outline" />
+              )}
+            />
+            <List.Item
+              title="Detailed Property Description"
+              description="Provide accurate and comprehensive information about the property."
+              left={(props) => <List.Icon {...props} icon="alert-octagram-outline" />}
+            />
+            <List.Item
+              title="Set Competitive Rental Price"
+              description="Ensure the rental price is attractive compared to similar properties in the area."
+              left={(props) => <List.Icon {...props} icon="alert-octagram-outline" />}
+            />
+          </ScrollView>
+        </Surface>
       </View>
     </ImageBackground>
   );
@@ -124,11 +156,25 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
-    marginTop: 70,
+    marginTop: 20,
+  },
+  surface: {
+    padding: 8,
+    height: 240,
+    width: "90%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    overflow: "auto",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    alignSelf: "center",
     marginBottom: 10,
   },
   background: {

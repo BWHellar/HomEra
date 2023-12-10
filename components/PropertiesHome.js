@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { View, Text, FlatList, Button, StyleSheet } from "react-native";
+import { View, Text, FlatList,  StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 import LoadingData from "./LoadingData";
 import NoData from "./NoData";
 
@@ -31,19 +32,43 @@ const PropertiesHome = ({ navigation }) => {
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Properties</Text>
+          <View style={styles.analyticsContainer}>
+            <View style={styles.analyticsBox}>
+              <Text style={styles.analyticsLabelText}>Properties</Text>
+              <Text style={styles.analyticsNumberText}>
+                {Math.floor(Math.random() * 10)}
+              </Text>
+            </View>
+            <View style={styles.analyticsBox}>
+              <Text style={styles.analyticsLabelText}>Units</Text>
+              <Text style={styles.analyticsNumberText}>
+                {Math.floor(Math.random() * 100)}
+              </Text>
+            </View>
+            <View style={styles.analyticsBox}>
+              <Text style={styles.analyticsLabelText}>Residents</Text>
+              <Text style={styles.analyticsNumberText}>
+                {Math.floor(Math.random() * 100)}
+              </Text>
+            </View>
+          </View>
         </View>
         <View style={styles.buttonContainer}>
-        <Button
-            color="#00e6cf"
-            title="Add"
-            onPress={() => {
-              navigation.navigate("Properties Add");
-            }}
-          />
-          {/* <Button color="#00e6cf" title="Add" onPress={() => {}} /> */}
-        </View>
+            <Button
+              compact
+              mode="outlined"
+              style={[styles.button, { marginTop: 30 }]}
+              onPress={() => {
+                navigation.navigate("Properties Add");
+              }}
+              color="#A875FF"
+            >
+              Add
+            </Button>
+          </View>
+        
       </View>
+
       {dataList?.length === 0 ? (
         <LoadingData />
       ) : dataList === null ? (
@@ -77,6 +102,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginLeft: 10,
+    paddingBottom: 20,
+  },
+  button: {
+    width: 80,
   },
   card: {
     marginBottom: 10,
@@ -88,6 +117,32 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4,
     elevation: 2,
+  },
+
+  analyticsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  analyticsBox: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#A875FF",
+    borderRadius: 10,
+    padding: 10,
+    marginHorizontal: 5,
+    width: 80,
+    height: 50,
+  },
+  analyticsLabelText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "white",
+  },
+  analyticsNumberText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
   },
 });
 
