@@ -3,7 +3,7 @@ import { View, Text, FlatList, Button, StyleSheet } from "react-native";
 import LoadingData from "./LoadingData";
 import NoData from "./NoData";
 
-const PropertiesHome = () => {
+const PropertiesHome = ({ navigation }) => {
   const [dataList, setDataList] = React.useState([]);
 
   useEffect(() => {
@@ -34,7 +34,14 @@ const PropertiesHome = () => {
           <Text style={styles.title}>Properties</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <Button color="#00e6cf" title="Add" onPress={() => {}} />
+        <Button
+            color="#00e6cf"
+            title="Add"
+            onPress={() => {
+              navigation.navigate("Properties Add");
+            }}
+          />
+          {/* <Button color="#00e6cf" title="Add" onPress={() => {}} /> */}
         </View>
       </View>
       {dataList?.length === 0 ? (

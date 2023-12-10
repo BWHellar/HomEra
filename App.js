@@ -19,10 +19,10 @@ import LeadInfo from "./components/LeadInfo";
 import ApplicationsAdd from "./components/ApplicationsAdd";
 import LeadAdd from "./components/LeadAdd";
 import MaintenanceAdd from "./components/MaintenanceAdd";
+import PropertiesAdd from "./components/PropertiesAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
 import { PaperProvider } from "react-native-paper";
-
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -30,12 +30,8 @@ export default function App() {
   const [userLocations, setUserLocations] = useState([]);
 
   const authSet = () => {
-    setIsAuthenticated(true)
-  }
-
-
-
-
+    setIsAuthenticated(true);
+  };
 
   return (
     <>
@@ -47,8 +43,7 @@ export default function App() {
                 name="Sign In"
                 component={SignInPage}
                 initialParams={{
-                  setIsAuthenticated: () =>
-                  authSet(),
+                  setIsAuthenticated: () => authSet(),
                   userLocations: userLocations,
                 }}
               />
@@ -86,6 +81,7 @@ export default function App() {
                 <Stack.Screen name="Maintenance" component={MaintenanceHome} />
                 <Stack.Screen name="Messages" component={MessagesHome} />
                 <Stack.Screen name="Properties" component={PropertiesHome} />
+                <Stack.Screen name="Properties Add" component={PropertiesAdd} />
                 <Stack.Screen name="Residents" component={ResidentsHome} />
                 <Stack.Screen name="Schedule" component={ScheduleHome} />
                 <Stack.Screen

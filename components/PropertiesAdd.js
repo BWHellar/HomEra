@@ -4,40 +4,26 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
   Image,
 } from "react-native";
 import DropDown from "react-native-paper-dropdown";
-import { Surface, List } from "react-native-paper";
-import { apiKey } from "../secrets";
-import moment from "moment";
-
-const HomePage = ({ navigation, route }) => {
+import { apiKey } from '../secrets';
+const PropertiesAdd = ({ navigation, route }) => {
   const [locationsDataArray, setLocationsDataArray] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState({});
-
-  const [date, setDate] = useState(moment());
-
-  const handleLeftArrowClick = () => {
-    setDate(date.clone().subtract(1, "day"));
-  };
-
-  const handleRightArrowClick = () => {
-    setDate(date.clone().add(1, "day"));
-  };
 
   useEffect(() => {
     getMyProperties();
   }, []);
 
   const getMyProperties = async () => {
-    console.log(apiKey);
+    console.log(apiKey)
     fetch(`http://${apiKey}:3000/properties`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setSelectedLocation(data[0]);
+        setSelectedLocation(data[0]); 
         setLocationsDataArray(data);
       })
       .catch((error) => {
@@ -47,50 +33,51 @@ const HomePage = ({ navigation, route }) => {
 
   const icons = [
     {
-      name: "Accounting",
-      image: require("../images/AccountingHome.png"),
+      name: "Units",
+      image: require("../images/AddUnits.png"),
       onPress: () => navigation.navigate("Accounting"),
     },
     {
-      name: "Applications",
-      image: require("../images/ApplicationHome.png"),
+      name: "Marketing",
+      image: require("../images/AddMarketing.png"),
       onPress: () => navigation.navigate("Applications"),
     },
     {
-      name: "Messages",
-      image: require("../images/CommunicationHome.png"),
+      name: "Documents",
+      image: require("../images/AddDocument.png"),
       onPress: () => navigation.navigate("Messages"),
     },
     {
-      name: "Leads",
-      image: require("../images/LeadsHome.png"),
+      name: "Property",
+      image: require("../images/AddProperty.png"),
       onPress: () => navigation.navigate("Leads"),
     },
     {
-      name: "Loyalty",
-      image: require("../images/LoyaltyHome.png"),
+      name: "Company",
+      image: require("../images/AddCompany.png"),
       onPress: () => navigation.navigate("Loyalty"),
     },
     {
-      name: "Maintenance",
-      image: require("../images/MaintenanceHome.png"),
+      name: "Financial",
+      image: require("../images/AddFinancial.png"),
       onPress: () => navigation.navigate("Maintenance"),
     },
     {
-      name: "Properties",
-      image: require("../images/PropertiesHome.png"),
-      onPress: () => navigation.navigate("Properties"),
+      name: "Staff",
+      image: require("../images/AddStaff.png"),
+      onPress: () => navigation.navigate("Leads"),
     },
     {
-      name: "Residents",
-      image: require("../images/ResidentsHome.png"),
-      onPress: () => navigation.navigate("Residents"),
+      name: "Maintenance",
+      image: require("../images/AddMaintenance.png"),
+      onPress: () => navigation.navigate("Loyalty"),
     },
     {
-      name: "Schedule",
-      image: require("../images/ScheduleHome.png"),
-      onPress: () => navigation.navigate("Schedule"),
+      name: "Other",
+      image: require("../images/AddOther.png"),
+      onPress: () => navigation.navigate("Maintenance"),
     },
+ 
   ];
   const [showDropDown, setShowDropDown] = React.useState(false);
 
@@ -103,7 +90,7 @@ const HomePage = ({ navigation, route }) => {
         <DropDown
           mode={"outlined"}
           visible={showDropDown}
-          value={selectedLocation}
+          value={selectedLocation} 
           showDropDown={() => setShowDropDown(true)}
           onDismiss={() => setShowDropDown(false)}
           list={locationsDataArray.map((item) => ({
@@ -113,7 +100,7 @@ const HomePage = ({ navigation, route }) => {
         />
       </View>
       <View style={styles.container}>
-        <Text style={styles.title}>Welcome Home</Text>
+        <Text style={styles.title}>New Properties</Text>
         <View style={styles.iconContainer}>
           {icons.map((icon, index) => (
             <TouchableOpacity
@@ -125,47 +112,8 @@ const HomePage = ({ navigation, route }) => {
               <Text style={styles.iconText}>{icon.name}</Text>
             </TouchableOpacity>
           ))}
+          <Text style={styles.title}>New Properties</Text>
         </View>
-
-        <Surface style={styles.surface} elevation={4}>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <TouchableOpacity onPress={handleLeftArrowClick}>
-              <List.Icon icon="arrow-left" />
-            </TouchableOpacity>
-            <Text style={styles.subtitle}>{date.format("MMMM Do YYYY")}</Text>
-            <TouchableOpacity onPress={handleRightArrowClick}>
-              <List.Icon icon="arrow-right" />
-            </TouchableOpacity>
-          </View>
-          <ScrollView>
-            <List.Item
-              title="Residents"
-              description="New Move In"
-              left={(props) => (
-                <List.Icon {...props} icon="account-arrow-right" />
-              )}
-            />
-            <List.Item
-              title="Residents"
-              description="New Move Out"
-              left={(props) => (
-                <List.Icon {...props} icon="account-arrow-left" />
-              )}
-            />
-            <List.Item
-              title="Applications"
-              description="New Application"
-              left={(props) => <List.Icon {...props} icon="account-plus" />}
-            />
-            <List.Item
-              title="Accounting"
-              description="New Payment"
-              left={(props) => <List.Icon {...props} icon="account-cash" />}
-            />
-          </ScrollView>
-        </Surface>
       </View>
     </ImageBackground>
   );
@@ -176,26 +124,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
-    marginTop: 20,
+    marginTop: 70,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-    alignSelf: "center",
-    marginBottom: 10,
-  },
-  surface: {
-    padding: 8,
-    height: 240,
-    width: "90%",
-    backgroundColor: "white",
-    borderRadius: 10,
-    overflow: "auto",
   },
   background: {
     flex: 1,
@@ -265,4 +199,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomePage;
+export default PropertiesAdd;
