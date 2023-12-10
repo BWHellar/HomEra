@@ -72,6 +72,72 @@ export const BUYPOINTSLIST = [
     value: "100,000 Points for $90",
   },
 ];
+
+export const THENEWSFEED = [
+  {
+    title: "Accounting",
+    description: "New Payment",
+    date:"1:15 PM",
+    routing:"Accounting",
+    image:"account-cash-outline"
+  },
+  {
+    title: "Applications",
+    description: "New Application",
+    date:"1:30 PM",
+    routing:"Applications",
+    image:"account-details-outline"
+  },
+  {
+    title: "Messages",
+    description: "New Message",
+    date:"1:45 PM",
+    routing:"Messages",
+    image:"card-account-mail-outline"
+  },
+  {
+    title: "Leads",
+    description: "New Lead",
+    date:"2:00 PM",
+    routing:"Leads",
+    image:"book-account-outline"
+  },
+  {
+    title: "Loyalty",
+    description: "New Loyalty Deal",
+    date:"2:15 PM",
+    routing:"Loyalty",
+    image:"key-star"
+  },
+  {
+    title: "Maintenance",
+    description: "New Maintenance Request",
+    date:"2:30 PM",
+    routing:"Maintenance",
+    image:"account-wrench-outline"
+  },
+  {
+    title: "Properties",
+    description: "A Property Needs Update",
+    date:"2:45 PM",
+    routing:"Properties",
+    image:"home-alert-outline"
+  },
+  {
+    title: "Residents",
+    description: "New Resident Move In",
+    date:"3:00 PM",
+    routing:"Residents",
+    image:"account-arrow-right-outline"
+  },
+  {
+    title: "Schedule",
+    description: "New Tour Booked",
+    date:"3:15 PM",
+    routing:"Schedule",
+    image:"calendar-account-outline"
+  },
+];
 export const AMOUNTLIST = [
   {
     label: "500",

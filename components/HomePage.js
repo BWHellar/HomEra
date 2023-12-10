@@ -9,9 +9,10 @@ import {
   Image,
 } from "react-native";
 import DropDown from "react-native-paper-dropdown";
-import { Surface, List } from "react-native-paper";
+import { Surface, List, TouchableRipple } from "react-native-paper";
 import { apiKey } from "../secrets";
 import moment from "moment";
+import { THENEWSFEED } from "../constants";
 
 const HomePage = ({ navigation, route }) => {
   const [locationsDataArray, setLocationsDataArray] = useState([]);
@@ -139,31 +140,34 @@ const HomePage = ({ navigation, route }) => {
               <List.Icon icon="arrow-right" />
             </TouchableOpacity>
           </View>
-          <ScrollView>
-            <List.Item
-              title="Residents"
-              description="New Move In"
-              left={(props) => (
-                <List.Icon {...props} icon="account-arrow-right" />
-              )}
-            />
-            <List.Item
-              title="Residents"
-              description="New Move Out"
-              left={(props) => (
-                <List.Icon {...props} icon="account-arrow-left" />
-              )}
-            />
-            <List.Item
-              title="Applications"
-              description="New Application"
-              left={(props) => <List.Icon {...props} icon="account-plus" />}
-            />
-            <List.Item
-              title="Accounting"
-              description="New Payment"
-              left={(props) => <List.Icon {...props} icon="account-cash" />}
-            />
+          <ScrollView style={styles.surfaceScroll}>
+            {THENEWSFEED.map((item, index) => (
+              <TouchableRipple
+                onPress={() => navigation.navigate(item.routing)}
+                style={styles.surfaceScroll}
+              >
+              <List.Item
+  key={index}
+  title={item.title}
+  description={item.description}
+  left={(props) => <List.Icon {...props} icon={item.image} />}
+  right={() => (
+    <>
+      <List.Subheader>{item.date}</List.Subheader>
+      <List.Icon icon="clock" />
+    </>
+  )}
+  style={{
+    backgroundColor: '#F0F0F0',
+    borderRadius: 10,
+    marginBottom: 12,
+  }}
+  titleStyle={{ color: "#6C63FF" }}
+  descriptionStyle={{ fontSize: 14 }}
+  rightStyle={{ alignSelf: 'center', marginRight: 8 }}
+/>
+              </TouchableRipple>
+            ))}
           </ScrollView>
         </Surface>
       </View>
@@ -196,6 +200,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
     overflow: "auto",
+  },
+  surfaceScroll: {
+    backgroundColor: "white",
   },
   background: {
     flex: 1,
