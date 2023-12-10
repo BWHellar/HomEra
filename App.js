@@ -22,6 +22,15 @@ import MaintenanceAdd from "./components/MaintenanceAdd";
 import PropertiesAdd from "./components/PropertiesAdd";
 import ScheduleAdd from "./components/ScheduleAdd";
 import ProfileHome from "./components/ProfileHome";
+import SetUnits from "./components/SetUnits";
+import SetMarketing from "./components/SetMarketing";
+import SetDocuments from "./components/SetDocuments";
+import SetProperty from "./components/SetProperty";
+import SetCompany from "./components/SetCompany";
+import SetFinancial from "./components/SetFinancial";
+import SetStaff from "./components/SetStaff";
+import SetMaintenance from "./components/SetMaintenance";
+import SetOther from "./components/SetOther";
 import { PaperProvider } from "react-native-paper";
 
 export default function App() {
@@ -82,6 +91,44 @@ export default function App() {
                 <Stack.Screen name="Messages" component={MessagesHome} />
                 <Stack.Screen name="Properties" component={PropertiesHome} />
                 <Stack.Screen name="Properties Add" component={PropertiesAdd} />
+                <Stack.Screen
+                  name="Set Units"
+                  component={SetUnits}
+                />
+                 <Stack.Screen
+                  name="Set Marketing"
+                  component={SetMarketing}
+                />
+                 <Stack.Screen
+                  name="Set Documents"
+                  component={SetDocuments}
+                />
+                 <Stack.Screen
+                  name="Set Property"
+                  component={SetProperty}
+                />
+                 <Stack.Screen
+                  name="Set Company"
+                  component={SetCompany}
+                />
+                 <Stack.Screen
+                  name="Set Financial"
+                  component={SetFinancial}
+                />
+                 <Stack.Screen
+                  name="Set Staff"
+                  component={SetStaff}
+                />
+                 <Stack.Screen
+                  name="Set Maintenance"
+                  component={SetMaintenance}
+                />
+                 <Stack.Screen
+                  name="Set Other"
+                  component={SetOther}
+                />
+               
+           
                 <Stack.Screen name="Residents" component={ResidentsHome} />
                 <Stack.Screen name="Schedule" component={ScheduleHome} />
                 <Stack.Screen

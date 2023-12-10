@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import DropDown from "react-native-paper-dropdown";
-import { Surface, List } from "react-native-paper";
+import { Surface, List, Button} from "react-native-paper";
 
 import { apiKey } from "../secrets";
 const PropertiesAdd = ({ navigation, route }) => {
@@ -39,47 +39,47 @@ const PropertiesAdd = ({ navigation, route }) => {
     {
       name: "Units",
       image: require("../images/AddUnits.png"),
-      onPress: () => navigation.navigate("Accounting"),
+      onPress: () => navigation.navigate("Set Units"),
     },
     {
       name: "Marketing",
       image: require("../images/AddMarketing.png"),
-      onPress: () => navigation.navigate("Applications"),
+      onPress: () => navigation.navigate("Set Marketing"),
     },
     {
       name: "Documents",
       image: require("../images/AddDocument.png"),
-      onPress: () => navigation.navigate("Messages"),
+      onPress: () => navigation.navigate("Set Documents"),
     },
     {
       name: "Property",
       image: require("../images/AddProperty.png"),
-      onPress: () => navigation.navigate("Leads"),
+      onPress: () => navigation.navigate("Set Property"),
     },
     {
       name: "Company",
       image: require("../images/AddCompany.png"),
-      onPress: () => navigation.navigate("Loyalty"),
+      onPress: () => navigation.navigate("Set Company"),
     },
     {
       name: "Financial",
       image: require("../images/AddFinancial.png"),
-      onPress: () => navigation.navigate("Maintenance"),
+      onPress: () => navigation.navigate("Set Financial"),
     },
     {
       name: "Staff",
       image: require("../images/AddStaff.png"),
-      onPress: () => navigation.navigate("Leads"),
+      onPress: () => navigation.navigate("Set Staff"),
     },
     {
       name: "Maintenance",
       image: require("../images/AddMaintenance.png"),
-      onPress: () => navigation.navigate("Loyalty"),
+      onPress: () => navigation.navigate("Set Maintenance"),
     },
     {
       name: "Other",
       image: require("../images/AddOther.png"),
-      onPress: () => navigation.navigate("Maintenance"),
+      onPress: () => navigation.navigate("Set Other"),
     },
   ];
   const [showDropDown, setShowDropDown] = React.useState(false);
@@ -141,6 +141,7 @@ const PropertiesAdd = ({ navigation, route }) => {
             />
           </ScrollView>
         </Surface>
+        <Button style={[styles.button, { marginTop: 10 }]} mode="outlined">Publish Property</Button>
       </View>
     </ImageBackground>
   );
@@ -151,11 +152,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
-    marginTop: 20,
+    marginTop: 10,
+  },
+  button:{
+    width:"90%"
   },
   surface: {
     padding: 8,
-    height: 240,
+    height: 230,
     width: "90%",
     backgroundColor: "white",
     borderRadius: 10,
