@@ -9,10 +9,9 @@ import {
 import { FAB, Button, Text, TextInput } from "react-native-paper";
 
 const SetUnits = ({ navigation }) => {
-  const [cards, setCards] = useState([]); // State to store the cards
-  const flatListRef = useRef(null); // Reference to the FlatList
+  const [cards, setCards] = useState([]); 
+  const flatListRef = useRef(null); 
 
-  // Function to add a new card
   const addCard = () => {
     setCards((prevCards) => [
       ...prevCards,
@@ -27,17 +26,15 @@ const SetUnits = ({ navigation }) => {
         label8: "Media",
       },
     ]);
-    // flatListRef.current.scrollToIndex({ index: 0, animated: true });
   };
 
-  // Function to update the inputs of a specific card
+
   const handleInputChange = (index, inputName, value) => {
     const updatedCards = [...cards];
     updatedCards[index][inputName] = value;
     setCards(updatedCards);
   };
 
-  // Function to remove a card
   const removeCard = (index) => {
     const updatedCards = [...cards];
     updatedCards.splice(index, 1);
