@@ -28,7 +28,9 @@ const SetUnits = ({ navigation }) => {
     ]);
   };
 
-
+  const handleSubmit = () => {
+    // Handle form submission
+  };
   const handleInputChange = (index, inputName, value) => {
     const updatedCards = [...cards];
     updatedCards[index][inputName] = value;
@@ -153,6 +155,13 @@ const SetUnits = ({ navigation }) => {
               inverted
             />
           </ScrollView>
+          <Button
+            mode="contained"
+            onPress={handleSubmit}
+            style={styles.submitButton}
+          >
+            Submit
+          </Button>
         </View>
       </ImageBackground>
     </>
@@ -205,6 +214,9 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "white",
     borderRadius: 10,
+  },
+  submitButton: {
+    marginVertical: 40,
   },
   input: {
     flex: 1,
