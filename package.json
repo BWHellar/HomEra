@@ -31,6 +31,7 @@
     "react-native-calendars": "^1.1301.0",
     "react-native-chart-kit": "^6.12.0",
     "react-native-date-picker": "^4.3.2",
+    "react-native-document-picker": "^9.1.0",
     "react-native-drawer": "^2.5.1",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-gesture-handler": "^2.12.1",
